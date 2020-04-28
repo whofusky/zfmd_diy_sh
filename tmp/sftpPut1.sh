@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #shell功能描述:上传文件到sftp服务器
 #author:

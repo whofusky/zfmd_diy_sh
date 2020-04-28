@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 readDir=`dirname $0`
 mvTmp="${readDir}/tmp"

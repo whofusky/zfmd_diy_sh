@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #sort -n -k 1,2 -t= DataAcquisition_sh_20181202.log |uniq -c >DataAcquisition_sh_20181202_fusky.log
 #sort -r -n -k 1 DataAcquisition_sh_20181203_fusky.log >DataAcquisition_sh_20181203_fusky_r1.log;

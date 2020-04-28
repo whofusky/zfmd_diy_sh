@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #ip addr flush dev eth0
 ip addr add 192.168.0.132/24 brd + dev eth0

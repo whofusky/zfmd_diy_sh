@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . /root/.bash_profile
 
 tmpDir=`pwd`

@@ -1,0 +1,16 @@
+张赟亮、耿殿贺，你们好！
+
+刚刚傅世凯更新了庄河现场的监控程序脚本，需要你们配合升级，请注意：
+
+自启动脚本软件统一版本号v0.0.0.1  “庄河” 升级说明：
+1、本次升级，修改了主脚本可能存在查询进程个数不准的bug
+2、新增了judgeInCfg.sh和stopOrStartOne.sh脚本便于维护使用
+3、完善了stop.sh和restore.sh脚本
+
+releaseAppBySh.zip 升级包使用说明：
+1、在“主预测”、备预测、scada、气象下载、工作站 这5台主机上用root用户登录，解压此升级包
+2、切换到解压后所 releaseAppBySh/fs20/startup/relsh 目录 用终端执行：
+  （1） chmod u+x *.sh
+   (2) ./upstartsh.sh
+   
+3、把执行结果截图发到2.0QQ群里 

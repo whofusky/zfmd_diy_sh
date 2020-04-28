@@ -1,0 +1,121 @@
+#!/bin/bash
+
+
+#############################################################################
+#author       :    fushikai
+#date         :    20190519
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    According to the hostname to execute the corresponding configuration 
+#       firewall script
+#    
+#revision history:
+#   v0.0.0.1 @ 20190519
+#   2019-09-23 modify v0.0.0.1 version to V20.01.000
+#       
+#
+#############################################################################
+
+
+
+
+
+
+debugFlagM=0
+
+baseDir=$(dirname $0)
+initDir="${PWD}"
+tHostName="${HOSTNAME}"
+
+
+tUID=$(id -u)
+if [[ -z "${tUID}" || ${tUID} -ne 0 ]];then
+
+    echo -e "\n\tError:\e[1;31m Please execute as root!\e[0m the current user is ${USER}\n"
+    exit 1
+fi
+
+
+#baseShDir="${baseDir}/basesh"
+baseShDir="${baseDir}"
+tconfFile="${baseDir}/../cfg/network.conf"
+
+
+if [ ! -d "${baseShDir}" ];then
+    echo -e "\n\t\e[1;31mError:in [$0]\e[0m Directory ${baseShDir} does not exist!\n"
+    exit 2
+fi
+
+# 
+function ECHO_DOM()
+{
+    local cmd="$*"
+    echo "[$USER@$HOSTNAME $PWD] $cmd"
+    if [[ -z "${debugFlagM}" || ${debugFlagM} -ne 1 ]];then
+        $cmd
+    fi
+    return 0
+}
+
+
+for i in $(find ${baseShDir} ! -perm  -100 -type f)
+do
+    ECHO_DOM "chmod u+x $i"
+done
+
+
+tYMD=$(date +%Y%m%d)
+ttDir=/zfmd/wpfs20
+
+
+if [ ! -e "${tconfFile}" ];then
+    echo -e "\n\t\e[1;31mError,in [$0]\e[0m: File [ ${cfgFile} ] does not exist!!\n"
+    exit 9
+fi
+. ${tconfFile}
+
+[ -z "${MS_HOSTNAME}" ] && MS_HOSTNAME="MeteoServer"
+[ -z "${PS1_HOSTNAME}" ] && PS1_HOSTNAME="PredictServer1"
+[ -z "${PS2_HOSTNAME}" ] && PS2_HOSTNAME="PredictServer2"
+[ -z "${SCA_HOSTNAME}" ] && SCA_HOSTNAME="ScadaServer"
+[ -z "${WK_HOSTNAME}" ] && WK_HOSTNAME="WorkStation"
+
+#tHostName="MeteoServer"          #气象服务器
+#tHostName="PredictServer1"      #主预测服务器
+#tHostName="PredictServer2"      #备预测服务器
+#tHostName="ScadaServer"         #scada预测服务器
+#tHostName="WorkStation"          #工作站
+
+echo -e "\n\thostname=[\e[1;31m${tHostName}\e[0m]\n"
+#echo "${MS_HOSTNAME}"
+
+if [ "${tHostName}" == "${MS_HOSTNAME}" ];then
+    serStr="ms"
+elif [ "${tHostName}" == "${SCA_HOSTNAME}" ];then
+    serStr="scada"
+elif  [ "${tHostName}" == "${PS1_HOSTNAME}" ];then    
+    serStr="ps1"
+elif  [ "${tHostName}" == "${PS2_HOSTNAME}" ];then    
+    serStr="ps2"
+elif  [ "${tHostName}" == "${WK_HOSTNAME}" ];then     
+    serStr="wk"
+else
+    echo -e "\n\t\e[1;31mError:in [$0]\e[0m hostname [ ${tHostName} ] is not recognized!!\n"
+    exit 4
+
+fi
+
+todosh="${baseShDir}/fw_cm.sh" 
+if [ ! -e "${todosh}" ];then
+    echo -e "\n\t\e[1;31mError:in [$0]\e[0m The script [${todosh}] to be executed does not exist\n"
+    exit 3
+fi
+
+${todosh} "${serStr}"
+
+
+
+#echo -e "\n\t${tHostName}:script [$0] execution completed !!\n"
+
+
+exit 0

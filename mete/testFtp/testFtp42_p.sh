@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
  echo "open 42.121.65.50 21

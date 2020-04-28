@@ -1,0 +1,6 @@
+
+#zfmd
+* * * * * /zfmd/wpfs20/startup/proRunChk.sh >>/zfmd/wpfs20/startup/log/cron_proRunChk.log 2>&1
+
+#root
+* * * * * /zfmd/wpfs20/startup/proRunChkRoot.sh >>/zfmd/wpfs20/startup/log/cron_proRunChkRoot.log 2>&1
