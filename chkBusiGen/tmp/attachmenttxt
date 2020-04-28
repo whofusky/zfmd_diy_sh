@@ -1,0 +1,89 @@
+ log file=[/mnt/hgfs/cmpCenterlog/cntr_sys_20191216.txt]
+ beine:19-12-16_19:25:26.810611834
+
+--------------------ERROR LOG: begine
+[2019/12/16_06:29:11][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:29:11][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:29:12][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:29:12][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:29:12][level_0    ]CCenterSys::taskManageThd|2342:tskName[gaolongshan],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:29:42][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:29:42][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:29:43][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:29:43][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:29:43][level_0    ]CCenterSys::taskManageThd|2342:tskName[meiqiaozhen],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:30:41][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:30:41][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:30:42][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:30:42][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:30:42][level_0    ]CCenterSys::taskManageThd|2342:tskName[xiangshan4],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:31:31][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:31:31][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:31:32][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:31:32][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:31:32][level_0    ]CCenterSys::taskManageThd|2342:tskName[xiangshan6],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:40:43][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:40:43][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:40:44][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:40:44][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:40:44][level_0    ]CCenterSys::taskManageThd|2342:tskName[meiqiaozhen],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:41:12][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:41:12][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:41:13][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:41:13][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:41:13][level_0    ]CCenterSys::taskManageThd|2342:tskName[gaolongshan],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:44:32][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:44:32][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:44:33][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan6],thdInternet.downFile,sDFilename[/xiangshan6/qxsj01302.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan6/qxsj01302.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:44:33][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:44:33][level_0    ]CCenterSys::taskManageThd|2342:tskName[xiangshan6],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:44:42][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:44:42][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:44:43][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/qxsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/xiangshan4/qxsj01301.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:44:43][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:44:43][level_0    ]CCenterSys::taskManageThd|2342:tskName[xiangshan4],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:51:44][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:51:44][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:51:45][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[meiqiaozhen],thdInternet.downFile,sDFilename[/meiqiaozhen/qxsj011403.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/meiqiaozhen/qxsj011403.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:51:45][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:51:45][level_0    ]CCenterSys::taskManageThd|2342:tskName[meiqiaozhen],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:53:13][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[2],return[-40] 
+[2019/12/16_06:53:13][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:53:14][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[gaolongshan],thdInternet.downFile,sDFilename[/gaolongshan/qxsj011203.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/ftpdown/gaolongshan/qxsj011203.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:53:14][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:53:14][level_0    ]CCenterSys::taskManageThd|2342:tskName[gaolongshan],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+[2019/12/16_06:58:43][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/ycsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/fsLocDir/xiangshan4/ycsj01301.txt],iTryMax[1],return[-40] 
+[2019/12/16_06:58:44][level_0    ]CCenterSys::meteoDownThd|3315:iThdNo[0],tskName[xiangshan4],thdInternet.downFile,sDFilename[/xiangshan4/ycsj01301.txt],sLocFilename[d:/zfmd_software/computation_center/filepath/fsLocDir/xiangshan4/ycsj01301.txt],iTryMax[0],return[-40] 
+[2019/12/16_06:58:44][level_0    ]CCenterSys::taskManageThd|1934:ucErrCode[2]
+[2019/12/16_06:58:44][level_0    ]CCenterSys::taskManageThd|2342:tskName[xiangshan4],ucSubNum[0],tMsgToTsk.ucErrCode[216],ucDispStegy[1] 
+--------------------ERROR LOG: end
+
+
+
+
+--------------------TIMER LOG: begine
+[2019/12/16_06:28:54][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[16],sucess!
+[2019/12/16_06:29:12][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[720],sucess!
+[2019/12/16_06:29:25][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[16],sucess!
+[2019/12/16_06:29:43][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[660],sucess!
+[2019/12/16_06:30:25][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[15],sucess!
+[2019/12/16_06:30:42][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[840],sucess!
+[2019/12/16_06:31:15][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan6] ctlTmr TM_START,tTmTrdId[3960],tTaskID[4],tmpSeconds[15],sucess!
+[2019/12/16_06:31:32][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan6] ctlTmr TM_START,tTmTrdId[3960],tTaskID[4],tmpSeconds[780],sucess!
+[2019/12/16_06:32:04][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[zhuanghe] ctlTmr TM_START,tTmTrdId[3960],tTaskID[3],tmpSeconds[16],sucess!
+[2019/12/16_06:32:39][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[zhuanghe] ctlTmr TM_START,tTmTrdId[3960],tTaskID[3],tmpSeconds[86381],sucess!
+[2019/12/16_06:40:44][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[660],sucess!
+[2019/12/16_06:41:13][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[720],sucess!
+[2019/12/16_06:44:33][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan6] ctlTmr TM_START,tTmTrdId[3960],tTaskID[4],tmpSeconds[780],sucess!
+[2019/12/16_06:44:43][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[840],sucess!
+[2019/12/16_06:51:45][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[660],sucess!
+[2019/12/16_06:53:14][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[720],sucess!
+[2019/12/16_06:57:56][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan6] ctlTmr TM_START,tTmTrdId[3960],tTaskID[4],tmpSeconds[84814],sucess!
+[2019/12/16_06:58:44][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[840],sucess!
+[2019/12/16_07:02:52][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[84409],sucess!
+[2019/12/16_07:05:21][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[84229],sucess!
+[2019/12/16_07:13:03][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[83857],sucess!
+--------------------TIMER LOG: end
+
+
+ end:19-12-16_19:25:26.831652993

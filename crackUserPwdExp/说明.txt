@@ -1,0 +1,8 @@
+说明 ：
+
+1、请用 root 登录相应linux主机
+2、在有crackUserPwdExp.sh 脚本的文件夹下打开终端 然后按顺序执行如下两条命令
+  （1） chmod u+x ./crackUserPwdExp.sh 
+   (2)  ./crackUserPwdExp.sh 
+3、把执行结果截图保存反馈给相关人员
+

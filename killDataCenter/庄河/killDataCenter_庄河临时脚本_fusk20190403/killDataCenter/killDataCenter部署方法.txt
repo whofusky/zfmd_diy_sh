@@ -1,0 +1,13 @@
+
+killDataCenter.sh脚本
+    作用：临时部署在庄河风电场定时结束数据中心程序
+
+    部署方法：（用root用户操作）
+        1.在要部署的主机的找一个存放此程序的目录：例如 /zfmd/wpfs20/startup/
+        2.在布置的目录下建一个log目录（如果有则不需要）
+        3.将脚本killDataCenter.sh入在部署的目录，并用命令chmod u+x killDataCenter.sh 赋予可执行权限
+        4.用crontab -e 命令加入定时任务，下面的以每天0：22分结束数据中心程序为例配置条目如下：
+            （考虑到自启动脚本程序是在整分钟进行启动程序，所以kill脚本可以考虑在0:21:30时执行，尽量
+                避免程序停太长时间）
+        21 0 * * * sleep 30 && /zfmd/wpfs20/startup/killDataCenter.sh >>/zfmd/wpfs20/startup/log/cronKillData.log 2>&1
+        

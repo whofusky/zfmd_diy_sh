@@ -1,0 +1,20 @@
+ log file=[/mnt/hgfs/cmpCenterlog/cntr_sys_20191217.txt]
+ beine:19-12-17_06:46:01.670716370
+
+--------------------ERROR LOG: begine
+--------------------ERROR LOG: end
+
+
+
+
+--------------------TIMER LOG: begine
+[2019/12/17_06:29:18][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[gaolongshan] ctlTmr TM_START,tTmTrdId[3960],tTaskID[2],tmpSeconds[86392],sucess!
+[2019/12/17_06:29:40][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[1],sucess!
+[2019/12/17_06:29:49][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[meiqiaozhen] ctlTmr TM_START,tTmTrdId[3960],tTaskID[1],tmpSeconds[86392],sucess!
+[2019/12/17_06:31:00][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan4] ctlTmr TM_START,tTmTrdId[3960],tTaskID[5],tmpSeconds[86380],sucess!
+[2019/12/17_06:31:54][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[xiangshan6] ctlTmr TM_START,tTmTrdId[3960],tTaskID[4],tmpSeconds[86376],sucess!
+[2019/12/17_06:32:41][level_32   ]CCenterSys::startCycTskTimer|7800:tskName[zhuanghe] ctlTmr TM_START,tTmTrdId[3960],tTaskID[3],tmpSeconds[86379],sucess!
+--------------------TIMER LOG: end
+
+
+ end:19-12-17_06:46:01.687772638

@@ -1,0 +1,38 @@
+
+
+Dear fu.sky:
+
+    The following will send you the 2019-12-17 business list 
+  generation situation as follows: 
+  
+  
+  /gaolongshan/tdir1
+  /gaolongshan/up
+  -rw-rw-rw-   1 user     group      812685 Dec 17 06:29 busilist_20191217_0.xml
+  
+  
+  /meiqiaozhen/tdir1
+  /meiqiaozhen/up
+  -rw-rw-rw-   1 user     group      811320 Dec 17 06:29 busilist_20191217_0.xml
+  
+  
+  /xiangshan4/tdir1
+  /xiangshan4/up
+  -rw-rw-rw-   1 user     group     2516128 Dec 17 06:30 busilist_20191217_0.xml
+  
+  
+  /xiangshan6/tdir1
+  /xiangshan6/up
+  -rw-rw-rw-   1 user     group     3183036 Dec 17 06:31 busilist_20191217_0.xml
+  
+  
+  /zhuanghe/tdir1
+  /zhuanghe/up
+  -rw-rw-rw-   1 user     group     2544609 Dec 17 06:32 busilist_20191217_0.xml
+  
+
+Wishing your business ever successful！
+root
+19-12-17_18:13:31.908426343
+
+

@@ -1,0 +1,170 @@
+#!/bin/sh
+
+#############################################################################
+#author       :    fushikai
+#date         :    20181022
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    A simple personalized shell script function for manipulating scripts 
+#    
+#
+#############################################################################
+
+
+#outDebugLevel: 1 进入退出函数；2 函数入参打印;4函数错误打印;8 远程交互打印
+#               16 输出服务器是否有文件
+
+
+#Synthetic meiqiaozhen wind station electric field business list
+function composeMqzBusi()
+{
+    myFuncName="function composeMqzBusi"
+    
+    #打印日志级别标识
+    #可辨别的级别为2的N(N>=0)次方,即0，1，2，4，8 ...;其中0为不打印日志
+    #各级别之间可以组合
+    outDebugLevel=$1
+    baseDir=$2
+    qxEncode=$3
+    ycEncode=$4
+    qxFileName=$5
+    ycFileName=$6
+    dataId=$7
+    sufNum=$8
+    fileYMD=$9
+    
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" Enter the shell function: ${myFuncName} "
+        echo ""
+    fi
+    
+    #Current time required to fill out the business list
+    curDate1=$(date +%Y/%m/%d_%H:%M:%S)
+
+    #Year, month and day variable
+    tmpYMD=$(date +%Y%m%d)
+    
+    
+    
+    #echo "-----${baseDir}"
+    if [[ ! -d ${baseDir}/cfg ]];then
+        echo ""
+        echo "eror: no [${baseDir}/cfg] directory"
+        echo ""
+        return 1
+    fi
+    if [[ ! -d ${baseDir}/func ]];then
+        echo ""
+        echo "eror: no [${baseDir}/func] directory"
+        echo ""
+        return 2
+    fi
+
+    if [[ ! -d ${baseDir}/tmp ]];then
+        echo "mkdir -p ${baseDir}/tmp"
+        mkdir -p ${baseDir}/tmp
+    fi
+    if [[ ! -d ${baseDir}/srcdata ]];then
+        echo "mkdir -p ${baseDir}/srcdata"
+        mkdir -p ${baseDir}/srcdata
+    fi
+    if [[ ! -d ${baseDir}/result ]];then
+        echo "mkdir -p ${baseDir}/result"
+        mkdir -p ${baseDir}/result
+    fi
+
+    ttDateFile="${baseDir}/tmp/tmpdate.txt"
+    echo -n ${curDate1}>${ttDateFile}
+    
+    if [[ -z "$baseDir" ]];then
+        baseDir=.
+    fi
+    if [[ -z "$qxEncode" ]];then
+        qxEncode=utf
+    fi
+    if [[ -z "$ycEncode" ]];then
+        ycEncode=utf
+    fi
+
+    if [[ -z "$qxFileName" ]];then
+        qxFileName=qxsj03201.txt
+    fi
+    if [[ -z "$ycFileName" ]];then
+        ycFileName=ycsj03201.txt
+    fi
+
+    pthQxFile=${baseDir}/srcdata/${qxFileName}
+    pthQxFileTra=${baseDir}/srcdata/${qxFileName}_gbk
+    pthYcFile=${baseDir}/srcdata/${ycFileName}
+    pthYcFileTra=${baseDir}/srcdata/${ycFileName}_gbk
+
+    if [[ ! -f ${pthQxFile} ]];then
+        echo ""
+        echo "the weather data file [${pthQxFile}]does not exist"
+        echo ""
+        return 3 
+    fi
+    if [[ ! -f ${pthYcFile} ]];then
+        echo ""
+        echo "the predictive data file [${pthYcFile}] does not exist"
+        echo ""
+        return 4
+    fi
+
+    if [[ -z "$dataId" ]];then
+        dataId=0
+    fi
+    if [[ -z "$sufNum" ]];then
+        sufNum=0
+    fi
+    if [[ -z "$fileYMD" ]];then
+        fileYMD=${tmpYMD}
+    fi
+
+
+    dstQxFile=${pthQxFile}
+    dstYcFile=${pthYcFile}
+
+
+    #transcoding of downloaded files
+    if [[ "$qxEncode" == "utf" ]];then
+        echo ""
+        echo "iconv -f utf-8 -t gbk ${pthQxFile} -o ${pthQxFileTra} -c"
+        iconv -f utf-8 -t gbk ${pthQxFile} -o ${pthQxFileTra} -c
+        dstQxFile=${pthQxFileTra}
+        echo ""
+    fi
+
+    if [[ "$ycEncode" == "utf" ]];then
+        echo ""
+        echo "iconv -f utf-8 -t gbk ${pthYcFile} -o ${pthYcFileTra}  -c"
+        iconv -f utf-8 -t gbk ${pthYcFile} -o ${pthYcFileTra}  -c
+        dstYcFile=${pthYcFileTra}
+        echo ""
+    fi
+
+    bMod1=${baseDir}/cfg/bMod1.xml
+    bMod2=${baseDir}/cfg/bMod2.xml
+    bMod3=${baseDir}/cfg/bMod3.xml
+    bMod4=${baseDir}/cfg/bMod4.xml
+    bMod5=${baseDir}/cfg/bMod5.xml
+    bMod6=${baseDir}/cfg/bMod6.xml
+
+
+    resBusiFName="busilist_${fileYMD}_$sufNum.tmp"
+    resBusiFile="${baseDir}/result/${resBusiFName}"
+    cat ${bMod1} ${ttDateFile} ${bMod2} ${dstQxFile} ${bMod3} ${dstQxFile} ${bMod4} ${dstYcFile} ${bMod5} ${dstYcFile} ${bMod6} >${resBusiFile}
+
+    sed  "s/<dataID>0<\/dataID>/<dataID>$dataId<\/dataID>/g" -i ${resBusiFile}
+    
+    echo "input is as follows: qxFileName=[$qxFileName] ycFileName=[$ycFileName] dataId=[$dataId] resBusiFile=[$resBusiFile]"
+    echo ""
+    
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" func ${myFuncName} execution ends! "
+        echo ""
+    fi
+    
+    return 0
+}
+

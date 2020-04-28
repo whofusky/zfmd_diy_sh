@@ -1,0 +1,78 @@
+#!/bin/sh
+
+#############################################################################
+#author       :    fushikai
+#date         :    20181224
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    Query the connecton name  set for the NIC
+#
+#############################################################################
+
+function getDevName()
+{
+    fileName=$1
+    tfname=$(echo ${fileName}|awk -F'/' '{printf "%s",$NF}')
+    lensrc=${#tfname}
+    devname=$(echo $tfname|cut -c 7-$lensrc)
+    echo ${devname}
+}
+
+if [ $# -ne 0 -a $# -ne 1 ];then
+    echo ""
+    echo "input error,please input like this:"
+    echo "      $0 [eth0|ech1|...] or  $0"
+    echo ""
+    exit 1
+fi
+
+queryDir=/etc/sysconfig/network-scripts
+if [ ! -d "${queryDir}" ];then
+    echo ""
+    echo "  Error: \"${queryDir}\" is not exist!"
+    echo ""
+    exit 2
+fi
+
+inputNum=$#
+if [ ${inputNum} -eq 1 ];then
+    ethFile=ifcfg-$1
+    queryFile=${queryDir}/${ethFile}
+    if [ ! -f "${queryFile}" ];then
+        echo ""
+        echo "input error:device name \"$1\" does not exist!"
+        echo ""
+        exit 3
+    fi
+    cnname=$(grep "^NAME=" ${queryFile} 2>/dev/null)
+    ipaddr=$(grep "^IPADDR=" ${queryFile} 2>/dev/null)
+    if [ -z "${cnname}" ];then
+	cnname="NAME=null"
+    fi
+    if [ -z "${ipaddr}" ];then
+	ipaddr="IPADDR=null"
+    fi
+    echo ""
+    printf "    [%-6s]: %-24s %s\n" "$1" "${ipaddr}" "${cnname}"
+    #echo "  [$1]:${cnname},${ipaddr}"
+    echo ""
+    exit 0
+else
+    echo ""
+    ls -1 ${queryDir}/ifcfg-*|while read tnaa
+    do
+        devname=$(getDevName ${tnaa})
+        cnname=$(grep "^NAME=" ${tnaa} 2>/dev/null)
+        ipaddr=$(grep "^IPADDR=" ${tnaa} 2>/dev/null)
+        if [ -z "${cnname}" ];then
+            cnname="NAME=null"
+        fi
+        if [ -z "${ipaddr}" ];then
+            ipaddr="IPADDR=null"
+        fi
+        #echo "  [${devname}]:${cnname},${ipaddr}"
+        printf "    [%-6s]: %-24s %s\n" "${devname}" "${ipaddr}" "${cnname}"
+    done
+    echo ""
+fi
+exit 0

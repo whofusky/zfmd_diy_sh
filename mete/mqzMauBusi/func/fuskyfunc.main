@@ -1,0 +1,402 @@
+#!/bin/sh
+
+#############################################################################
+#author       :    fushikai
+#date         :    20180929
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    This file provides some basic shell function functions 
+#       written by Fusky itself
+#
+#############################################################################
+
+
+#outDebugLevel: 1 进入退出函数；2 函数入参打印;4函数错误打印;8 远程交互打印
+#               16 输出服务器是否有文件
+
+#Download ftp file
+function getFtpFiles()
+{
+    myFuncName="function getFtpFiles"
+    
+    #打印日志级别标识
+    #可辨别的级别为2的N(N>=0)次方,即0，1，2，4，8 ...;其中0为不打印日志
+    #各级别之间可以组合
+    outDebugLevel=$1
+    
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" Enter the shell function: ${myFuncName} "
+        echo ""
+    fi
+
+    #ip地址
+    ftpIP=$2
+    #用户名
+    ftpUser=$3
+    #密码
+    ftpPwd=$4
+    #ftp服务器上的下载目录
+    ftpRdir=$5
+    #ftp客户端文件下载的本地目标目录
+    ftpLdir=$6
+    #ftp客户端文件下载后移动的目标目录
+    #ftpLdirAims=$6
+    #需要下载的文件名
+    fileName=$7
+
+    #默认端口号
+    if [[ $# -eq 7 ]];then
+        ftpCtrPNum=21
+    else
+        ftpCtrPNum=$8
+    fi  
+
+   
+    
+    if [[ "$((${outDebugLevel}&2))" -eq 2 ]]; then
+        echo "outDebugLevel=[${outDebugLevel}]"
+        echo ""
+        echo "---------ftp para begine--------"
+        echo "----ftpIP     =[${ftpIP}]"
+        echo "----ftpUser   =[${ftpUser}]"
+        echo "----ftpPwd    =[${ftpPwd}]"
+        echo "----ftpRdir   =[${ftpRdir}]"
+        echo "----ftpLdir   =[${ftpLdir}]"
+        echo "----fileName  =[${fileName}]"
+        echo "----ftpCtrPNum=[${ftpCtrPNum}]"
+        echo "----ftpTrType =[${ftpTrType}]"
+        echo "---------ftp para end----------"
+    fi
+    
+    ftpRet=$(echo "user ${ftpUser} ${ftpPwd}
+      ${ftpTrType}
+	  cd ${ftpRdir}
+	  lcd ${ftpLdir}
+	  prompt
+	  mget ${fileName}
+	  bye"|ftp -n ${ftpIP} ${ftpCtrPNum} 2>&1|while read tmpRead
+    do	  
+    echo ${tmpRead}	 
+    done);
+
+    if [[ "$((${outDebugLevel}&8))" -eq 8 ]]; then
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" ftpRet=[${ftpRet}]" 
+    fi
+
+    #判断文件是否下到相应目录 多个文件要以空格分开
+    numDFiles=$(cd ${ftpLdir} && ls -1 ${fileName} 2>/dev/null|wc -l)
+    numBFiles=$(echo $fileName|awk '{print NF}')
+    if [[ ${numDFiles} -eq ${numBFiles} ]];then
+        #删除ftp server上的文件
+         ftpRetD=$(echo "user ${ftpUser} ${ftpPwd}
+    	  cd ${ftpRdir}
+    	  lcd ${ftpLdir}
+    	  prompt
+    	  mdelete ${fileName}
+    	  bye"|ftp -n ${ftpIP} ${ftpCtrPNum} 2>&1|while read tmpRead
+          do	  
+            echo ${tmpRead}	 
+          done);
+          
+          if [[ "$((${outDebugLevel}&8))" -eq 8 ]]; then
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" numDFiles=[${numDFiles}],ftpRetD=[${ftpRetD}]" 
+          fi
+          
+         #移动下载后的文件到目标目录
+         #mv ${ftpLdir}/${fileName} ${ftpLdirAims}
+         #while [[ $? -ne 0 ]]
+         #do
+    	 #   mv ${ftpLdir}/${fileName} ${ftpLdirAims}
+         #done
+        
+        if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" func ${myFuncName} execution ends! "
+            echo ""
+        fi
+        return 0
+    else
+        if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")"  func ${myFuncName} execution unsucessfull "
+            echo ""
+        fi
+        return 2
+    fi
+
+}
+
+
+#get Download ftp server status
+function getDFserStas()
+{
+    myFuncName="function getDFserStas"
+    
+    #打印日志级别标识
+    #可辨别的级别为2的N(N>=0)次方,即0，1，2，4，8 ...;其中0为不打印日志
+    #各级别之间可以组合
+    outDebugLevel=$1
+
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" Enter the shell function: ${myFuncName} "
+        echo ""
+    fi
+
+    #ip地址
+    ftpIP=$2
+    #用户名
+    ftpUser=$3
+    #密码
+    ftpPwd=$4
+    #ftp服务器上的下载目录
+    ftpRdir=$5
+    #ftp客户端文件下载的目标目录
+    ftpLdir=$6
+    #需要下载的文件名
+    fileName=$7
+
+    #如果filename中是多个文件名(用空格或table键分隔) 替换成用|分隔 且去掉头和尾的|(如果有）
+    #如果filename 其中的 .替换成 \. 有通匹符*替换成 .{0,} 便于后面的 grep -E 的语法查找
+    fileNameTmp=$(echo $fileName|sed 's/[ ,\t]\{1,\}/\|/g'|sed 's/^|//'|sed 's/|$//'|sed 's/\./\\./g'|sed 's/\*\{1,\}/.\{0,\}/g')
+    
+    #得到文件数
+    numBFiles=$(echo $fileName|awk '{print NF}')
+
+
+    #默认端口号
+    if [[ $# -eq 7 ]];then
+        ftpCtrPNum=21
+    else
+        ftpCtrPNum=$8
+    fi  
+
+    ftpRet=$(echo "open ${ftpIP} ${ftpCtrPNum}
+          user ${ftpUser} ${ftpPwd}
+    	  cd ${ftpRdir}
+    	  lcd ${ftpLdir}
+          ls -1
+    	  bye"|ftp -n 2>&1|while read tmpRead
+    do	  
+    echo ${tmpRead}	 
+    done);
+
+
+    if [[ "$((${outDebugLevel}&2))" -eq 2 ]]; then
+        echo "NOWPSSHNUM=[${NOWPSSHNUM}]"
+        echo "outDebugLevel=[${outDebugLevel}]"
+        echo "logFile=[${logFile}]"
+        echo "fileNameTmp=[$fileNameTmp]--------"
+        echo ""
+        echo "---------ftp para begine--------"
+        echo "----ftpIP     =[${ftpIP}]"
+        echo "----ftpUser   =[${ftpUser}]"
+        echo "----ftpPwd    =[${ftpPwd}]"
+        echo "----ftpRdir   =[${ftpRdir}]"
+        echo "----ftpLdir   =[${ftpLdir}]"
+        echo "----fileName  =[${fileName}]"
+        echo "----ftpCtrPNum=[${ftpCtrPNum}]"
+        echo "---------ftp para end----------"
+        echo ""
+        echo ""
+    fi
+
+    if [[ "$((${outDebugLevel}&8))" -eq 8 ]]; then
+    	echo "ftpRet=[${ftpRet}]"
+        echo "" 
+	fi
+
+    #ip错误
+    TTNUM=$(echo ${ftpRet}|grep -E "Not[ ]+connected"|wc -l)
+    if [[ "${TTNUM}" -gt 0 ]];then
+        if [[ "$((${outDebugLevel}&4))" -eq 4 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+        	echo $(date "+%Y/%m/%d %H:%M:%S.%N")" connet ftp server [${ftpIP}] is error"
+            echo "" 
+    	fi
+    	return 1
+    fi
+
+
+    #用户名或密码错误
+    TTNUM=$(echo ${ftpRet}|grep -E "User[ ]+cannot[ ]+log"|wc -l)
+    if [[ "${TTNUM}" -gt 0 ]];then
+        if [[ "$((${outDebugLevel}&4))" -eq 4 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+        	echo $(date "+%Y/%m/%d %H:%M:%S.%N")" the ftp username [${ftpUser}] or passwd [${ftpPwd}] is error"
+            echo "" 
+        fi	
+    	return 2
+    fi
+
+    #路径错误 或 文件名
+    TTNUM=$(echo ${ftpRet}|grep -E "cannot[ ]+find[ ]+the[ ]+file"|wc -l)
+    if [[ "${TTNUM}" -gt 0 ]];then
+        if [[ "$((${outDebugLevel}&4))" -eq 4 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+        	echo $(date "+%Y/%m/%d %H:%M:%S.%N")" the file path [${ftpRdir}]is error"
+            echo ""     	
+        fi	
+    	return 3
+    fi
+
+    TTNUM=$(echo ${ftpRet}|awk '{for(i=1;i<=NF;i++) print $i}'|grep -Ew "${fileNameTmp}"|wc -l)
+    #echo "${TTNUM}------"
+    if [[ "${TTNUM}" -eq 0 ]];then
+        if [[ "$((${outDebugLevel}&16))" -eq 16 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" the file  [${fileName}] is not exists"
+            echo ""         
+        fi
+    	return 4
+    elif [[ "${TTNUM}" -ne "${numBFiles}" ]];then
+        if [[ "$((${outDebugLevel}&16))" -eq 16 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+            echo "TTNUM=${TTNUM},numBFiles=${numBFiles}"
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" insufficient number of files  [${fileName}] "
+            echo ""         
+        fi
+        return 6
+    fi
+
+    #本地路径错误
+    TTNUM=$(echo ${ftpRet}|grep ${ftpLdir}|grep -E "local:"|grep -v "now"|wc -l)
+    if [[ "${TTNUM}" -gt 0 ]];then
+        if [[ "$((${outDebugLevel}&4))" -eq 4 ]]; then
+            echo "ftpRet=[${ftpRet}]"
+        	echo $(date "+%Y/%m/%d %H:%M:%S.%N")" the local file path [${ftpLdir}] is error"
+            echo ""     	
+    	fi
+    	return 5
+    fi
+
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" the ftp server status very good! "
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" func ${myFuncName} execution ends! "
+        echo ""     
+    fi
+
+    return 0
+
+}
+
+
+#upload ftp files
+function putFtpFiles()
+{
+    myFuncName="function putFtpFiles"
+    
+    #打印日志级别标识
+    #可辨别的级别为2的N(N>=0)次方,即0，1，2，4，8 ...;其中0为不打印日志
+    #各级别之间可以组合
+    outDebugLevel=$1
+
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" Enter the shell function: ${myFuncName} "
+        echo ""
+    fi
+
+    #ip地址
+    ftpIP=$2
+    #用户名
+    ftpUser=$3
+    #密码
+    ftpPwd=$4
+    #ftp服务器上的上传目录
+    ftpRdir=$5
+    #ftp客户端文件下载的目标目录
+    ftpLdir=$6
+    #需要下载的文件名
+    fileName=$7
+    
+    ftpCtrPNum=21
+
+    if [[ $# -gt 7 ]];then
+        mvRetName=$8
+    fi
+    
+    if [[ $# -eq 9 ]];then
+        bakUpDir=$9
+    fi
+    
+    #echo "-------------------$#,$9,$10"
+    
+
+    #ftp -n ${ftpIP} ${ftpCtrPNum}<<!
+    #	user ${ftpUser} ${ftpPwd}
+    #	cd ${ftpRdir}
+    #	lcd ${ftpLdir}
+    #	put ${fileName}
+    #	bye
+    #!
+
+    ftpTrType="ascii"
+
+    if [[ "$((${outDebugLevel}&2))" -eq 2 ]]; then
+        echo "outDebugLevel=[${outDebugLevel}]"
+        echo ""
+        echo "---------ftp para begine--------"
+        echo "----ftpIP     =[${ftpIP}]"
+        echo "----ftpUser   =[${ftpUser}]"
+        echo "----ftpPwd    =[${ftpPwd}]"
+        echo "----ftpRdir   =[${ftpRdir}]"
+        echo "----ftpLdir   =[${ftpLdir}]"
+        echo "----fileName  =[${fileName}]"
+        echo "----mvRetName =[${mvRetName}]"
+        echo "----ftpCtrPNum=[${ftpCtrPNum}]"
+        echo "----ftpTrType =[${ftpTrType}]"
+        echo "----bakUpDir =[${bakUpDir}]"
+        echo "---------ftp para end----------"
+    fi
+    
+    if [[ $# -eq 8 ]];then
+        ftpRet=$(echo "open ${ftpIP} ${ftpCtrPNum}
+              user ${ftpUser} ${ftpPwd}
+              ${ftpTrType}
+        	  cd ${ftpRdir}
+        	  lcd ${ftpLdir}
+        	  prompt
+        	  mput ${fileName}
+        	  rename ${fileName} ${mvRetName}
+        	  bye"|ftp -n 2>&1|while read tmpRead
+        do	  
+        echo ${tmpRead}	 
+        done);
+    elif [[ $# -eq 9 ]];then
+        ftpRet=$(echo "open ${ftpIP} ${ftpCtrPNum}
+              user ${ftpUser} ${ftpPwd}
+              ${ftpTrType}
+        	  cd ${ftpRdir}
+        	  lcd ${ftpLdir}
+        	  prompt
+        	  mput ${fileName}
+        	  rename ${fileName} ${mvRetName}
+        	  cd ${bakUpDir}
+        	  mput ${fileName}
+        	  rename ${fileName} ${mvRetName}
+        	  bye"|ftp -n 2>&1|while read tmpRead
+        do	  
+        echo ${tmpRead}	 
+        done);
+    else
+        ftpRet=$(echo "open ${ftpIP} ${ftpCtrPNum}
+              user ${ftpUser} ${ftpPwd}
+              ${ftpTrType}
+        	  cd ${ftpRdir}
+        	  lcd ${ftpLdir}
+        	  prompt
+        	  mput ${fileName}
+        	  bye"|ftp -n 2>&1|while read tmpRead
+        do	  
+        echo ${tmpRead}	 
+        done);
+    fi
+
+    if [[ "$((${outDebugLevel}&8))" -eq 8 ]]; then
+            echo $(date "+%Y/%m/%d %H:%M:%S.%N")" ftpRet=[${ftpRet}]" 
+    fi
+
+    if [[ "$((${outDebugLevel}&1))" -eq 1 ]]; then
+        echo $(date "+%Y/%m/%d %H:%M:%S.%N")" func ${myFuncName} execution ends! "
+        echo ""     
+    fi
+    
+    return 0
+}

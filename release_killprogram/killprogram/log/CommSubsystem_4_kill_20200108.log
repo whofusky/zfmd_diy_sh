@@ -1,0 +1,44 @@
+
+
+*--------------------------------------------------
+*
+*
+*	software version number: v0.0.0.5
+*
+*	shell script name: killProgramBycfg.sh
+*
+*	The name of the program that the script will
+*	process is: CommSubsystem_4 
+*
+*--------------------------------------------------
+
+killProgramBycfg.sh:start running time:2020/01/08-16:58:08.609887801
+killProgramBycfg.sh:End running time:2020/01/08-16:58:15.876307518
+2020/01/08-16:58:15.881654631:killProgramBycfg.sh:--tPidRtm=[60],pidof CommSubsystem_4=[2641],elapsed time[431] seconds
+2020/01/08-16:58:15.885445580:killProgramBycfg.sh:kill 2641 return[0]
+
+waiting for program [CommSubsystem_4] to exit, waitSeconds=[0] 
+
+waiting for program [CommSubsystem_4] to start, waitSeconds=[7]
+
+kill CommSubsystem_4 success and  restart CommSubsystem_4 success,oldPid=[2641],newPid=[9453]
+killProgramBycfg.sh:start running time:2020/01/08-17:05:49.003806504
+killProgramBycfg.sh:End running time:2020/01/08-17:05:54.176185743
+2020/01/08-17:05:54.182880179:killProgramBycfg.sh:--tPidRtm=[60],pidof CommSubsystem_4=[9453],elapsed time[454] seconds
+2020/01/08-17:05:54.187811028:killProgramBycfg.sh:kill 9453 return[0]
+
+waiting for program [CommSubsystem_4] to exit, waitSeconds=[0] 
+
+waiting for program [CommSubsystem_4] to start, waitSeconds=[5]
+
+kill CommSubsystem_4 success and  restart CommSubsystem_4 success,oldPid=[9453],newPid=[16510]
+killProgramBycfg.sh:start running time:2020/01/08-17:19:54.937736868
+killProgramBycfg.sh:End running time:2020/01/08-17:20:04.216965470
+2020/01/08-17:20:04.224172705:killProgramBycfg.sh:--tPidRtm=[60],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+2020/01/08-17:20:04.230007056:killProgramBycfg.sh:kill 16510 return[0]
+
+waiting for program [CommSubsystem_4] to exit, waitSeconds=[0] 
+
+waiting for program [CommSubsystem_4] to start, waitSeconds=[9]
+
+kill CommSubsystem_4 success and  restart CommSubsystem_4 success,oldPid=[16510],newPid=[29366]

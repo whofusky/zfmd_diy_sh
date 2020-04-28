@@ -1,0 +1,123 @@
+
+2020/01/08-17:19:54.691502828:pNum=[4]
+2020/01/08-17:19:54.692668303:tts=[8]
+
+--------------------2020/01/08-17:19:54.694112484:--------------------
+i=[0],pNum=[4],ttNum[0]=[4]
+i=[1],pNum=[4],ttNum[1]=[4]
+i=[2],pNum=[4],ttNum[2]=[4]
+i=[3],pNum=[4],ttNum[3]=[4]
+i=[4],pNum=[4],ttNum[4]=[4]
+i=[5],pNum=[4],ttNum[5]=[4]
+i=[6],pNum=[4],ttNum[6]=[4]
+i=[7],pNum=[4],ttNum[7]=[4]
+
+
+
+-------------------------2020/01/08-17:19:54.696917327------------------------------
+idx=[0],pNum=[4]:tpName=[CommSubsystem_4]
+idx=[0],pNum=[4]:tjgType=[0]
+idx=[0],pNum=[4]:tjgIf=[80]
+idx=[0],pNum=[4]:tjdOther=[20]
+idx=[0],pNum=[4]:tchoiceTy=[0]
+idx=[0],pNum=[4]:tmpjdObj=[/zfmd/wpfs20/scada/trylog/dtV.txt
+ |/zfmd/wpfs20/scada/trylog/apdu.txt
+ |/zfmd/wpfs20/scada/trylog/scada.txt
+]
+idx=[0],pNum=[4]:twtstmxsc=[300]
+idx=[0],pNum=[4]:tlogdir=[./log]
+idx=[0],pNum=[4]:tPidRtm=[20]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_killOnePFunc --tPidRtm=[20],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+in function F_killOnePFunc isOverFlag=[1],toJugeNum=[3]
+in function F_getIsModBeger tIsBig=[0]
+in function F_killOnePFunc killFlag=[0]
+call F_killOnePFunc:ret=[0],retMsg=[],outFlag=[0]
+
+
+
+-------------------------2020/01/08-17:19:54.807610328------------------------------
+idx=[1],pNum=[4]:tpName=[CommSubsystem_4]
+idx=[1],pNum=[4]:tjgType=[0]
+idx=[1],pNum=[4]:tjgIf=[80]
+idx=[1],pNum=[4]:tjdOther=[20]
+idx=[1],pNum=[4]:tchoiceTy=[1]
+idx=[1],pNum=[4]:tmpjdObj=[/zfmd/wpfs20/scada/trylog]
+idx=[1],pNum=[4]:twtstmxsc=[300]
+idx=[1],pNum=[4]:tlogdir=[./log]
+idx=[1],pNum=[4]:tPidRtm=[20]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_killOnePFunc --tPidRtm=[20],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+in function F_killOnePFunc isOverFlag=[1],toJugeNum=[1]
+in function F_getIsModBeger tIsBig=[0]
+in function F_killOnePFunc killFlag=[0]
+call F_killOnePFunc:ret=[0],retMsg=[],outFlag=[0]
+
+
+
+-------------------------2020/01/08-17:19:54.854639112------------------------------
+idx=[2],pNum=[4]:tpName=[CommSubsystem_4]
+idx=[2],pNum=[4]:tjgType=[1]
+idx=[2],pNum=[4]:tjgIf=[popQ() CAN'T pop data from Queue, ErrorCode]
+idx=[2],pNum=[4]:tjdOther=[100000]
+idx=[2],pNum=[4]:tchoiceTy=[0]
+idx=[2],pNum=[4]:tmpjdObj=[/zfmd/wpfs20/scada/trylog/scada.txt]
+idx=[2],pNum=[4]:twtstmxsc=[300]
+idx=[2],pNum=[4]:tlogdir=[./log]
+idx=[2],pNum=[4]:tPidRtm=[20]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_killOnePFunc --tPidRtm=[20],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+in function F_killOnePFunc isOverFlag=[1],toJugeNum=[1]
+in function F_fndRecntStmpByfixStr tFixTmstamp=[1565530870]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_judgeKillByFSAPS killFlag=[0]
+in function F_killOnePFunc killFlag=[0]
+call F_killOnePFunc:ret=[0],retMsg=[],outFlag=[0]
+
+
+
+-------------------------2020/01/08-17:19:54.924632038------------------------------
+idx=[3],pNum=[4]:tpName=[CommSubsystem_4]
+idx=[3],pNum=[4]:tjgType=[2]
+idx=[3],pNum=[4]:tjgIf=[r::Buf 68 04 07 00 00 00]
+idx=[3],pNum=[4]:tjdOther=[60|35]
+idx=[3],pNum=[4]:tchoiceTy=[0]
+idx=[3],pNum=[4]:tmpjdObj=[/zfmd/wpfs20/scada/trylog/scada.txt]
+idx=[3],pNum=[4]:twtstmxsc=[300]
+idx=[3],pNum=[4]:tlogdir=[./log]
+idx=[3],pNum=[4]:tPidRtm=[60]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_killOnePFunc --tPidRtm=[60],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+in function F_killOnePFunc isOverFlag=[1],toJugeNum=[1]
+in function F_getPidElapsedSec tSumSec=[827]
+in function F_fndSenctNumInLog fusk test :tnum=[61],tBgStr[20\/01\/08 17:18:54],tEdStr=[],tSearTxt=[r::Buf 68 04 07 00 00 00],tdoFile=[/zfmd/wpfs20/scada/trylog/scada.txt]
+in F_judgeKillByFSNAPS: killFlag=[1]
+in function F_killOnePFunc call F_judgeKillByFSNAPS  ret=[0],retMsg=[1]
+in function F_killOnePFunc killFlag=[1]
+in function F_killProgram waiting for program [CommSubsystem_4] to exit, waitSeconds=[0] 
+
+in function F_killProgram waiting for program [CommSubsystem_4] to start, waitSeconds=[9]
+
+in function F_killProgram kill CommSubsystem_4 success and  restart CommSubsystem_4 success,oldPid=[16510],newPid=[29366]
+
+in function F_killOnePFunc:start running time:2020/01/08-17:19:54.937736868
+in function F_killOnePFunc:End running time:2020/01/08-17:20:04.216965470
+in function F_killOnePFunc:--tPidRtm=[60],pidof CommSubsystem_4=[16510],elapsed time[827] seconds
+in function F_killOnePFunc:kill 16510 return[0]
+
+waiting for program [CommSubsystem_4] to exit, waitSeconds=[0] 
+
+waiting for program [CommSubsystem_4] to start, waitSeconds=[9]
+
+kill CommSubsystem_4 success and  restart CommSubsystem_4 success,oldPid=[16510],newPid=[29366]
+call F_killOnePFunc:ret=[9],retMsg=[],outFlag=[1]
+
+
+2020/01/08-17:20:04.236079515:outFlag=[1]
+
+begineStr=[start running time:2020/01/08-17:19:54.671771860]
+outMsg=[  do process is: CommSubsystem_4]
+endStr=[End running time:2020/01/08-17:20:04.238257292]
+script [ ./killProgramBycfg.sh ] runs complete!!
+
+

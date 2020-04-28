@@ -1,0 +1,51 @@
+Connected to 42.121.65.50 (42.121.65.50).
+220 Serv-U FTP Server v11.2 ready...
+331 User name okay, need password.
+230 User logged in, proceed.
+200 Type set to A.
+250 Directory changed to /gaolongshan/tdir1
+227 Entering Passive Mode (42,121,65,50,9,77)
+150 Opening ASCII mode data connection for /bin/ls.
+226 Transfer complete. 0 bytes transferred. 0.00 KB/sec.
+250 Directory changed to /gaolongshan/up
+227 Entering Passive Mode (42,121,65,50,9,78)
+150 Opening ASCII mode data connection for /bin/ls.
+-rw-rw-rw-   1 user     group      812685 Dec 17 06:29 busilist_20191217_0.xml
+226 Transfer complete. 80 bytes transferred. 0.08 KB/sec.
+250 Directory changed to /meiqiaozhen/tdir1
+227 Entering Passive Mode (42,121,65,50,9,81)
+150 Opening ASCII mode data connection for /bin/ls.
+226 Transfer complete. 0 bytes transferred. 0.00 KB/sec.
+250 Directory changed to /meiqiaozhen/up
+227 Entering Passive Mode (42,121,65,50,9,82)
+150 Opening ASCII mode data connection for /bin/ls.
+-rw-rw-rw-   1 user     group      811320 Dec 17 06:29 busilist_20191217_0.xml
+226 Transfer complete. 80 bytes transferred. 0.08 KB/sec.
+250 Directory changed to /xiangshan4/tdir1
+227 Entering Passive Mode (42,121,65,50,9,84)
+150 Opening ASCII mode data connection for /bin/ls.
+226 Transfer complete. 0 bytes transferred. 0.00 KB/sec.
+250 Directory changed to /xiangshan4/up
+227 Entering Passive Mode (42,121,65,50,9,85)
+150 Opening ASCII mode data connection for /bin/ls.
+-rw-rw-rw-   1 user     group     2516128 Dec 17 06:30 busilist_20191217_0.xml
+226 Transfer complete. 80 bytes transferred. 0.08 KB/sec.
+250 Directory changed to /xiangshan6/tdir1
+227 Entering Passive Mode (42,121,65,50,9,87)
+150 Opening ASCII mode data connection for /bin/ls.
+226 Transfer complete. 0 bytes transferred. 0.00 KB/sec.
+250 Directory changed to /xiangshan6/up
+227 Entering Passive Mode (42,121,65,50,9,88)
+150 Opening ASCII mode data connection for /bin/ls.
+-rw-rw-rw-   1 user     group     3183036 Dec 17 06:31 busilist_20191217_0.xml
+226 Transfer complete. 80 bytes transferred. 4.88 KB/sec.
+250 Directory changed to /zhuanghe/tdir1
+227 Entering Passive Mode (42,121,65,50,9,89)
+150 Opening ASCII mode data connection for /bin/ls.
+226 Transfer complete. 0 bytes transferred. 0.00 KB/sec.
+250 Directory changed to /zhuanghe/up
+227 Entering Passive Mode (42,121,65,50,9,90)
+150 Opening ASCII mode data connection for /bin/ls.
+-rw-rw-rw-   1 user     group     2544609 Dec 17 06:32 busilist_20191217_0.xml
+226 Transfer complete. 80 bytes transferred. 0.08 KB/sec.
+221 Goodbye, closing session.
