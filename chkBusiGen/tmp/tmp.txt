@@ -1,0 +1,26 @@
+open 42.121.65.50 21
+              user yc1 1qaz2wsx
+              ascii
+    
+cd /gaolongshan/tdir1
+ls busilist_20191217_*.xml
+cd /gaolongshan/up
+ls busilist_20191217_*.xml
+cd /meiqiaozhen/tdir1
+ls busilist_20191217_*.xml
+cd /meiqiaozhen/up
+ls busilist_20191217_*.xml
+cd /xiangshan4/tdir1
+ls busilist_20191217_*.xml
+cd /xiangshan4/up
+ls busilist_20191217_*.xml
+cd /xiangshan6/tdir1
+ls busilist_20191217_*.xml
+cd /xiangshan6/up
+ls busilist_20191217_*.xml
+cd /zhuanghe/tdir1
+ls busilist_20191217_*.xml
+cd /zhuanghe/up
+ls busilist_20191217_*.xml
+bye
+

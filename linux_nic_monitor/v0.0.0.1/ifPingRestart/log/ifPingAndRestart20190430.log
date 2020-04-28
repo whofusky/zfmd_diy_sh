@@ -1,0 +1,93 @@
+
+
+*--------------------------------------------------
+*
+*
+*	software version number: v0.0.0.1
+*
+*	shell script name: ifPingAndRestart.sh
+*
+*	Host name:ScadaServer 
+*
+*--------------------------------------------------
+
+The local network card information is as flollows:
+
+    [eth0  ]: IPADDR=192.168.0.14      NAME="System eth0"
+    [eth1  ]: IPADDR=null              NAME=null
+    [lo    ]: IPADDR=127.0.0.1         NAME=loopback
+
+--------------------------------------------------
+
+
+	2019/04/30-10:29:32.312329293:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.51], ping  success
+
+	2019/04/30-10:29:32.320423394:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.145], ping  success
+
+	2019/04/30-10:29:32.326296945:ifPingAndRestart.sh:script [ ./ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-10:31:08.512400097:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.51], ping  success
+
+	2019/04/30-10:31:08.520462197:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.145], ping  success
+
+	2019/04/30-10:31:08.529495310:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.87], ping  success
+
+	2019/04/30-10:31:08.535528732:ifPingAndRestart.sh:script [ ./ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-10:32:24.791454488:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.51], ping  success
+
+	2019/04/30-10:32:24.799548351:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.145], ping  success
+
+	2019/04/30-10:32:27.808361620:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.146], ping  unsuccessful!!!!!!!!!
+
+	2019/04/30-10:32:28.060130311:ifPingAndRestart.sh: interface=[eth0],restart success
+
+	2019/04/30-10:32:28.063511473:ifPingAndRestart.sh:script [ ./ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-10:33:09.059055285:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.51], ping  success
+
+	2019/04/30-10:33:09.067355253:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.145], ping  success
+
+	2019/04/30-10:33:09.075551710:ifPingAndRestart.sh: interface=[eth0],ip=[192.168.0.87], ping  success
+
+	2019/04/30-10:33:09.082370339:ifPingAndRestart.sh:script [ ./ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-14:36:01.629773339:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.87], ping  success
+
+	2019/04/30-14:36:01.681399584:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.56], ping  success
+
+	2019/04/30-14:36:01.713351287:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.57], ping  success
+
+	2019/04/30-14:36:01.737884692:ifPingAndRestart.sh:script [ /root/tmp/ifPingRestart/ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-14:37:02.189264526:ifPingAndRestart.sh:script [ /root/tmp/ifPingRestart/ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-14:38:02.388006953:ifPingAndRestart.sh:script [ /root/tmp/ifPingRestart/ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-14:39:01.796614749:ifPingAndRestart.sh:script [ /root/tmp/ifPingRestart/ifPingAndRestart.sh ] runs complete!!
+
+
+
+	2019/04/30-14:41:01.572734043:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.87], ping  success
+
+	2019/04/30-14:41:01.598092001:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.56], ping  success
+
+	2019/04/30-14:41:01.624587905:ifPingAndRestart.sh: interface=[eth1],ip=[192.168.0.57], ping  success
+
+	2019/04/30-14:41:01.644332961:ifPingAndRestart.sh:script [ /root/tmp/ifPingRestart/ifPingAndRestart.sh ] runs complete!!
+
+

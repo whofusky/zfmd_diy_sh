@@ -1,0 +1,565 @@
+#!/bin/sh
+
+#############################################################################
+#author       :    fushikai
+#date         :    20181104
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    A simple personalized shell script function
+#    
+#
+#############################################################################
+
+
+
+function getFnameOnPath() #get the file name in the path string
+{
+    if [ $# -ne 1 ];then
+        echo "  Error: function getFnameOnPath input parameters not eq 1!"
+        return 1
+    fi
+
+    allName="$1"
+    if [ -z "${allName}" ];then
+        echo "  Error: function getFnameOnPath input parameters is null!"
+        return 2;
+    fi
+
+    slashNum=$(echo ${allName}|grep "/"|wc -l)
+    if [ ${slashNum} -eq 0 ];then
+        echo ${allName}
+        return 0 
+    fi
+
+    fName=$(echo ${allName}|awk -F'/' '{print $NF}')
+    echo ${fName}
+
+    return 0
+}
+
+
+function getPathOnFname() #get the path value in the path string(the path does not have / at the end)
+{
+
+    if [ $# -ne 1 ];then
+        echo "  Error: function getPathOnFname input parameters not eq 1!"
+        return 1
+    fi
+
+    if [  -z "$1" ];then
+        echo "  Error: function getPathOnFname input parameters is null!"
+        return 2
+    fi
+    
+    dirStr=$(echo "$1"|awk -F'/' '{for(i=1;i<NF;i++){printf "%s/",$i}}'|sed 's/\/$//g')
+    if [ -z "${dirStr}" ];then
+        dirStr="."
+    fi
+
+    echo "${dirStr}"
+    return 0
+}
+
+
+function chgUandGzfmd() #chown -R $1:$2 $3 if there is a user $1 user group $2,file or directory $3
+{
+    if [ $# -ne 3 ];then
+        return 1
+    fi
+    
+    edFD=$3
+    if [ ! -e ${edFD} ];then
+        return 0
+    fi
+    
+    inUser=$1
+    inGrp=$2
+    
+    #define the file to be edited
+    shadFile=/etc/shadow
+    pwdFile=/etc/passwd
+    grpFile=/etc/group
+
+    #get user status in existing systems
+    uzfnum=$(egrep -w "^${inUser}" ${pwdFile}|wc -l)
+
+    #get group status in existing systems
+    gnum=$(egrep -w "^${inGrp}" ${grpFile}|wc -l)
+    
+    if [[ ${uzfnum} -eq 0 || ${gnum} -eq 0 ]];then
+        return 0
+    fi
+    
+    dgzfname=$(stat --format=%G ${edFD})
+    duzfname=$(stat --format=%U ${edFD})
+    if [[ "$dgzfname" != "${inGrp}" || "$duzfname" != "${inUser}" ]];then
+        echo "chown -R ${inUser}:${inGrp} ${edFD} "
+        chown -R ${inUser}:${inGrp} ${edFD}
+    fi
+    
+}
+
+function chgUandGRx() #Recursive $4 from the $3 to determine if there is a non-conformity for each layer's attributes.chown -R $1:$2
+{
+    if [ $# -ne 4 ];then
+        return 1
+    fi
+    
+    edFD=$3
+    if [ ! -e ${edFD} ];then
+        return 0
+    fi
+    
+    inUser=$1
+    inGrp=$2
+    upDirNum=$4
+    chgUandGzfmd ${inUser} ${inGrp} ${edFD}
+
+    for ((i=1;i<${upDirNum};i++));do
+        tname=$(dirname ${edFD})
+        chgUandGzfmd ${inUser} ${inGrp} ${tname}
+        edFD=${tname}
+    done
+    
+    
+}
+
+function chgUandGRbyName() #Recursively modify the owner and group of the directory until the directory name is $4; chown -R $1:$2 $3
+{
+    if [ $# -ne 4 ];then
+        return 1
+    fi
+    
+    edFD=$3
+    if [ ! -e ${edFD} ];then
+        return 0
+    fi
+    
+    inUser=$1
+    inGrp=$2
+    lastName=$4
+    chgUandGzfmd ${inUser} ${inGrp} ${edFD}
+
+    fnum=$(echo "${edFD}"|sed -n "/\<${lastName}\>/p"|wc -l)
+    if [ ${fnum} -gt 0 ];then
+        while [ "$(basename ${edFD})" != "${lastName}" ];do
+            tname=$(dirname ${edFD})
+            edFD=${tname}
+            chgUandGzfmd ${inUser} ${inGrp} ${edFD}
+        done
+    fi
+    
+}
+
+function setPermission() #chown -R $2 $1 if the file or directory $1 exists and permission are not equal to $2
+{
+    if [ $# -ne 2 ];then
+        return 1
+    fi
+    
+    edFD=$1
+    if [ ! -e ${edFD} ];then
+        return 0
+    fi
+    
+    perVal=$2
+    
+    perDZT=$(stat --format=%a ${edFD})
+    if [[ "$perDZT" != "${perVal}" ]];then
+        echo "chmod -R ${perVal} ${edFD}"
+        chmod -R ${perVal} ${edFD}
+    fi
+}
+
+function mkpDir() #create and echo directory if there is no $1 directory
+{
+    if [ $# -ne 1 ];then
+        return 1
+    fi
+    
+    edFD=$1
+    if [[ ! -d ${edFD}  ]];then
+        mkdir -p ${edFD}
+        echo "mkdir -p ${edFD}"
+    fi
+}
+
+function getlsattrI() #get immutable  (i) file attributes
+{
+    [ $# -ne 1 ] && return 1
+    fOrd=$1
+    [ ! -e "${fOrd}" ] && return 2
+
+    tAtrtChr=$(lsattr -d ${fOrd}|awk '{print $1}'|cut -c5)
+
+    echo "${tAtrtChr}"
+    return 0
+}
+
+function addattrI() #add  immutable  (i) file attributes on a Linux file system
+{
+    [ $# -ne 1 ] && return 1
+    fOrd=$1
+    tAtrtChr=$(getlsattrI ${fOrd})
+    ret=$?
+    [ ${ret} -ne 0 ] && return ${ret}
+
+    if [ "${tAtrtChr}" == "-" ];then
+        echo "chattr +i ${fOrd}"
+        chattr +i ${fOrd}
+    fi
+
+    return 0
+}
+
+function delattrI() #delete  immutable  (i) file attributes on a Linux file system
+{
+    [ $# -ne 1 ] && return 1
+    fOrd=$1
+    tAtrtChr=$(getlsattrI ${fOrd})
+    ret=$?
+    [ ${ret} -ne 0 ] && return ${ret}
+
+    if [ "${tAtrtChr}" == "i" ];then
+        echo "chattr -i ${fOrd}"
+        chattr -i ${fOrd}
+    fi
+
+    return 0
+}
+
+function updateFile() #if the file $1 is different from the md5 code of $2 or $2 does not exist then cp $1 $2
+{
+    which md5sum &>/dev/null
+    cmdstat=$?
+    if [ ${cmdstat} -ne 0 ];then
+        return 1
+    fi
+    if [ $# -ne 2 -a $# -ne 3 ];then
+        return 2
+    fi
+    
+    srcFile=$1
+    dstFile=$2
+    [ $# -eq 3 ] && bakdir="$3"
+    
+    if [ ! -f ${srcFile} ];then
+        echo ""
+        echo "----ERROR:file [${srcFile}] does not exist!"
+        echo ""
+        return 3
+    fi
+    if [ ! -f ${dstFile} ];then
+        echo "cp ${srcFile} ${dstFile}"
+        \cp ${srcFile} ${dstFile}
+        return 0
+    fi
+    
+    srcmd5=$(md5sum ${srcFile}|awk '{print $1}')
+    dstmd5=$(md5sum ${dstFile}|awk '{print $1}')
+    #echo "----srcmd5=[${srcmd5}]"
+    #echo "----dstmd5=[${dstmd5}]"
+    if [[ "${srcmd5}" != "${dstmd5}" ]];then
+        iflag=0 
+        tAtrtChr=$(getlsattrI ${dstFile})
+        ret=$?
+        if [ ${ret} -ne 0 ];then
+            iflag=0 
+        elif [ "${tAtrtChr}" == "i" ];then
+            iflag=1
+            delattrI ${dstFile}
+        fi
+        
+        if [ -d "${bakdir}" ];then
+            bakF=$(getFnameOnPath "${dstFile}")
+            ret=$?
+            if [ ${ret} -eq 0 ];then
+                tbakdir=$(echo "${bakdir}"|sed 's/\/$//g')
+                timestamp=$(date +%Y%m%d%H%M%S)
+                \cp "${dstFile}" "${tbakdir}/${bakF}_${timestamp}"
+                echo -e "\n\tback following:\tcp \"${dstFile}\" \"${tbakdir}/${bakF}_${timestamp}\"\n"
+            fi
+
+        fi
+
+        echo "cp ${srcFile} ${dstFile}"
+        \cp ${srcFile} ${dstFile}
+        if [ $? -ne 0 ];then
+            echo " rm -rf ${dstFile}"
+            \rm -rf "${dstFile}"
+            \cp ${srcFile} ${dstFile}
+        fi
+
+        if [ ${iflag} -eq 1 ];then
+            addattrI ${dstFile}
+        fi
+
+        return 0
+    fi
+}
+
+
+function chgUPwd() #change the password of user $1 with ciphertext $2 encrypted SHA512,and do not modify it repeatedly
+{
+    if [ $# -ne 2 ];then
+        return 1
+    fi
+    
+   
+    
+    inUser=$1
+    inPwd=$2
+    
+    #define the file to be edited
+    shadFile=/etc/shadow
+    pwdFile=/etc/passwd
+    grpFile=/etc/group
+    
+    uNum=$(egrep -w "^${inUser}" ${pwdFile}|wc -l)
+    #################change password, "openssl passwd -1"
+    #echo 'chpasswd -e '
+    if [[ ${uNum} -gt 0 ]];then
+        rtPwNum=$(egrep -w "^${inUser}" ${shadFile}|grep -w "${inPwd}"|wc -l)
+        if [[ $rtPwNum -eq 0 ]];then
+            echo "change the password of the [${inUser}] user"
+            echo "${inUser}:${inPwd}"|chpasswd -e
+        fi
+    fi
+}
+
+function mkdirFromXml()  #take all the node values named $2 from the xml file $1 to create the directory,the element value of the xml file must be on one line
+{
+    if [ $# -ne 2 ];then
+        return 1
+    fi
+
+    xFile=$1
+    xnodeName=$2 
+    if [ ! -f "${xFile}" ];then
+        echo "ERROR:[${xFile}]not exist!"
+    return 2
+    fi 
+
+    sed -n "/^[ \t]*<[ \t]*\<${xnodeName}\>[ \t]*>.*<[ \t]*\/\<${xnodeName}\>[ \t]*>/p" ${xFile}|awk -F"[><]" '{ if(NF>=5){print $3} }'|while read tnaa
+    do
+        #echo "----${tnaa}"
+        mkpDir "${tnaa}"
+    done
+
+    return 0
+}
+
+function groupAdd() #groupadd $1 if there is no $1
+{
+    
+    if [ $# -ne 1 ];then
+        return 1
+    fi
+    grpname=$1
+    grpFile=/etc/group
+    if [ ! -e "${grpFile}" ];then
+        echo "ERROR:[${grpFile}] not exist!"
+        return 2
+    fi
+
+    gnum=$(egrep -w "^${grpname}" ${grpFile}|wc -l)
+    if [ $gnum -eq 0 ]; then
+        echo "groupadd ${grpname}"
+        groupadd ${grpname}
+    fi
+
+    return 0    
+}
+
+function useraddOrChgrp() # add user or change user's group; useraddOrChgrp $user $group OR useraddOrChgrp $user $group $addgroup
+{
+    #useraddOrChgrp user group
+    #or useraddOrChgrp user group addGroup
+    if [ $# -ne 2 -a $# -ne 3 ];then
+        return 1
+    fi
+
+    inputNum=$#
+    #shadFile=/etc/shadow
+    pwdFile=/etc/passwd
+    grpFile=/etc/group
+    if [ ! -e "${grpFile}" ];then
+        echo "ERROR:[${grpFile}] not exist!"
+        return 2
+    fi
+    if [ ! -e "${pwdFile}" ];then
+        echo "ERROR:[${pwdFile}] not exist!"
+        return 3
+
+    fi
+
+    uname=$1
+    gname=$2
+    
+    unum=$(egrep -w "^${uname}" ${pwdFile}|wc -l)
+    gnum=$(egrep -w "^${gname}" ${grpFile}|wc -l)
+    
+    if [ ${gnum} -eq 0 ];then
+        echo "ERROR:[${gname}] not exist in file [${grpFile}]!"
+        return 4
+    fi
+
+    if [ ${inputNum} -eq 3 ];then
+        Gname=$3
+        tgnum=$(egrep -w "^${Gname}" ${grpFile}|wc -l)
+        if [ ${tgnum} -eq 0 ];then
+            echo "ERROR:[${Gname}] not exist in file [${grpFile}]!"
+            return 5
+        fi
+    fi
+
+    if [ ${unum} -eq 0 ];then
+        if [ ${inputNum} -eq 2 ];then
+            echo "useradd ${uname} -g ${gname}"
+            useradd ${uname} -g ${gname}
+        else
+            echo "useradd ${uname} -g ${gname} -G $3"
+            useradd ${uname} -g ${gname} -G ${Gname}
+        fi
+    else
+        degrp=$(groups ${uname} 2>/dev/null|awk -F: '{print $2}'|awk '{print $1}'|tr "\040\011" "\0")
+        if [ "${degrp}" != "${gname}" ];then
+            echo "usermod -g \"${gname}\" \"${uname}\""
+            usermod -g "${gname}" "${uname}"
+        fi
+        if [ ${inputNum} -eq 3 ];then
+            Gnum=$(groups ${uname} 2>/dev/null|awk -F: '{print $2}'|awk -v atgroup="$Gname" '{for(i=2;i<=NF;i++){if($i==atgroup){print $i;break;}}}'|tr "\040\011" "\0"|wc -l)
+            if [ ${Gnum} -eq 0 ];then
+                tgrps=$(groups ${uname} 2>/dev/null|awk -F: '{print $2}'|awk -v atgroup="$Gname" '{for(i=2;i<=NF;i++){if($i!=atgroup){printf "%s,",$i;}}}'|tr "\040\011" "\0")
+                if [ ! -z ${tgrps} ];then
+                    Gname="${tgrps}${Gname}"
+                fi
+                echo "usermod -G \"${Gname}\" \"${uname}\""
+                usermod -G "${Gname}" "${uname}"
+                
+            fi
+        fi
+    fi
+
+    return 0
+}
+
+
+function setEnvOneVal() #set the value of the configuration file;eg:setEnvOneVal ${file} "set" "encoding" "set encoding=utf-8"   '\"' 'positition_character'
+{
+    if [ $# -ne 5 -a $# -ne 6 ];then
+        echo " ERROR:input parameters num not eq 5 or 6"
+        return 1
+    fi
+
+    inNum=$#
+    [ ${inNum} -eq 6 ] && posStr="$6"
+
+    edfile=$1
+    if [ ! -f ${edfile} ];then
+        echo " ERROR:[${edfile}is not exits!"
+        return 2
+    fi
+    sname1=$2
+    sname2=$3
+    atxt=$4
+    cmmark="$5"
+
+    speFlag=$(echo "${sname2}"|grep "[^0-9a-zA-Z\.\_\-]"|wc -l)
+
+    num=$(egrep "^\s*${sname1}\s+[^$]" ${edfile}|wc -l)
+    if [ ${speFlag} -gt 0 ];then
+        num1=$(egrep "^\s*${sname1}\s+${sname2}" ${edfile}|wc -l)
+    else
+        num1=$(egrep "^\s*${sname1}\s+\<${sname2}\>" ${edfile}|wc -l)
+    fi
+    numC=$(egrep "^\s*${cmmark}\s*${sname1}\s+[^$]" ${edfile}|wc -l)
+    if [ ${speFlag} -gt 0 ];then
+        numC1=$(egrep "^\s*${cmmark}\s*${sname1}\s+${sname2}" ${edfile}|wc -l)
+    else
+        numC1=$(egrep "^\s*${cmmark}\s*${sname1}\s+\<${sname2}\>" ${edfile}|wc -l)
+    fi
+
+    chgflag=0
+
+    if [[ ${num} -gt 0 ]];then
+        if [[ $(grep "^${atxt}" ${edfile}|wc -l) -lt 1 ]];then
+            if [[ ${num1} -lt 1 ]];then
+                if [[ ${numC1} -gt 0 ]];then
+                    if [ ${speFlag} -gt 0 ];then
+                        sed "$(sed -n "/^\s*${cmmark}\s*${sname1}\s\+${sname2}/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                    else
+                        sed "$(sed -n "/^\s*${cmmark}\s*${sname1}\s\+\<${sname2}\>/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                    fi
+                    echo "change row=[${atxt}]"
+                else
+                    sed "$(sed -n "/^\s*${sname1}\s\+[^$]/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                    echo "add row=[${atxt}]"
+                fi
+                chgflag=1
+            else
+                if [ ${speFlag} -gt 0 ];then
+                    sed "$(sed -n "/^\s*${sname1}\s\+${sname2}/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                else
+                    sed "$(sed -n "/^\s*${sname1}\s\+\<${sname2}\>/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                fi
+                echo "change row=[${atxt}]"
+                chgflag=1
+            fi
+        fi
+    elif [[ ${numC} -gt 0 ]];then
+        if [[ $(grep "^${atxt}" ${edfile}|wc -l) -lt 1 ]];then
+            if [[ ${numC1} -gt 0 ]];then
+                if [ ${speFlag} -gt 0 ];then
+                    sed "$(sed -n "/^\s*${cmmark}\s*${sname1}\s\+${sname2}/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                else
+                    sed "$(sed -n "/^\s*${cmmark}\s*${sname1}\s\+\<${sname2}\>/=" ${edfile}|sed 1q)c${atxt}" -i ${edfile}    
+                fi
+                echo "change row=[${atxt}]"
+            else
+                sed "$(sed -n "/^\s*${cmmark}\s*${sname1}\s\+[^$]/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                echo "add row=[${atxt}]"
+            fi
+            chgflag=1
+        fi
+    else
+        if [[ $(grep "^${atxt}" ${edfile}|wc -l) -lt 1 ]];then
+            ttnum=$(sed -n "/.*/=" ${edfile}|wc -l)
+            if [ ${ttnum} -eq 0 ];then
+                echo "">>${edfile}
+                echo "echo \"\">>${edfile}"
+                echo ""
+            fi
+            if [ ${inNum} -eq 6  -a -n "${posStr}" ];then
+                posSpeFlag=$(echo "${posStr}"|grep "[^0-9a-zA-Z\.\_\-]"|wc -l)
+                if [ ${posSpeFlag} -gt 0 ];then
+                    posnum=$(sed -n "/${posStr}/=" ${edfile}|wc -l)
+                    if [ ${posnum} -gt 0 ];then
+                        sed "$(sed -n "/${posStr}/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                    else
+                        sed "$(sed -n "/.*/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                    fi
+                else
+                    posnum=$(sed -n "/\<${posStr}\>/=" ${edfile}|wc -l)
+                    if [ ${posnum} -gt 0 ];then
+                        sed "$(sed -n "/\<${posStr}\>/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                    else
+                        sed "$(sed -n "/.*/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+                    fi
+                fi
+            else
+                sed "$(sed -n "/.*/=" ${edfile}|sed -n '$p')a${atxt}" -i ${edfile}    
+            fi
+            echo "add row=[${atxt}]"
+            chgflag=1
+        fi
+    fi
+
+    if [ ${chgflag} -eq 1 ];then
+        echo "edit file=[$edfile]" 
+        echo ""
+        return 9
+    fi
+
+    return 0
+}

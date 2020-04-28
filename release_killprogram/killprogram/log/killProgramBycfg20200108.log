@@ -1,0 +1,36 @@
+
+
+*--------------------------------------------------
+*
+*
+*	software version number: v0.0.0.5
+*
+*	shell script name: killProgramBycfg.sh
+*
+*	The name of the program that the script will
+*	process is: CommSubsystem CommSubsystem_2 CommSubsystem_3 CommSubsystem_4 
+*
+*--------------------------------------------------
+
+killProgramBycfg.sh:start running time:2020/01/08-16:50:45.174634383
+killProgramBycfg.sh:End running time:2020/01/08-16:50:58.641892334
+2020/01/08-16:50:58.645461807:killProgramBycfg.sh:	script [ ./killProgramBycfg.sh ] runs complete!!
+
+
+killProgramBycfg.sh:start running time:2020/01/08-16:58:08.527547841
+killProgramBycfg.sh:End running time:2020/01/08-16:58:15.892401765
+2020/01/08-16:58:15.896300795:killProgramBycfg.sh:	script [ ./killProgramBycfg.sh ] runs complete!!
+
+
+killProgramBycfg.sh:start running time:2020/01/08-17:05:48.926832114
+killProgramBycfg.sh:  do process is: CommSubsystem_4
+killProgramBycfg.sh:End running time:2020/01/08-17:05:54.196784412
+2020/01/08-17:05:54.203942236:killProgramBycfg.sh:	script [ ./killProgramBycfg.sh ] runs complete!!
+
+
+killProgramBycfg.sh:start running time:2020/01/08-17:19:54.671771860
+killProgramBycfg.sh:  do process is: CommSubsystem_4
+killProgramBycfg.sh:End running time:2020/01/08-17:20:04.238257292
+2020/01/08-17:20:04.241735750:killProgramBycfg.sh:	script [ ./killProgramBycfg.sh ] runs complete!!
+
+

@@ -1,0 +1,238 @@
+#!/bin/sh
+#
+#
+#############################################################################
+#author       :    fushikai
+#date         :    20190519
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#       Configuration file
+#
+#    
+#revision history:
+#       v0.0.0.1  @ 20190519
+#       
+#
+#############################################################################
+
+
+
+#此值判断文件是否已经加载，修改配置文件此不用修改此值
+[ ! -z "${Already_loadedCfg_Flag}" ] && return 0
+Already_loadedCfg_Flag=1
+
+
+
+
+###############################################################
+#           主机名配置区域  
+#   可以在服务器上打开终端执行: echo $HOSTNAME 得到
+#   2.0系统的主机名在装系统时是固定的，一般不需要修改
+###############################################################
+
+#MY_HOSTNAME="fuskTest"          #要操作的服务器名
+MS_HOSTNAME="qx-lhs20180515"          #气象服务器      
+PS1_HOSTNAME="yc-lhs20180514"      #主预测服务器    
+PS2_HOSTNAME="yc-lhs20180516"      #备预测服务器    
+#SCA_HOSTNAME="ScadaServer"         #scada预测服务器 
+WK_HOSTNAME="gzz-lhs20180516"          #工作站          
+
+
+
+###############################################################
+#debugFlag=1 只输出将要配置的信息不实际写入系统；其他值则执行系统配置
+debugFlag=0
+
+#enablePing=1 开启ping功能,0关闭ping功能
+enablePing=1
+
+#enInterSsh=1 开启内网的ssh端口
+enInterSsh=1
+
+#bindNICByIP=1 根据配置的ip自动找对应的网卡号并进行绑定;0则不绑定
+bindNICByIP=1
+
+
+
+###############################################################
+###############################################################
+
+#outPrtFlag:产生规则的标识       0:OUTPUT,INPUT; 1:OUTPUT; 2:INPUT                 
+prtAll=0
+prtIn=1
+prtOut=2
+
+#server_opFlag:在连接状中是作为client还是server   0:client; 1:server; 2:client,server; 3:stat null
+srvOp_client=0
+srvOp_server=1
+srvOp_all=2
+srvop_null=3
+
+#op_protocol:所用协议标识        tcp,upd,all
+op_tcp="tcp"
+op_udp="udp"
+op_all="all"
+
+
+#
+#
+###############################################################
+#    配置中凡是端口的配置都遵循的规则：
+#    --------------------------------------------->
+#    (1)可配单个端口号
+#    (2)可配连续的端口号但需要用-线连接如 1024-65535
+#    (3)可配多个不连接端口号用，号分隔如 20,21,1024-65535
+#    <---------------------------------------------
+#
+#
+#    配置配置条目时要遵循的规则：
+#    --------------------------------------------->
+#    所有的最终要用英文输入法中半角状态的双引号"括起来
+#           每个条目的基本格式为: ${prtAll}/${srvOp_client}/${op_tcp}/网卡号/local_addr/remoteaddr
+#           多个条目用 | 隔开，中间可以有换行或空格
+#          
+#          每个ip后如果有端口号则格式为 "ip:端口"
+#          如果端口号是一个范围则配置为 "ip:端口1-端口2"
+#          ip地址对中可以只有端口号但端口号之前的:不能省略
+#    
+#    <---------------------------------------------
+#
+
+#气象
+#         
+#    [em1   ]: IPADDR=10.1.1.10         NAME="System em1" 对端 10.1.1.9  9002 对预测主 192.167.1.8
+#    [em2   ]: IPADDR=10.1.10.10        NAME="System em2" 对端 10.1.10.9 9898 对预测备 192.167.10.8
+#    [lo    ]: IPADDR=127.0.0.1         NAME=loopback
+#    [p1p1  ]: IPADDR=192.168.2.106     NAME="System p1p1" 对端 ftp 42.121.65.50：20，21，1024-65535
+#                                                               182.254.227.250：20，21，1024-65535
+#    [p1p2  ]: IPADDR=100.100.100.1     NAME="System p1p2" （与预测同网段ip）
+
+qx_local_intranet_ip="100.100.100.1"    #气象服务器与预测内网ip
+qx_local_fg_ip1="10.1.1.10"             #气象本地反隔ip1
+qx_local_fg_ip2="10.1.10.10"            #气象本地反隔ip2
+qx_local_extranet_ip="192.168.2.106"    #气象本地联外网的Ip
+qx_ftp_server_ip1="42.121.65.50"        #气象ftp远程ip1
+qx_ftp_server_ip2="182.254.227.250"     #气象ftp远程ip2
+qx_fg_NIC_name1="em1"                   #气象反隔网卡号1
+qx_fg_NIC_name2="em2"                   #气象反隔网卡号2
+
+cfg_rule_items_qx="
+    ${prtAll}/${srvop_null}/${op_udp}//${qx_local_extranet_ip}/:123
+ |  ${prtAll}/${srvOp_client}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip1}:21
+ |  ${prtAll}/${srvOp_server}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip1}:20
+ |  ${prtAll}/${srvOp_client}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip1}:1024-65535
+ |  ${prtAll}/${srvOp_client}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip2}:21
+ |  ${prtAll}/${srvOp_server}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip2}:20
+ |  ${prtAll}/${srvOp_client}/${op_tcp}//${qx_local_extranet_ip}/${qx_ftp_server_ip2}:1024-65535
+ |  ${prtAll}/${srvOp_client}/${op_all}/${qx_fg_NIC_name1}//
+ |  ${prtAll}/${srvOp_client}/${op_all}/${qx_fg_NIC_name2}//
+"
+
+
+#预测主
+#    [em1   ]: IPADDR=192.167.1.8       NAME="System em1" 对反隔 9002
+#    [em2   ]: IPADDR=100.100.100.2     NAME="System em2" 内网ip
+#    [lo    ]: IPADDR=127.0.0.1         NAME=loopback
+#    [p1p1  ]: IPADDR=100.110.120.130   NAME="System p1p1"
+#                                   :502 100.110.120.137:38733 ModbusTCP-QT1 测风塔数据采集用com  转发用502
+#                                   :503 100.110.120.137:47728 TheoryPowerCalc 理论功率转发软件
+#                                   :48558 100.110.120.136:2404  ModbusTCP-QT-FJ 升压站数据采集
+#
+#              IPADDR2=192.168.1.199   竣工自检文档上写的是ntp校时 与  192.168.1.200 
+#              IPADDR3=194.100.100.10   
+#                                   ::11287 194.100.100.1:502 ModbusTCP-QT-FJ 风机数据采集
+#
+#    [p1p2  ]: IPADDR=36.100.192.169    NAME="System p1p2"
+#                                   :3000 36.10.27.2:29841  Upload_JX_102
+#                                   :3000 36.10.27.1
+#    数据库端口暂时来看是1521
+#    工作站访问预测系统界面的端口号未定 或是https 4430
+#
+
+
+ps1_local_intranet_ip="100.100.100.2"  #主预测内部网络ip
+ps2_local_intranet_ip="100.100.100.3"  #预测内部网络ip
+wk_local_intranet_ip="100.100.100.4"   #工作站内部网络ip
+upload_remote_ips="36.10.27.2,36.10.27.1" #上传省调的ip
+
+ssh_port=22             #ssh连接端口
+web_port=4430           #web访问的端口
+database_port=1521      #数据库访问端口
+
+ps1_fg_NIC_name1="em2"                   #预测主反隔网卡号
+ps1_upload_localip="36.100.192.169"      #预测主上传时本地Ip
+
+
+cfg_rule_items_ps1="
+    ${prtAll}/${srvOp_server}/${op_all}/em1//
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps1_local_intranet_ip}:${web_port}/${wk_local_intranet_ip}
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps1_local_intranet_ip}:${database_port}/${wk_local_intranet_ip}
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps1_local_intranet_ip}:${database_port}/${ps2_local_intranet_ip}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${ps1_local_intranet_ip}/${ps2_local_intranet_ip}:${database_port}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${ps1_local_intranet_ip}/198.1.3.5,198.1.3.6:22
+  | ${prtAll}/${srvop_null}/${op_udp}//192.168.1.199:123/192.168.1.200:123
+  | ${prtAll}/${srvOp_server}/${op_tcp}//100.110.120.130:502-503/100.110.120.137
+  | ${prtAll}/${srvOp_client}/${op_tcp}//100.110.120.130/100.110.120.136:2404
+  | ${prtAll}/${srvOp_client}/${op_tcp}//194.100.100.10/194.100.100.1:502
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps1_upload_localip}:3000/${upload_remote_ips}
+"
+
+cfg_rule_ssh_ps1="
+     ${prtAll}/${srvop_null}/${op_tcp}//${ps1_local_intranet_ip}:${ssh_port}/${ps2_local_intranet_ip},${wk_local_intranet_ip}:${ssh_port}
+"
+
+#预测备
+#    [eth0  ]: IPADDR=192.167.10.8      NAME="System eth0" 对反隔 9898
+#    [eth1  ]: IPADDR=100.100.100.3     NAME="System eth1" 内网ip
+#    [eth2  ]: IPADDR=194.100.100.10    NAME="System eth2"
+#                                   ::11287 194.100.100.1:502 ModbusTCP-QT-FJ 风机数据采集
+#              IPADDR2=192.168.1.199    竣工自检文档上写的是ntp校时 与  192.168.1.200   
+#              IPADDR3=100.110.120.130  
+#                                   :502 100.110.120.137:38733 ModbusTCP-QT1 测风塔数据采集用com  转发用502
+#                                   :503 100.110.120.137:47728 TheoryPowerCalc 理论功率转发软件
+#                                   :48558 100.110.120.136:2404  ModbusTCP-QT-FJ 升压站数据采集
+#
+#    [eth3  ]: IPADDR=36.100.192.169    NAME="System eth3"
+#                                   :3000 36.10.27.2:29841  Upload_JX_102
+#                                   :3000 36.10.27.1
+#    [lo    ]: IPADDR=127.0.0.1         NAME=loopback
+#
+#
+ps2_upload_localip="36.100.192.169"      #预测备上传时本地Ip
+cfg_rule_items_ps2="
+    ${prtAll}/${srvOp_server}/${op_all}/eth0//
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps2_local_intranet_ip}:${web_port}/${wk_local_intranet_ip}
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps2_local_intranet_ip}:${database_port}/${wk_local_intranet_ip}
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps2_local_intranet_ip}:${database_port}/${ps1_local_intranet_ip}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${ps2_local_intranet_ip}/${ps1_local_intranet_ip}:${database_port}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${ps2_local_intranet_ip}/198.1.3.5,198.1.3.6:22
+  | ${prtAll}/${srvop_null}/${op_udp}//192.168.1.199:123/192.168.1.200:123
+  | ${prtAll}/${srvOp_server}/${op_tcp}//100.110.120.130:502-503/100.110.120.137
+  | ${prtAll}/${srvOp_client}/${op_tcp}//100.110.120.130/100.110.120.136:2404
+  | ${prtAll}/${srvOp_client}/${op_tcp}//194.100.100.10/194.100.100.1:502
+  | ${prtAll}/${srvOp_server}/${op_tcp}//${ps2_upload_localip}:3000/${upload_remote_ips}
+"
+cfg_rule_ssh_ps2="
+     ${prtAll}/${srvop_null}/${op_tcp}//${ps2_local_intranet_ip}:${ssh_port}/${ps1_local_intranet_ip},${wk_local_intranet_ip}:${ssh_port}
+"
+
+
+#工作站
+#    [lo    ]: IPADDR=127.0.0.1         NAME=loopback
+#    [p8p1  ]: IPADDR=100.100.100.4     NAME="System p8p1" 内网ip
+#
+#
+cfg_rule_items_wk="
+    ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps1_local_intranet_ip}:${web_port}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps2_local_intranet_ip}:${web_port}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps1_local_intranet_ip}:${database_port}
+  | ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps2_local_intranet_ip}:${database_port}
+"
+cfg_rule_ssh_wk="
+     ${prtAll}/${srvop_null}/${op_tcp}//${wk_local_intranet_ip}:${ssh_port}/${ps1_local_intranet_ip},${ps2_local_intranet_ip}:${ssh_port}
+"
+
+
+###############################################################
+###############################################################
+

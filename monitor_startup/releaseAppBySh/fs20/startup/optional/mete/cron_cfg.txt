@@ -1,0 +1,7 @@
+
+#zfmd
+* * * * * /zfmd/wpfs20/startup/proRunChk.sh >>/zfmd/wpfs20/startup/log/cron_proRunChk.log 2>&1
+* * * * * sleep 34 && /zfmd/wpfs20/mete/bin/monitErr.sh >>/zfmd/wpfs20/mete/log/monitErr_sh.log 2>&1
+
+#root
+* * * * * /zfmd/wpfs20/startup/proRunChkRoot.sh >>/zfmd/wpfs20/startup/log/cron_proRunChkRoot.log 2>&1

@@ -1,0 +1,21 @@
+40 6 * * * /root/mysh/chkBusiGen/doChkBlst.sh >>/root/mysh/chkBusiGen/log/cron.log 2>&1
+
+
+mkdir -p /root/.certs/
+
+echo -n | openssl s_client -connect smtp.qq.com:465 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ~/.certs/qq.crt
+
+certutil -A -n "GeoTrust SSL CA" -t "C,," -d ~/.certs -i ~/.certs/qq.crt
+
+certutil -A -n "GeoTrust Global CA" -t "C,," -d ~/.certs -i ~/.certs/qq.crt
+
+cd  /root/.certs/
+
+certutil -A -n "GeoTrust SSL CA - G3" -t "Pu,Pu,Pu" -d ~/.certs/./ -i qq.crt
+
+certutil -L -d /root/.certs
+
+最后使用echo "hello mail" | mail -s "hello" xxx@qq.
+————————————————
+版权声明：本文为CSDN博主「-madongyu-」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/madonghyu/article/details/88373444
