@@ -1,5 +1,0 @@
-19-12-16_18:37:45.839915375 F_judgeDoit:[./tmp/doDate.txt] not exist!
-19-12-16_18:37:45.849816610 call F_judgeDoit return result is  need to call F_chkBusiStat!
-19-12-16_18:37:45.859601744 ./doChkBlst.sh running beine:19-12-16_18:37:45.823483105
-19-12-16_18:37:49.257912338 /bin/mail -s "[20191216_9500]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
-19-12-16_18:37:49.269102757 ./doChkBlst.sh running end:2019-12-16_18:37:49.258861102
