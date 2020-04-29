@@ -48,9 +48,11 @@ logFile="${logDir}/${inNPre}.log"
 tmpDir="${baseDir}/tmp"
 tmpFile="${tmpDir}/tmp.txt"
 smailFilePre="${tmpDir}/smailpre.txt"
+tFtpBuList="${tmpDir}/tmpBusList.txt"
 smailFile="${tmpDir}/smail.txt"
 recordDtFile="${tmpDir}/doDate.txt"
 attachFile="${tmpDir}/attachment.txt"
+tmpwinmemf="${tmpDir}/cmptMem.txt"
 
 if [ ! -e "${tconfFile}" ];then
     echo -e "\n\t\e[1;31mError,in [$0]\e[0m: File [ ${cfgFile} ] does not exist!!\n"
@@ -161,6 +163,19 @@ function F_outShDebugMsg() #out put $4 to $1; use like: F_outShDebugMsg $logfile
     return 0
 }
 
+function F_formatFtpBusCnt() #format ftp server's status business file content
+{
+	if [ $# -ne 2 ];then
+		return 1
+	fi
+	local preDoFile="$1"
+	local outputFile="$2"
+
+	sed -n '/\(\btdir1\b\|\bup\b\|busilist_\)/p' ${preDoFile} |sed 's/^\s*250\s*Directory\s*changed\s*to\s*//g'|sed '/tdir/ i\\n'|sed 's/^/  /g'>>${outputFile}
+
+	return 0
+}
+
 
 function F_judgeDoit() #judge do it 
 {
@@ -237,7 +252,7 @@ function F_judgeDoit() #judge do it
     do
         sfname=$(echo "${it}"|cut -d '#' -f 1)
         sfnum=$(echo "${it}"|cut -d '#' -f 2)
-        tnum=$(sed -n "/${sfname}/p" "${tsmailFile}"|wc -l)
+        tnum=$(grep -A 2 "/up" "${tsmailFile}"|sed -n "/${sfname}/p" |wc -l)
         if [ ${tnum} -ne ${sfnum} ];then
             F_outShDebugMsg "${logFile}" ${debugflag} ${tdebugVal} "${thFname}:sfnum=[${sfnum}],tnum=[${tnum}]"
             return 1
@@ -484,16 +499,34 @@ if [ ${retStat} -eq 0 ];then
 	attaFlag=1
 fi
 
+memInfo=""
+if [ ! -z "${winMemeFile}" ];then
+	if [ -e "${winMemeFile}" ];then
+		#tcont=$(sed -n '1p' ${winMemeFile}|sed  's///g')
+		if [ -e "${tmpwinmemf}" ];then
+			rm -rf "${tmpwinmemf}"
+		fi
+		iconv  -f utf-16le -t utf-8 ${winMemeFile} -o ${tmpwinmemf}
+		tcont=$(sed -n 's/[^0-9a-zA-Z]\+//g'p ${tmpwinmemf})
+		tfile=${winMemeFile##*/}
+		ttime=$(ls -l "${winMemeFile}"|awk '{print $6,$7}')
+		memInfo="
+
+
+		${ttime} ${tfile}:  ${tcont}"
+	fi
+fi
+
 >${smailFilePre}
 headCnt="
 
 Dear fu.sky:
 
     The following will send you the $(date +%Y-%m-%d) business list 
-  generation situation as follows: "
+  generation situation as follows:${memInfo} "
 tailCnt="  
 
-Wishing your business ever successful！
+Wishing your business ever successful !
 $(whoami)
 $(date +%y-%m-%d_%H:%M:%S.%N)
 
@@ -532,7 +565,8 @@ do
 done
 
 #cat ${smailFilePre}
-sed -n '/\(\btdir1\b\|\bup\b\|busilist_\)/p' ${smailFilePre} |sed 's/^\s*250\s*Directory\s*changed\s*to\s*//g'|sed '/tdir/ i\\n'|sed 's/^/  /g'>>${smailFile}
+#sed -n '/\(\btdir1\b\|\bup\b\|busilist_\)/p' ${smailFilePre} |sed 's/^\s*250\s*Directory\s*changed\s*to\s*//g'|sed '/tdir/ i\\n'|sed 's/^/  /g'>>${smailFile}
+F_formatFtpBusCnt "${smailFilePre}" "${smailFile}"
 
 sdmailTitle="[$(date +%Y%m%d)_$$]busilist report"
 echo "${tailCnt}">>${smailFile}
