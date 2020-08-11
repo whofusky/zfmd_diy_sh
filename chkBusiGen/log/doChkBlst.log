@@ -1,0 +1,104 @@
+19-12-08_20:14:14.726046607 19-12-08_20:14:14.713144179
+19-12-08_20:14:19.411434245 /bin/mail -s "[20191208_2295]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-08_20:14:19.431686655 19-12-08_20:14:19.413082270
+19-12-08_21:12:19.394786887 19-12-08_21:12:19.383717365
+19-12-08_21:12:23.875884859 /bin/mail -s "[20191208_15150]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-08_21:12:23.886071926 19-12-08_21:12:23.876735541
+19-12-09_06:40:02.011549335 19-12-09_06:40:01.996860707
+19-12-09_06:40:05.860176390 /bin/mail -s "[20191209_1113]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-09_06:40:05.875404640 19-12-09_06:40:05.861403529
+19-12-10_08:01:20.888504931 19-12-10_08:01:20.866224045
+19-12-10_08:01:24.971389358 /bin/mail -s "[20191210_25790]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-10_08:01:24.985407195 19-12-10_08:01:24.972565872
+19-12-10_08:23:14.328199490 19-12-10_08:23:14.312298251
+19-12-10_08:23:17.819267906 /bin/mail -s "[20191210_11163]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-10_08:23:17.829412167 19-12-10_08:23:17.820467536
+19-12-11_06:40:02.202944632 19-12-11_06:40:02.134353703
+19-12-11_06:40:05.788743289 /bin/mail -s "[20191211_18874]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-11_06:40:05.798947075 2019-12-11_06:40:05.789488103
+19-12-11_08:05:01.418232481 19-12-11_08:05:01.407053307
+19-12-11_08:05:05.581723829 /bin/mail -s "[20191211_20037]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-11_08:05:05.594010952 2019-12-11_08:05:05.582778286
+19-12-12_06:40:02.432244459 19-12-12_06:40:02.377667133
+19-12-12_06:41:08.871104241 /bin/mail -s "[20191212_32465]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-12_06:41:08.892558766 2019-12-12_06:41:08.873841059
+19-12-13_06:40:02.008306825 19-12-13_06:40:01.971039316
+19-12-13_06:40:05.895208802 /bin/mail -s "[20191213_14609]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-13_06:40:05.905313632 2019-12-13_06:40:05.896372712
+19-12-14_06:40:01.881177468 19-12-14_06:40:01.866580849
+19-12-14_06:40:05.319243643 /bin/mail -s "[20191214_1131]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-14_06:40:05.331080307 2019-12-14_06:40:05.320551338
+19-12-15_06:40:04.498125900 19-12-15_06:40:04.448160312
+19-12-15_06:40:08.615191594 /bin/mail -s "[20191215_14112]busilist report" fusk_zfmd@163.com </root/mysh/chkBusiGen/tmp/smail.txt
+19-12-15_06:40:08.625528494 2019-12-15_06:40:08.616170127
+19-12-15_17:23:40.144575933 19-12-15_17:23:40.101215870
+19-12-15_17:23:44.026963574 /bin/mail -s "[20191215_3855]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-15_17:23:44.088966008 2019-12-15_17:23:44.030085069
+19-12-15_17:53:01.956846695 19-12-15_17:53:01.914462112
+19-12-15_17:53:05.858915943 /bin/mail -s "[20191215_4258]busilist report" fusk_zfmd@163.com </zfmd/wpfs20/mysh/chkBusiGen/tmp/smail.txt
+19-12-15_17:53:05.927894537 2019-12-15_17:53:05.862060167
+19-12-16_06:40:01.970402039 19-12-16_06:40:01.928162003
+19-12-16_06:40:05.829798857 /bin/mail -s "[20191216_6876]busilist report" fusk_zfmd@163.com </zfmd/wpfs20/mysh/chkBusiGen/tmp/smail.txt
+19-12-16_06:40:05.904528479 2019-12-16_06:40:05.832959642
+19-12-16_07:17:04.109080670 19-12-16_07:17:04.066692520
+19-12-16_07:17:08.075585393 /bin/mail -s "[20191216_7199]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-16_07:17:08.148420603 2019-12-16_07:17:08.081333726
+19-12-16_17:44:43.807442528 F_judgeDoit:[./tmp/doDate.txt] not exist!
+19-12-16_17:44:43.845561190 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-16_17:44:43.883768066 ./doChkBlst.sh running beine:19-12-16_17:44:43.741483361
+19-12-16_17:44:47.844230348 /bin/mail -s "[20191216_9102]busilist report" fusk_zfmd@163.com <./tmp/smail.txt
+19-12-16_17:44:47.912890042 ./doChkBlst.sh running end:2019-12-16_17:44:47.847649159
+19-12-16_17:45:41.053558833 F_judgeDoit:end return 0
+19-12-16_17:45:41.092111265 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-16_19:25:26.702810037 F_judgeDoit:[./tmp/doDate.txt] not exist!
+19-12-16_19:25:26.739139376 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-16_19:25:26.775603349 ./doChkBlst.sh running beine:19-12-16_19:25:26.643357711
+19-12-16_19:25:30.683857801 /bin/mail -s "[20191216_9854]busilist report" -a ./tmp/attachmenttxt fusk_zfmd@163.com <./tmp/smail.txt
+19-12-16_19:25:30.759116359 ./doChkBlst.sh running end:2019-12-16_19:25:30.690501418
+19-12-16_19:28:57.789411898 F_judgeDoit:[./tmp/doDate.txt] not exist!
+19-12-16_19:28:57.825727582 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-16_19:28:57.863290269 ./doChkBlst.sh running beine:19-12-16_19:28:57.730045010
+19-12-16_19:29:01.985102940 /bin/mail -s "[20191216_10095]busilist report" -a ./tmp/attachment.txt fusk_zfmd@163.com <./tmp/smail.txt
+19-12-16_19:29:02.063155959 ./doChkBlst.sh running end:2019-12-16_19:29:01.994654430
+19-12-17_06:40:01.359130087 F_judgeDoit:[/zfmd/wpfs20/mysh/chkBusiGen/tmp/smail.txt] is not today's file!
+19-12-17_06:40:01.396092982 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-17_06:40:01.433150014 /zfmd/wpfs20/mysh/chkBusiGen/doChkBlst.sh running beine:19-12-17_06:40:01.302178167
+19-12-17_06:40:05.331985744 /bin/mail -s "[20191217_12388]busilist report" -a /zfmd/wpfs20/mysh/chkBusiGen/tmp/attachment.txt fusk_zfmd@163.com </zfmd/wpfs20/mysh/chkBusiGen/tmp/smail.txt
+19-12-17_06:40:05.404976387 /zfmd/wpfs20/mysh/chkBusiGen/doChkBlst.sh running end:2019-12-17_06:40:05.335261591
+19-12-17_06:46:01.561509089 F_judgeDoit:20191217!=20191216
+19-12-17_06:46:01.599206676 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-17_06:46:01.636021545 /zfmd/wpfs20/mysh/chkBusiGen/doChkBlst.sh running beine:19-12-17_06:46:01.481468610
+19-12-17_06:46:05.523849587 /bin/mail -s "[20191217_12628]busilist report" -a /zfmd/wpfs20/mysh/chkBusiGen/tmp/attachment.txt fusk_zfmd@163.com </zfmd/wpfs20/mysh/chkBusiGen/tmp/smail.txt
+19-12-17_06:46:05.594472415 /zfmd/wpfs20/mysh/chkBusiGen/doChkBlst.sh running end:2019-12-17_06:46:05.527181177
+19-12-17_06:52:01.812140638 F_judgeDoit:end return 0
+19-12-17_06:52:01.848201972 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_06:58:02.027565494 F_judgeDoit:end return 0
+19-12-17_06:58:02.065369425 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:01:01.309000004 F_judgeDoit:end return 0
+19-12-17_07:01:01.345433440 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:07:01.626822627 F_judgeDoit:end return 0
+19-12-17_07:07:01.662717170 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:13:01.883836999 F_judgeDoit:end return 0
+19-12-17_07:13:01.920087662 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:19:02.096821739 F_judgeDoit:end return 0
+19-12-17_07:19:02.132774606 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:25:01.345354254 F_judgeDoit:end return 0
+19-12-17_07:25:01.381558150 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:31:01.591716227 F_judgeDoit:end return 0
+19-12-17_07:31:01.627161220 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:37:01.803310552 F_judgeDoit:end return 0
+19-12-17_07:37:01.839482183 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:43:02.055323453 F_judgeDoit:end return 0
+19-12-17_07:43:02.091159400 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:49:01.269293681 F_judgeDoit:end return 0
+19-12-17_07:49:01.305640294 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_07:55:01.515473315 F_judgeDoit:end return 0
+19-12-17_07:55:01.551604940 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_08:01:01.800042278 F_judgeDoit:end return 0
+19-12-17_08:01:01.836284820 call F_judgeDoit return result is  not need to call F_chkBusiStat!
+19-12-17_18:13:31.860897881 F_judgeDoit:[./tmp/doDate.txt] not exist!
+19-12-17_18:13:31.870462532 call F_judgeDoit return result is  need to call F_chkBusiStat!
+19-12-17_18:13:31.880560167 ./doChkBlst.sh running beine:19-12-17_18:13:31.844379482
+19-12-17_18:13:31.906116228 F_genAttach:dir [/mnt/hgfs/cmpCenterlog] not exist!
+19-12-17_18:13:35.330610121 /bin/mail -s "[20191217_10570]busilist report"  fusk_zfmd@163.com <./tmp/smail.txt
+19-12-17_18:13:35.340537014 ./doChkBlst.sh running end:2019-12-17_18:13:35.331444279
