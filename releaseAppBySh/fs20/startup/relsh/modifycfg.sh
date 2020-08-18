@@ -1,4 +1,5 @@
 #!/bin/bash
+# 给2.0自启动软件的配置文件中添加logMaxDay和logMaxDay的配置选项
 
 #zcfg=/root/tmp/fusk/tt/startup/rcfg.cfg
 #rcfg=/root/tmp/fusk/tt/startup/rcfgRoot.cfg

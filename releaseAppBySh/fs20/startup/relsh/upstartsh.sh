@@ -7,6 +7,10 @@
 #linux_version:    Red Hat Enterprise Linux Server release 6.7
 #dsc          :
 #    update the startup script to the corresponding host
+#此脚本升级2.0自启动脚本的如下内容:
+#   1.软件包中除配置文件外的其他文件(如脚本还工具)
+#   2.调用modifycfg.sh在自启动脚本中没有添加logMaxDay和logMaxDay的配置选项自
+#     动添加上
 #
 #############################################################################
 
