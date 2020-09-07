@@ -74,6 +74,9 @@ op_udp="udp"
 op_all="all"
 
 
+netSafeSer="100.100.100.198"   #网安侧ip
+netSafePor="8800"              #网安侧port
+
 #
 #
 ###############################################################
@@ -176,6 +179,7 @@ cfg_rule_items_ps1="
   | ${prtAll}/${srvOp_client}/${op_tcp}//194.100.100.10/194.100.100.1:502
   | ${prtAll}/${srvOp_server}/${op_tcp}//${ps1_upload_localip}:3000/${upload_remote_ips}
   | ${prtAll}/${srvop_null}/${op_udp}//${ps1_local_intranet_ip}:514/100.100.100.8
+  | ${prtAll}/${srvop_null}/${op_tcp}//${ps1_local_intranet_ip}/${netSafeSer}:${netSafePor}
 "
 
 cfg_rule_ssh_ps1="
@@ -229,6 +233,7 @@ cfg_rule_items_wk="
   | ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps1_local_intranet_ip}:${database_port}
   | ${prtAll}/${srvOp_client}/${op_tcp}//${wk_local_intranet_ip}/${ps2_local_intranet_ip}:${database_port}
   | ${prtAll}/${srvop_null}/${op_udp}//${wk_local_intranet_ip}:514/100.100.100.8
+  | ${prtAll}/${srvop_null}/${op_tcp}//${wk_local_intranet_ip}/${netSafeSer}:${netSafePor}
 "
 cfg_rule_ssh_wk="
      ${prtAll}/${srvop_null}/${op_tcp}//${wk_local_intranet_ip}:${ssh_port}/${ps1_local_intranet_ip},${ps2_local_intranet_ip}:${ssh_port}
