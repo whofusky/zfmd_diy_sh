@@ -1,0 +1,331 @@
+#!/bin/bash
+#
+#############################################################################
+#author       :    fushikai
+#date         :    20200721
+#linux_version:    Red Hat Enterprise Linux Server release 6.7
+#dsc          :
+#    查看scada日志中某个通道实时的数据值(需要在root下执行)
+#    
+#revision history:
+#       fushikai@20200721_09:09@created@v0.0.0.1
+#       
+#
+#############################################################################
+
+
+function F_Tips()
+{
+    local cmd="$1"
+    echo -e "\nInput \e[1;31mERROR\e[0m please input like:"
+    echo -e "\t${cmd} <\e[0;31m通道号\e[0m> \t#查看某个通道实时的物理量的值"
+    echo -e "\t或者"
+    echo -e "\t${cmd} <\e[0;31m通道号\e[0m> <nonull>\t#查看某个通道实时的物理量的非0值"
+    echo -e "\t或者"
+    echo -e "\t${cmd} <\e[0;31m通道号\e[0m> [<nonull>|<xx>] <file>\t#查看file文件中某个通道实时的物理量的值"
+    echo -e "\t或者"
+    echo -e "\t[tail -f dtV.txt|..]|${cmd} <\e[0;31m通道号\e[0m> [<nonull>|<xx>] std\t#支持从管理重定向的方式查看某个通道实时的物理量值"
+    echo -e "\n"
+    return 0
+}
+
+function F_exitTips()
+{
+    local tChlNo="$1"
+    echo -e "\n\t提示: 要退出此界面请按 Ctrl + c 键"
+    echo -e "\n\t下面将\e[1;31m实时\e[0m显示scada中通道\e[1;31m [ ${tChlNo} ]\e[0m 的物理量值信息 ...\n"
+    return 0
+}
+
+function F_rmExistFile() #Delete file if file exists
+{
+    local tInParNum=1
+    if [ ${tInParNum} -gt  $# ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m functon ${FUNCNAME} input parameter num less than  [${tInParNum}]!\n"
+        return 1
+    fi
+
+    local tFile="$1"
+    while [ $# -gt 0 ]
+    do
+        tFile="$1"
+        if [ -e "${tFile}" ];then
+            #echo "rm -rf \"${tFile}\""
+            rm -rf "${tFile}"
+        fi
+        shift
+    done
+    return 0
+}
+
+if [ $# -lt 1 ];then
+    F_Tips "$0"
+    exit 1
+fi
+tHostName="${HOSTNAME}"
+tUid="$(id -u)"
+
+#echo "tHostName=[${tHostName}],tUid=[${tUid}]"
+#if [ ${tUid} -ne 0 ];then
+#    echo -e "\n\t请在\e[1;31mroot\e[0m用户下执行\n"
+#    exit 1
+#fi
+
+inParChlNo="$1"
+tNumFlag=$(echo "${inParChlNo}"|sed -n '/^\s*[0-9]\+\s*$/p'|wc -l)
+if [ ${tNumFlag} -lt 1 ];then
+    F_Tips "$0"
+    exit 1
+fi
+
+validFlag=0
+fixVFlag="nonull"
+if [ $# -ge 2 ];then
+    validStr="$2"
+    [ "x${validStr}" = "x${fixVFlag}" ] && validFlag=1
+fi
+
+stdFlag=0
+fixStd="std"
+inFFlag=0
+if [ $# -ge 3 ];then
+    stdStr="$3"
+    if [ "x${stdStr}" = "x${fixStd}" ];then
+        stdFlag=1
+    else
+        inFFlag=1
+        inFFile="$3"
+        if [ ! -e "${inFFile}" ];then
+            echo -e "\n\t\e[1;31mERROR:\e[0m input file [ ${inFFile} ] not exits!\n"
+            exit 1
+        fi
+    fi
+fi
+
+
+tLogDir="./trylog"
+if [ ! -d "${tLogDir}" ];then
+    echo -e "\n\tscada的日志目录 [ ${tLogDir} ] 不存在\n"
+    exit 1
+fi
+tMaxChnNo=10
+noPcfgFile="scdCfg.xml"
+
+exeBinDir="$(dirname ${tLogDir})"
+edSrcFile="${exeBinDir}/${noPcfgFile}"
+
+#rtBinTmpDir="/root/bin/.scadaTmp"
+rtBinTmpDir="${exeBinDir}/scadaTmp"
+[ ! -d "${rtBinTmpDir}" ] && mkdir -p "${rtBinTmpDir}"
+edName="${noPcfgFile%.*}_tmpDo_utf8.${noPcfgFile##*.}"
+edFile="${rtBinTmpDir}/${edName}"
+if [ -e "${edSrcFile}" ];then
+    tMaxChnNo=$(sed -n '/^\s*<\s*channel\b/p' "${edSrcFile}"|wc -l)
+fi
+
+if [ ${inParChlNo} -ge ${tMaxChnNo} ];then
+    echo -e "\n\t通道号 [ ${inParChlNo} ] 在scada中不存在\n"
+    exit 1
+fi
+for ((i=0;i<${tMaxChnNo};i++))
+do
+    tmpChlFile[$i]="${rtBinTmpDir}/tmpChl_${i}.txt"
+done
+
+tValFile="dtV.txt"
+eddtV="${tLogDir}/${tValFile}"
+
+#cd "${tLogDir}"
+cd "${exeBinDir}"
+if [ ! -e "${eddtV}" ];then
+    echo -e "\n\tscada日志目录[ ${tLogDir} ]中不存在[ ${tValFile} ] 文件\n"
+    exit 1
+fi
+
+
+
+function F_touchUtfF()
+{
+    if [ -e "${edFile}" ];then
+        local srcMt="$(stat --format=%Y ${edSrcFile})"
+        local tmpMt="$(stat --format=%Y ${edFile})"
+        local todoFlag=$(echo "${srcMt} < ${tmpMt}"|bc)
+
+        #临时文件的修改时间要比配置文件新则不需要重新生成临时文件
+        if [ ${todoFlag} -eq 1 ];then
+            return 0
+        fi
+        F_rmExistFile "${edFile}"
+    fi
+    local tcharset=$(file --mime-encoding ${edSrcFile} |awk  '{print $2}')
+    tcharset="${tcharset%%-*}" 
+
+    if [ "${tcharset}" == "iso" ];then
+        which iconv &>/dev/null
+        local retStat=$?
+        if [ ${retStat} -ne 0 ];then
+            echo -e "\n\t\e[1;31mERROR:\e[0m The iconv tool is not installed on this system !\n"
+            exit 1
+        fi
+        iconv -f gbk -t utf8 "${edSrcFile}" -o "${edFile}"
+    else
+        cp "${edSrcFile}" "${edFile}"
+    fi
+
+    #将[ $edFile ] 文件通道中的<algorithmGoal></algorithmGoal>节点删除以便后面分析\n"
+    sed -i '/^\s*<\s*algorithmGoal\s*>/,/^\s*<\s*\/\s*algorithmGoal\s*>/ d' ${edFile}
+
+
+    return 0
+}
+
+function F_touchChlx()
+{
+    if [ ! -e "${edFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m file [ ${edFile} ] not exits!\n"
+        exit 1
+    fi
+
+    local tmpFx="${tmpChlFile[${inParChlNo}]}"
+    #tmpChlFile
+    if [ -e "${tmpFx}" ];then
+        local tmpMx="$(stat --format=%Y ${tmpFx})"
+        local tmpMt="$(stat --format=%Y ${edFile})"
+        local todoFlag=$(echo "${tmpMx} > ${tmpMt}"|bc)
+
+        #临时文件的修改时间要比配置文件新则不需要重新生成临时文件
+        if [ ${todoFlag} -eq 1 ];then
+            return 0
+        fi
+        F_rmExistFile "${tmpFx}"
+    fi
+
+    #sed -n "/^\s*<\s*channel\b.*chnNum\s*=\s*\"\s*${inParChlNo}\s*\"/,/^\s*<\s*\/\s*channel\b/ {/^\s*<\s*phyObjVal\b/=;/^\s*<\s*\/\s*channel\b/q}" ${edFile}
+
+    echo -e "\n\t正在更新通道[ ${inParChlNo} ] 需要的配置文件,\e[1;31m可能需要些许时间\e[0m，请稍候!\n"
+    sed -n "/^\s*<\s*channel\b.*chnNum\s*=\s*\"\s*${inParChlNo}\s*\"/,/^\s*<\s*\/\s*channel\b/ {/\(^\s*<\s*phyObjVal\b\|^\s*<\s*pntAddr\b\|^\s*<\s*dataId\b\)/p;/^\s*<\s*\/\s*channel\b/q}" ${edFile}|sed 's/\(\s\+=\s*\|=\s\+\)/=/g'|awk -F'"' '{
+    for(i=1;i<=NF;i++){
+            if($0 ~/^ *< *phyObjVal +/  && $i ~/ +phyType *=/){printf "%s|",$(i+1);break;}
+            if($0 ~/^ *< *pntAddr +/ && $i ~/ +remoteAddr *=/){printf "%s,",$(i+1);break;}
+            if($0 ~/^ *< *dataId +/ && $i ~/ +didName *=/){printf "|%s\n",$(i+1);break;}
+        }
+    }'|sed 's/,\s*|/|/g'>"${tmpFx}"
+
+    #echo "tmpFx=[${tmpFx}]"
+    echo -e "\n\t更新通道[ ${inParChlNo} ] 需要的配置文件,\e[1;31m完成\e[0m!\n"
+
+    return 0
+}
+
+function F_prtOneLin()
+{
+    local tmpStr="$1"
+    #echo "tmpStr=[${tmpStr}]"
+    tmpStr="$(echo ${tmpStr}|sed -e 's/][^:]\+:/]:/;s/,\s*tTrdId\s*=\s*\[[0-9]*\]//g;s/\(\s\+=\s*\|=\s\+\)/=/g')"
+    local tChlNo=$(echo "${tmpStr}"|awk -F'[][,:=]' '{for(i=1;i<=NF;i++){if ($i ~/^\s*chnlNo\s*$/){print $(i+2);break;}}}')
+    local tPhyType=$(echo "${tmpStr}"|awk -F'[][,:=]' '{for(i=1;i<=NF;i++){if ($i ~/^\s*phyType\s*$/){print $(i+2);break;}}}')
+    local tFile="${tmpChlFile[${tChlNo}]}"
+    if [ ! -e "${tFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m file [ ${tFile} ] not exists!\n"
+        exit 1
+    fi
+    local fndStr=$(egrep "^\s*${tPhyType}\b" ${tFile})
+    if [ -z "${fndStr}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m file [ ${tFile} ] not have phyType \e[1;31m[ ${tPhyType} ] \e[0m!\n"
+        exit 1
+    fi
+
+    #local fndPhyType=$(echo "${fndStr}"|cut -d'|' -f 1)
+    #local fndAdds=$(echo "${fndStr}"|cut -d'|' -f 2)
+    #local fndName=$(echo "${fndStr}"|cut -d'|' -f 3)
+
+    local tmpStr1=$(echo ${tmpStr}|sed -e "s/[,]*\s*phyType\s*=\s*\[[0-9]*\]//g;s/[,]*\s*chnlNo\s*=\s*\[[0-9]*\]/${fndStr}/")
+    echo "${tmpStr1}"
+
+    return 0
+}
+
+F_touchUtfF
+F_touchChlx
+function F_defaultPrt()
+{
+    if [[ ${stdFlag} -eq 1 || ${inFFlag} -eq 1 ]];then
+        return 0
+    fi
+
+    local tnaa
+    if [ ${validFlag} -eq 0 ];then
+        tail -f ${eddtV}|stdbuf -oL egrep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]"|while read tnaa
+        do
+        #    echo "${tnaa}"
+            F_prtOneLin "${tnaa}"    
+        done
+    else
+        tail -f ${eddtV}|stdbuf -oL egrep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]"|stdbuf -oL egrep -v "phyDtValue\s*=\s*\[\s*0[.]*[0]*\s*\]"|while read tnaa
+        do
+        #    echo "${tnaa}"
+            F_prtOneLin "${tnaa}"    
+        done
+    fi
+
+    return 0
+}
+
+function F_stdPrt()
+{
+    if [[ ${stdFlag} -eq 0  ]];then
+        return 0
+    fi
+
+    local tnaa
+    while read tnaa
+    do
+        if [ ${validFlag} -eq 0 ];then
+
+            tnaa=$(echo "${tnaa}"|egrep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]")
+        else
+            tnaa=$(echo "${tnaa}"|egrep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]"|egrep -v "phyDtValue\s*=\s*\[\s*0[.]*[0]*\s*\]")
+        fi
+
+        if [ -z "${tnaa}" ];then
+            continue
+        fi
+
+        F_prtOneLin "${tnaa}"    
+
+    done<&0;
+
+    return 0
+}
+
+function F_inFilePrt()
+{
+    if [[ ${inFFlag} -eq 0  ]];then
+        return 0
+    fi
+
+    local tnaa
+    if [ ${validFlag} -eq 0 ];then
+        grep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]" ${inFFile}|while read tnaa
+        do
+        #    echo "${tnaa}"
+            F_prtOneLin "${tnaa}"    
+        done
+    else
+        grep "chnlNo\s*=\s*\[${inParChlNo}\>\s*\]" ${inFFile}|egrep -v "phyDtValue\s*=\s*\[\s*0[.]*[0]*\s*\]"|while read tnaa
+        do
+        #    echo "${tnaa}"
+            F_prtOneLin "${tnaa}"    
+        done
+    fi
+
+    return 0
+}
+
+F_exitTips "${inParChlNo}"
+F_stdPrt
+F_inFilePrt
+F_defaultPrt
+
+exit 0
+

@@ -1,0 +1,580 @@
+#!/bin/bash
+#
+################################################################################
+#
+# author : fu.sky
+# date   : 2020-01-29
+# dsc    : 根据输入文件中值去修scada配置文件中某个通道的配置值（输入文件需要是
+#          特写格式，一般是由xd_scada_cfg工具生成并修改其值)
+# use    :
+#        $0  <scdCfg.xml> <通道号> <特殊格式的值文件>
+#
+#revision history:
+#       fushikai@20210129 10:28@created@v0.0.0.1
+#
+################################################################################
+#
+
+
+inNum="$#"
+
+exSh="$0"
+edSrcFile="$1"
+inParChlNo="$2"
+valFile="$3"
+
+noPex="${exSh##*/}"
+
+
+utfFlag=0
+chg_flag=0
+edSrcDir="."
+tmpDir=""
+edSrcUtfFile=""
+resultfile=""
+tMaxChnNo=0
+awkCmdFile=""
+tmpChlFile[0]=""; tmpChlFile[1]=""; tmpChlFile[2]=""; tmpChlFile[3]="";
+tmpChlFile[4]=""; tmpChlFile[5]=""; tmpChlFile[6]=""; tmpChlFile[7]="";
+tmpChlFile[8]=""; tmpChlFile[9]=""; tmpChlFile[10]="";
+
+
+vLformat="物理量|计算方法|点地址|did名称|(ax+b)中的乘法系数a|(ax+b)中的偏移量b"
+
+
+function F_Tips()
+{
+    local cmd="${noPex}"
+    echo -e "\nInput \e[1;31mERROR\e[0m please input like:"
+    echo -e "\t${cmd}  <scada_cfg_file>  <\e[0;31m通道号\e[0m>  <value_file>"
+    echo -e "\n\t#此工具用途:"
+    echo -e "\t    将输入的新版scada配置文件scada_cfg_file中某个通道的"
+    echo -e "\t    配置按文件value_file内容的值修改"
+    echo -e "\n\t#其中value_file文件有如下说明:"
+    echo -e "\t\t1. 每一行的格式为:${vLformat}"
+    echo -e "\t\t2. 文件每一行中的\"物理量\"的值是必须有值,其他域的值不修改时可以为空"
+    echo -e "\t\t3. 文件内容建议用xd_scada_cfg工具先生成对应通道的模板，然后在模板上进行修改"
+    echo -e "\n"
+    return 0
+}
+
+
+function F_checkin()
+{
+    if [ ${inNum} -lt 3 ];then
+        F_Tips "${exSh}"
+        exit 1
+    fi
+
+    local tNumFlag
+    local tnum
+    tNumFlag=$(echo "${inParChlNo}"|sed -n '/^\s*[0-9]\+\s*$/p'|wc -l)
+    if [ ${tNumFlag} -lt 1 ];then
+        echo -e "\n\tERROR: 输入参数的通道号必须是数字!\n"
+        exit 1
+    fi
+
+    if [ ! -e "${valFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m input file [ ${valFile} ] not exist!\n"
+        exit 1
+    fi
+
+    if [ ! -e "${edSrcFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m input file [ ${edSrcFile} ] not exist!\n"
+        exit 1
+    fi
+
+    tnum=$(echo "${edSrcFile}"|sed -n '/\//p'|wc -l)
+    if [ ${tnum} -eq 0 ];then
+        edSrcDir="."
+    else
+        edSrcDir="${edSrcFile%/*}"
+    fi
+
+    edSrcFn="${edSrcFile##*/}"
+    utfName="${edSrcFn%.*}_tmpDo_utf8.${edSrcFn##*.}"
+
+    resultDir="${edSrcDir}/md_scd_result"
+    [ ! -d "${resultDir}" ] && mkdir -p "${resultDir}"
+
+    tmpDir="${edSrcDir}/md_scd_tmp"
+    [ ! -d "${tmpDir}" ] && mkdir -p "${tmpDir}"
+
+    edSrcUtfFile="${tmpDir}/${utfName}"
+    resultfile="${resultDir}/${edSrcFn%.*}_$$.${edSrcFn##*.}"
+
+    tMaxChnNo=$(sed -n '/^\s*<\s*channel\b/p' "${edSrcFile}"|wc -l)
+
+    if [ ${inParChlNo} -ge ${tMaxChnNo} ];then
+        echo -e "\n\t通道号 [ ${inParChlNo} ] 在[ ${edSrcFile} ]中不存在\n"
+        exit 1
+    fi
+
+    for ((i=0;i<${tMaxChnNo};i++))
+    do
+        tmpChlFile[$i]="${tmpDir}/tmpChl_${i}.txt"
+    done
+
+    awkCmdFile="${tmpDir}/cmd.awk"
+
+    return 0
+}
+
+
+function F_rmExistFile() #Delete file if file exists
+{
+    local tInParNum=1
+    if [ ${tInParNum} -gt  $# ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m:${FUNCNAME}:${LINENO}:input parameter num less than  [${tInParNum}]!\n"
+        return 1
+    fi
+
+    local tFile="$1"
+    while [ $# -gt 0 ]
+    do
+        tFile="$1"
+        if [ -e "${tFile}" ];then
+            #echo "rm -rf \"${tFile}\""
+            rm -rf "${tFile}"
+        fi
+        shift
+    done
+
+    return 0
+}
+
+
+function F_touchUtfF()
+{
+    if [ -e "${edSrcUtfFile}" ];then
+        local srcMt="$(stat --format=%Y ${edSrcFile})"
+        local tmpMt="$(stat --format=%Y ${edSrcUtfFile})"
+        local todoFlag=$(echo "${srcMt} < ${tmpMt}"|bc)
+
+        #临时文件的修改时间要比配置文件新则不需要重新生成临时文件
+        if [ ${todoFlag} -eq 1 ];then
+            return 0
+        fi
+        F_rmExistFile "${edSrcUtfFile}"
+    fi
+    local tcharset=$(file --mime-encoding ${edSrcFile} |awk  '{print $2}')
+    tcharset="${tcharset%%-*}" 
+
+    if [ "${tcharset}" == "iso" ];then
+        which iconv &>/dev/null
+        local retStat=$?
+        if [ ${retStat} -ne 0 ];then
+            echo -e "\n\t\e[1;31mERROR:\e[0m:${FUNCNAME}:${LINENO}:The iconv tool is not installed on this system !\n"
+            exit 1
+        fi
+        iconv -f gbk -t utf8 "${edSrcFile}" -o "${edSrcUtfFile}"
+        utfFlag=0
+    else
+        utfFlag=1
+        cp "${edSrcFile}" "${edSrcUtfFile}"
+    fi
+
+    #将[ $edSrcUtfFile ] 文件通道中的<algorithmGoal></algorithmGoal>节点删除以便后面分析\n"
+    #sed -i '/^\s*<\s*algorithmGoal\s*>/,/^\s*<\s*\/\s*algorithmGoal\s*>/ d' ${edSrcUtfFile}
+
+    return 0
+}
+
+function F_recoverEc()
+{
+    if [ "${chg_flag}" != "1" ];then
+        echo -e "\n\tTips:没有对文件进行修改!\n" 
+        return 0
+    fi
+
+    if [ ${utfFlag} -eq 1 ];then
+        cp ${edSrcUtfFile} ${resultfile}
+    else
+        iconv -f utf-8 -t gbk ${edSrcUtfFile} -o ${resultfile}
+    fi
+
+    echo -e "\n\t生成的结果文件为:[ ${resultfile} ]\n"
+
+    return 0
+}
+
+function F_touchChlx()
+{
+    if [ ! -e "${edSrcUtfFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m:${FUNCNAME}:${LINENO}:file [ ${edSrcUtfFile} ] not exits!\n"
+        exit 1
+    fi
+
+    local tmpFx="${tmpChlFile[${inParChlNo}]}"
+    #tmpChlFile
+    if [ -e "${tmpFx}" ];then
+        local tmpMx="$(stat --format=%Y ${tmpFx})"
+        local tmpMt="$(stat --format=%Y ${edSrcUtfFile})"
+        local todoFlag=$(echo "${tmpMx} > ${tmpMt}"|bc)
+
+        #临时文件的修改时间要比配置文件新则不需要重新生成临时文件
+        if [ ${todoFlag} -eq 1 ];then
+            return 0
+        fi
+        F_rmExistFile "${tmpFx}"
+    fi
+
+    echo -e "\n\t正在更新通道[ ${inParChlNo} ] 需要的配置文件,\e[1;31m可能需要些许时间\e[0m，请稍候!\n"
+
+    sed -n "/^\s*<\s*channel\b.*chnNum\s*=\s*\"\s*${inParChlNo}\s*\"/,/^\s*<\s*\/\s*channel\b/ {/\(^\s*<\s*[\/]*\s*algorithmGoal\b\|^\s*<\s*[\/]*\s*phyObjVal\b\|^\s*<\s*pntAddr\b\|^\s*<\s*dataId\b\)/{=;p};/^\s*<\s*\/\s*channel\b/q}" ${edSrcUtfFile}|sed 's/\(\s\+=\s*\|=\s\+\)/=/g'|awk -F'"' 'BEGIN{
+    phyVal="";calVal="";scalVal="1";offsetVal="0";adds="";didName=""; haveAlgFlag=0;   
+    tmpL="";
+    phyL="";calL="";scalL="";offsL="";addsL="";didL="";
+    }
+    {
+        if($0 ~ /^[0-9]+$/){
+            tmpL=$1;
+        }
+        else if ( $0 ~/^ *< *algorithmGoal *> */ ){
+            haveAlgFlag=1;
+        }
+        else if ( $0 ~/^ *< *\/ *algorithmGoal *> */ ){
+            haveAlgFlag=0;
+        }
+
+        for(i=1;i<=NF;i++){
+            if ( $0 ~/^ *< *phyObjVal +/ ){
+                phyL=tmpL;
+                if($i ~/ +phyType *=/){
+                    phyVal=$(i+1);
+                }
+                else if($i ~/ +calcMethd *=/){
+                    calVal=$(i+1);
+                }
+                else if($i ~/ +scalFactor *=/){
+                    scalVal=$(i+1);
+                }
+                else if($i ~/ +offsetCoe *=/){
+                    offsetVal=$(i+1);
+                }
+            }
+            else if($0 ~/^ *< *pntAddr +/ && $i ~/ +remoteAddr *=/){
+                adds=adds $(i+1) ",";addsL=addsL tmpL ",";break;
+            }
+            else if(haveAlgFlag == 0 && $0 ~/^ *< *dataId +/ && $i ~/ +didName *=/){
+                didName=$(i+1);didL=tmpL;break;
+            }
+            else if($0 ~/^ *< *\/ *phyObjVal *> */){
+                calL=phyL;scalL=phyL;offsL=phyL;
+                printf "%s|%s|%s|%s|%s|%s#%s|%s|%s|%s|%s|%s\n",phyVal,calVal,adds,didName,scalVal,offsetVal,phyL,calL,addsL,didL,scalL,offsL;
+
+                phyVal="";calVal="";didName="";adds="";scalVal="1";offsetVal="0";  haveAlgFlag=0;
+                phyL="";calL="";scalL="";offsL="";addsL="";didL="";break;
+            }
+        }
+    }'|sed 's/,\s*|/|/g'>"${tmpFx}"
+
+
+    #echo "tmpFx=[${tmpFx}]"
+    echo -e "\n\t更新通道[ ${inParChlNo} ] 需要的配置文件,\e[1;31m完成\e[0m!\n"
+
+    return 0
+}
+
+function F_prtfindKeyVal()
+{
+    local inNum=2
+    local thisFName="${FUNCNAME}"
+    if [ $# -ne ${inNum} ];then
+        echo -e "\n\tline[${LINENO}]:\e[1;31mERROR\e[0m: function ${thisFName} in paramas num not eq ${inNum}!\n"
+        return 1
+    fi
+    
+    local tKey="$1"
+    local tmpStr="$2"
+    
+    echo -e "${tmpStr}"|sed 's/\(\s\+=\s*\|=\s\+\)/=/g'|awk -F'"' '{for(i=1;i<=NF;i++){if($i ~/ +'${tKey}'\s*=/){print $(i+1);break;}}}'
+
+    return 0
+}
+
+function F_setFixLinKeyVal()
+{
+    local inNum=4
+    local thisFName="${FUNCNAME}"
+    if [ $# -lt ${inNum} ];then
+        echo -e "\n\tline[${LINENO}]:\e[1;31mERROR\e[0m: function  ${thisFName} in paramas num less than ${inNum}!\n"
+        return 1
+    fi
+    
+    local tLine="$1"
+    local tKey="$2"
+    local tVal="$3"
+    local tEdFile="$4"
+    if [ $# -gt 4 ];then
+        local proCont="$5"
+    fi
+
+    if [ $# -gt 5 ];then
+        local nodeName="$6"
+    fi
+
+    if [ ! -e "${tEdFile}" ];then
+        echo -e "\n\tline[${LINENO}]:\e[1;31mERROR\e[0m: in function ${thisFName} edit file [${tEdFile}] not exist!\n"
+        return 2
+    fi
+
+    local tmpStr=$(sed -n "${tLine} {p;q}" ${tEdFile})
+    local tOldVal=$(F_prtfindKeyVal "${tKey}" "${tmpStr}")
+
+    if [ "${tOldVal}" == "${tVal}" ];then
+        #echo "[${tOldVal}] eq [${tVal}]"
+        return 0
+    fi
+
+    local tnum=$(echo "${tmpStr}"|sed -n "/\b${tKey}\b\s*=/p"|wc -l)
+
+    tmpStr=$(echo "${tmpStr}"|sed -e 's///g' -e 's/^\s\+//g')
+
+    if [ ${tnum} -gt 0 ];then
+        #echo -e "line[${LINENO}]:file:[${tEdFile}] \e[1;31m${proCont}\e[0m line:[${tLine}] content:[${tmpStr}] ,modify [\e[1;31m${tKey}\e[0m]'s value [\e[1;31m${tOldVal}\e[0m] to [\e[1;31m${tVal}\e[0m]  "
+        sed -i "${tLine} s/\b${tKey}\b\s*=\s*\"[^\"]*\"/${tKey}=\"${tVal}\"/g" ${tEdFile}
+    else
+        if [ ! -z "${nodeName}" ];then
+            sed -i "${tLine} s/^\s*<\s*\b${nodeName}\b/& ${tKey}=\"${tVal}\"/g" ${tEdFile}
+            #echo -e "line[${LINENO}]:file:[${tEdFile}] \e[1;31m${proCont}\e[0m line:[${tLine}] content:[${tmpStr}] ,\e[1;31madd\e[0m attribute's value [\e[1;31m${tKey}=\"${tVal}\"\e[0m] "
+        else
+            echo -e "\n\t ${FUNCNAME}:LINE[${LINENO}] function input parmameter number error you shoud add xml's node name\n"
+        fi
+    fi
+    
+
+    return 0
+}
+
+function F_fastSetLinKeyVal()
+{
+
+    if [ $# -lt 4 ];then
+        echo "ERROR:${FUNCNAME}:${LINENO}:input parameters less 4"
+        return 1
+    fi
+
+    #F_setFixLinKeyVal "${refCalLNo}" "calcMethd" "${valCal}" "${tFile}" "${tmpPtCmt}"
+    local tLine="$1"
+    local tKey="$2"
+    local tVal="$3"
+    local tEdFile="$4"
+    sed -i "${tLine} s/\b${tKey}\b\s*=\s*\"[^\"]*\"/${tKey}=\"${tVal}\"/g" ${tEdFile}
+
+    return 0
+}
+
+function F_mdOneRefLine()
+{
+    if [ $# -lt 2 ];then
+        echo "ERROR:${FUNCNAME}:${LINENO}:input parameters less 2"
+        return 1
+    fi
+
+    local vLformat="物理量|计算方法|点地址|did名称|(ax+b)中的乘法系数a|(ax+b)中的偏移量b"
+
+    # 159|163|16447|15分钟10m测风塔1气压平均值|1|0
+    local valLine="$1"
+
+    # 159|163|16447|15分钟10m测风塔1气压平均值|1|0#5884|5884|5887|5889|5884|5884
+    local refLine="$2"
+
+    # 159|163|16447|15分钟10m测风塔1气压平均值|1|0
+    local refValStr=$(echo "${refLine}"|awk -F'#' '{print $1}')
+
+    # 5884|5884|5887|5889|5884|5884
+    local refLNoStr=$(echo "${refLine}"|awk -F'#' '{print $2}')
+
+    local valPhy=$(echo "${valLine}"|cut -d'|' -f1)
+    local valCal=$(echo "${valLine}"|cut -d'|' -f2)
+    local valAdds=$(echo "${valLine}"|cut -d'|' -f3)
+    local valDidName=$(echo "${valLine}"|cut -d'|' -f4)
+    local valMul=$(echo "${valLine}"|cut -d'|' -f5)
+    local valOfset=$(echo "${valLine}"|cut -d'|' -f6)
+
+    local refPhy=$(echo "${refValStr}"|cut -d'|' -f1)
+    local refCal=$(echo "${refValStr}"|cut -d'|' -f2)
+    local refAdds=$(echo "${refValStr}"|cut -d'|' -f3)
+    local refDidName=$(echo "${refValStr}"|cut -d'|' -f4)
+    local refMul=$(echo "${refValStr}"|cut -d'|' -f5)
+    local refOfset=$(echo "${refValStr}"|cut -d'|' -f6)
+
+    local refPhyLNo=$(echo "${refLNoStr}"|cut -d'|' -f1)
+    local refCalLNo=$(echo "${refLNoStr}"|cut -d'|' -f2)
+    local refAddsLNo=$(echo "${refLNoStr}"|cut -d'|' -f3)
+    local refDidNameLNo=$(echo "${refLNoStr}"|cut -d'|' -f4)
+    local refMulLNo=$(echo "${refLNoStr}"|cut -d'|' -f5)
+    local refOfsetLNo=$(echo "${refLNoStr}"|cut -d'|' -f6)
+
+    local tFile="${edSrcUtfFile}"
+    local tmpPtCmt=""
+    local chgFlag=0
+
+    if [[ ! -z "${valCal}" && "${valCal}" != "${refCal}" ]];then
+        F_setFixLinKeyVal "${refCalLNo}" "calcMethd" "${valCal}" "${tFile}" "${tmpPtCmt}" "phyObjVal"
+        echo -e "LNO[${refCalLNo}]:modify \e[1;31mcalcMethd\e[0m ${refCal} --> ${valCal}"
+        #F_fastSetLinKeyVal "${refCalLNo}" "calcMethd" "${valCal}" "${tFile}" "${tmpPtCmt}"
+        chgFlag=1
+    fi
+
+    if [[ ! -z "${valAdds}" && "${valAdds}" != "${refAdds}" ]];then
+        local addnum=$(echo "${valAdds}"|awk -F',' '{print NF}')
+        local i
+        local tvalAdd
+        local trefAdd
+        local trefAddLNo
+        local tmpStr
+        local addName
+        local oldlocalAddr
+        local newlocalAddr
+        local taddOffset
+        for((i=1;i<=${addnum};i++))
+        do
+            tvalAdd=$(echo "${valAdds}"|cut -d',' -f ${i} )
+            trefAdd=$(echo "${refAdds}"|cut -d',' -f ${i} )
+            trefAddLNo=$(echo "${refAddsLNo}"|cut -d',' -f ${i} )
+            if [[ ! -z "${tvalAdd}" && "${tvalAdd}" != "${trefAdd}" ]];then
+                taddOffset=$(echo "${tvalAdd} - ${trefAdd}"|bc)
+
+                tmpStr=$(sed -n "${trefAddLNo} {p;q}" ${tFile})
+
+                addName=$(F_prtfindKeyVal "name" "${tmpStr}")
+                oldlocalAddr=$(F_prtfindKeyVal "localAddr" "${tmpStr}")
+
+                newlocalAddr=$(echo "${oldlocalAddr} + ${taddOffset}"|bc)
+
+                #F_setFixLinKeyVal "${trefAddLNo}" "remoteAddr" "${tvalAdd}" "${tFile}" "${tmpPtCmt}"
+                #F_setFixLinKeyVal "${trefAddLNo}" "localAddr" "${newlocalAddr}" "${tFile}" "${tmpPtCmt}"
+
+                echo -e "LNO[${trefAddLNo}]:modify \e[1;31mremoteAddr\e[0m ${trefAdd} --> ${tvalAdd};\e[1;31mlocalAddr\e[0m ${oldlocalAddr} --> ${newlocalAddr}"
+
+                sed -i "${trefAddLNo} {s/\bremoteAddr\b\s*=\s*\"[^\"]*\"/remoteAddr=\"${tvalAdd}\"/g;s/\blocalAddr\b\s*=\s*\"[^\"]*\"/localAddr=\"${newlocalAddr}\"/g}" ${tFile}
+
+                sed -i "/^\s*<\s*stationCfg\s\+.*stationNum\s*=\s*\"${inParChlNo}\"/,/^\s*<\s*\/stationCfg/{/^\s*<pntAddr\s\+.*name\s*=\s*\"[^\"]*${addName}[^\"]*\"/{s/remoteAddr\s*=\s*\"${trefAdd}\"/remoteAddr=\"${tvalAdd}\"/g;s/localAddr\s*=\s*\"${oldlocalAddr}\"/localAddr=\"${newlocalAddr}\"/g}}" ${tFile}
+
+            fi
+        done
+        chgFlag=1
+    fi
+
+    if [[ ! -z "${valDidName}" && "${valDidName}" != "${refDidName}" ]];then
+        F_setFixLinKeyVal "${refDidNameLNo}" "didName" "${valDidName}" "${tFile}" "${tmpPtCmt}" "dataId"
+        echo -e "LNO[${refDidNameLNo}]:modify \e[1;31mdidName\e[0m ${refDidName} --> ${valDidName}"
+        #F_fastSetLinKeyVal "${refDidNameLNo}" "didName" "${valDidName}" "${tFile}" "${tmpPtCmt}"
+        sed -i "/^\s*<\s*didInfo\s*>/,/^\s*<\s*\/didInfo\s*>/{/^\s*<\s*dataId\s\+.*didName\s*=\s*\"\s*${refDidName}\s*\"/{s/didName\s*=\s*\"\s*${refDidName}\s*\"/didName=\"${valDidName}\"/g}}" ${tFile}
+        chgFlag=1
+    fi
+
+    if [[ ! -z "${valMul}" && "${valMul}" != "${refMul}" ]];then
+        F_setFixLinKeyVal "${refMulLNo}" "scalFactor" "${valMul}" "${tFile}" "${tmpPtCmt}" "phyObjVal"
+        echo -e "LNO[${refMulLNo}]:modify \e[1;31mscalFactor\e[0m ${refMul} --> ${valMul}"
+        #F_fastSetLinKeyVal "${refMulLNo}" "scalFactor" "${valMul}" "${tFile}" "${tmpPtCmt}"
+        chgFlag=1
+    fi
+
+    if [[ ! -z "${valOfset}" && "${valOfset}" != "${refOfset}" ]];then
+        F_setFixLinKeyVal "${refOfsetLNo}" "offsetCoe" "${valOfset}" "${tFile}" "${tmpPtCmt}" "phyObjVal"
+        echo -e "LNO[${refOfsetLNo}]:modify \e[1;31moffsetCoe\e[0m ${refOfset} --> ${valOfset}"
+        #F_fastSetLinKeyVal "${refOfsetLNo}" "offsetCoe" "${valOfset}" "${tFile}" "${tmpPtCmt}"
+        chgFlag=1
+    fi
+
+    if [ ${chgFlag} -eq 1 ];then
+        return 9
+    fi
+
+    return 0
+}
+
+function F_mdValByFile()
+{
+    local tmpReferFile="${tmpChlFile[${inParChlNo}]}"
+    if [ ! -e "${tmpReferFile}" ];then
+        echo -e "\n\tERROR:${FUNCNAME}:${LINENO}: file [ ${tmpReferFile} ] not exist!\n"
+        return 0
+    fi
+    local tvFile="${valFile}"
+    if [ ! -e "${tvFile}" ];then
+        echo -e "\n\tERROR:${FUNCNAME}:${LINENO}: file [ ${tvFile} ] not exist!\n"
+        return 0
+    fi
+    local tnum=0
+    tnum=$(wc -l "${tvFile}"|awk '{print $1}')
+    if [ ${tnum} -lt 1 ];then
+        echo -e "\n\tERRR:${FUNCNAME}:${LINENO}:file[${tvFile}] is null\n"
+        return 1
+    fi
+
+    local tnaa
+    local valDelimiterNum=0
+    local valPhy=""
+    local refDelimiterNum=0
+    local fndStr=""
+    local hashtagNum=0
+    local ret=0
+
+    while read tnaa
+    do
+        #过滤注释或空行
+        tnum=$(echo "${tnaa}"|sed -n '/^\s*#\|^\s*$/p'|wc -l)
+        if [ ${tnum} -gt 0 ];then
+            continue
+        fi
+
+        valDelimiterNum=$(echo "${tnaa}"|awk -F'|' '{print NF}')
+        if [ ${valDelimiterNum} -ne 6 ];then
+            echo "tips:${FUNCNAME}:file[${tvFile}]:[${tnaa}] not have 5 \"|\" delemiter"
+            continue
+        fi
+        valPhy=$(echo "${tnaa}"|cut -d'|' -f1)
+        fndStr=$(egrep "^${valPhy}\|" ${tmpReferFile})
+        if [ -z "${fndStr}" ];then
+            echo "tips:${FUNCNAME}:[${tnaa}] not find in [${tmpReferFile}]"
+            continue
+        fi
+        refDelimiterNum=$(echo "${fndStr}"|awk -F'|' '{print NF}')
+        if [ ${refDelimiterNum} -ne 11 ];then
+            echo "tips:${FUNCNAME}:file[${tmpReferFile}]:[${fndStr}] not have 11 \"|\" delemiter"
+            continue
+        fi
+        hashtagNum=$(echo "${fndStr}"|awk -F'#' '{print NF}')
+        if [ ${hashtagNum} -ne 2 ];then
+            echo "tips:${FUNCNAME}:file[${tmpReferFile}]:[${fndStr}] not have 1 \"#\" delemiter"
+            continue
+        fi
+
+        F_mdOneRefLine "${tnaa}" "${fndStr}"
+        ret=$?
+
+        if [ ${ret} -eq 9 ];then
+            chg_flag=1
+            #echo "DEBUG:${FUNCNAME}:${LINENO}:tnaa=[${tnaa}],fndStr=[${fndStr}],ret=[${ret}]"
+        fi
+
+        #echo "DEBUG:${FUNCNAME}:${LINENO}:tnaa=[${tnaa}],valDelimiterNum=[${valDelimiterNum}],fndStr=[${fndStr}],refDelimiterNum=[${refDelimiterNum}],hashtagNum=[${hashtagNum}]"
+
+    done<${tvFile}
+
+
+    return 0
+}
+
+
+main()
+{
+    F_checkin
+    F_touchUtfF
+    F_touchChlx
+
+    F_mdValByFile
+
+    F_recoverEc
+
+    return 0
+}
+
+main
+
+exit 0
+

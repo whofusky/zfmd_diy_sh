@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!--业务清单文件-->
+<file>
+    <submitter>1</submitter>
+    <coordinate>100</coordinate>
+    <submitTime>2021/01/11_06:29:56</submitTime>
+    <taskID>1</taskID>
+    <jobNumber>2</jobNumber>
+    <jobDescList>
+        <jobItemDesc>
+            <jobID>0110</jobID>
+            <featureCode>0021</featureCode>
+            <statisticalRange>0</statisticalRange>
+            <validAralID>00</validAralID>
+            <dataComeIntoTime>2017-07-10:16-00-00</dataComeIntoTime>
+            <dataTimeFeature>0084-15-0001</dataTimeFeature>
+            <postProcessCode>00-00-00-0-0</postProcessCode>
+        </jobItemDesc>
+        <jobItemDesc>
+            <jobID>0210</jobID>
+            <featureCode>0021</featureCode>
+            <statisticalRange>0</statisticalRange>
+            <validAralID>00</validAralID>
+            <dataComeIntoTime>2017-07-10:16-00-00</dataComeIntoTime>
+            <dataTimeFeature>0084-15-0001</dataTimeFeature>
+            <postProcessCode>00-00-00-0-0</postProcessCode>
+        </jobItemDesc>
+    </jobDescList>
+    <jobDataList>
+        <jobItemData>
+            <jobID>0110</jobID>
+            <dataID>0</dataID>
+            <jobData>
