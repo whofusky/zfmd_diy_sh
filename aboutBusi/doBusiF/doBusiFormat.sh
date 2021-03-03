@@ -9,6 +9,17 @@
 #    configured ftp service, and upload it to the original location after 
 #    some processing
 #
+#    (1) 根据cfg/cfg.cfg文件配置，用ftp脚本下载业务清单busilist_${YYYYMMDD}_0.xml
+#    (2) 将下载的业务清单中DOS下的回车符去掉
+#    (3) 将处理完的业务清单文件上传到原来下载的位置 
+#        或者将业务清单打包成zip作为邮件的附件(根据post_do_flag的配置值决定对应
+#        的动作）
+#    (4) 给想关人员发送见邮件
+#limit
+#    (1) 相同服务器相同路径下的业务清单一天只处理一次，如果已经处理过一次第二次
+#        调用脚本将根据tmp/rcd.txt文件的记录决定是否需要重新下载
+#    (2) 只有当有上传成功的情况才发邮件，其它情况不发邮件
+#
 #############################################################################
 
 debugFlagM=3            
