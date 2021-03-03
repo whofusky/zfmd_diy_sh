@@ -1,79 +1,15 @@
-21-02-26_14:47:35.125231334 ./doBusiFormat.sh running beine:21-02-26_14:47:35.104394612
-21-02-26_14:47:36.023032749 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-02-26_14:47:53.267875218 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-02-26_14:47:57.630249073 F_doFormatOneSite:getOrPutFtpFile up retturn[0],retRet=[]
-21-02-26_14:47:57.656858410 ./doBusiFormat.sh running end:2021-02-26_14:47:57.642413932, [ 22 ] seconds in total!
-21-02-26_14:48:57.634629612 ./doBusiFormat.sh running beine:21-02-26_14:48:57.612876265
-21-02-26_14:48:57.655819486 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_14:48:57.670943347 ./doBusiFormat.sh running end:2021-02-26_14:48:57.656964380, [ 0 ] seconds in total!
-21-02-26_14:56:13.989719519 ./doBusiFormat.sh running beine:21-02-26_14:56:13.969737884
-21-02-26_14:56:14.011213975 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_14:56:14.049186341 ./doBusiFormat.sh running end:2021-02-26_14:56:14.012492578, [ 1 ] seconds in total!
-21-02-26_15:46:42.950936644 ./doBusiFormat.sh running beine:21-02-26_15:46:42.908129193
-21-02-26_15:46:43.007972427 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_15:46:43.037630369 ./doBusiFormat.sh running end:2021-02-26_15:46:43.009975152, [ 1 ] seconds in total!
-21-02-26_15:47:30.078810542 ./doBusiFormat.sh running beine:21-02-26_15:47:30.035404107
-21-02-26_15:47:30.952816042 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-02-26_15:47:43.127528589 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-02-26_15:47:46.672205180 F_doFormatOneSite:getOrPutFtpFile up retturn[0],retRet=[]
-21-02-26_15:47:46.754918721 ./doBusiFormat.sh running end:2021-02-26_15:47:46.709617029, [ 16 ] seconds in total!
-21-02-26_15:55:30.801055777 ./doBusiFormat.sh running beine:21-02-26_15:55:30.757177986
-21-02-26_15:55:30.859243238 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_15:55:30.888930483 ./doBusiFormat.sh running end:2021-02-26_15:55:30.861270266, [ 0 ] seconds in total!
-21-02-26_15:56:09.061294149 ./doBusiFormat.sh running beine:21-02-26_15:56:09.017996423
-21-02-26_15:56:09.123259806 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_15:56:09.153403865 ./doBusiFormat.sh running end:2021-02-26_15:56:09.125358145, [ 0 ] seconds in total!
-21-02-26_15:56:29.503901059 ./doBusiFormat.sh running beine:21-02-26_15:56:29.461263049
-21-02-26_15:56:30.311412751 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-02-26_15:56:40.210237278 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-02-26_15:56:43.813246914 F_doFormatOneSite:getOrPutFtpFile up retturn[0],retRet=[]
-21-02-26_15:56:43.903577720 /bin/mail -s "[20210226_52603]format business report"  fusk_zfmd@163.com <./tmp/smail.txt
-21-02-26_15:56:43.964338140 ./doBusiFormat.sh running end:2021-02-26_15:56:43.906153108, [ 14 ] seconds in total!
-21-02-26_16:05:01.530455277 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-26_16:05:01.487906626
-21-02-26_16:05:01.605360083 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-26_16:05:01.649985423 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-26_16:05:01.608651388, [ 0 ] seconds in total!
-21-02-26_16:11:01.831419444 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-26_16:11:01.789586984
-21-02-26_16:11:02.658419113 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-02-26_16:11:18.042112626 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-02-26_16:11:21.558911956 F_doFormatOneSite:getOrPutFtpFile up retturn[0],retRet=[]
-21-02-26_16:11:21.638854623 /bin/mail -s "[20210226_53241]format business report"  fusk_zfmd@163.com,liwl_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
-21-02-26_16:11:21.697866087 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-26_16:11:21.641811904, [ 20 ] seconds in total!
-21-02-27_06:37:01.884944037 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:37:01.842333839
-21-02-27_06:37:02.714142636 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-02-27_06:37:12.616312427 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-02-27_06:37:16.167701939 F_doFormatOneSite:getOrPutFtpFile up retturn[0],retRet=[]
-21-02-27_06:37:16.250866233 /bin/mail -s "[20210227_56304]format business report"  fusk_zfmd@163.com,liwl_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
-21-02-27_06:37:16.303346616 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:37:16.253042456, [ 15 ] seconds in total!
-21-02-27_06:39:01.427503629 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:39:01.385156541
-21-02-27_06:39:01.483544419 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:39:01.512702350 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:39:01.485800487, [ 0 ] seconds in total!
-21-02-27_06:41:01.668180223 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:41:01.625802955
-21-02-27_06:41:01.730373722 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:41:01.760712361 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:41:01.732787309, [ 0 ] seconds in total!
-21-02-27_06:43:01.876677364 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:43:01.834120532
-21-02-27_06:43:01.933314056 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:43:01.963760545 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:43:01.936246070, [ 0 ] seconds in total!
-21-02-27_06:45:02.184336453 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:45:02.092802595
-21-02-27_06:45:02.308611292 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:45:02.365900091 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:45:02.312818492, [ 0 ] seconds in total!
-21-02-27_06:47:01.371897287 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:47:01.329473812
-21-02-27_06:47:01.431040186 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:47:01.461727636 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:47:01.433068400, [ 0 ] seconds in total!
-21-02-27_06:49:01.581567734 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:49:01.539235957
-21-02-27_06:49:01.638607500 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:49:01.673029353 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:49:01.640638524, [ 0 ] seconds in total!
-21-02-27_06:51:01.827505307 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:51:01.784770663
-21-02-27_06:51:01.884685382 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:51:01.918981497 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:51:01.886710188, [ 0 ] seconds in total!
-21-02-27_06:53:02.046041943 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:53:02.003126312
-21-02-27_06:53:02.105027598 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:53:02.134376406 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:53:02.107059472, [ 0 ] seconds in total!
-21-02-27_06:55:01.349576058 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:55:01.255380808
-21-02-27_06:55:01.473868723 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:55:01.510637474 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:55:01.477786494, [ 0 ] seconds in total!
-21-02-27_06:57:01.646184022 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:57:01.603643326
-21-02-27_06:57:01.703962683 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:57:01.733584589 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:57:01.705995216, [ 0 ] seconds in total!
-21-02-27_06:59:01.848005264 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-02-27_06:59:01.804648948
-21-02-27_06:59:01.904615633 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-02-27_06:59:01.933942893 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-02-27_06:59:01.906731482, [ 0 ] seconds in total!
+21-03-03_10:36:23.186778281 ./doBusiFormat.sh running beine:21-03-03_10:36:23.133985603
+21-03-03_10:36:24.012642646 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-03_10:36:44.979831996 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-03_10:36:45.276590124 F_doFormatOneSite:F_cpBuFToAttsub /xinglongshan/up busilist_20210303_0.xml retturn[0]
+21-03-03_10:36:45.753747142 /bin/mail -s "[20210303_88894]format business report" -a ./tmp/post/attachment.zip fusk_zfmd@163.com,liwl_zfmd@163.com <./tmp/smail.txt
+21-03-03_10:36:45.792477091 ./doBusiFormat.sh running end:2021-03-03_10:36:45.755455749, [ 22 ] seconds in total!
+21-03-03_11:24:01.203627390 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-03_11:24:01.148625802
+21-03-03_11:24:02.012527237 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-03_11:24:21.985136073 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-03_11:24:22.374842441 F_doFormatOneSite:F_cpBuFToAttsub /xinglongshan/up busilist_20210303_0.xml retturn[0]
+21-03-03_11:24:22.722574505 /bin/mail -s "[20210303_89439]format business report" -a /zfmd/wpfs20/mysh/doBusiF/tmp/post/attachment.zip fusk_zfmd@163.com,liwl_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
+21-03-03_11:24:22.743050738 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-03_11:24:22.723930305, [ 21 ] seconds in total!
+21-03-03_11:25:01.846064739 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-03_11:25:01.803458337
+21-03-03_11:25:01.922903741 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
+21-03-03_11:25:01.967648372 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-03_11:25:01.925941906, [ 0 ] seconds in total!

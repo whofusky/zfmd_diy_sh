@@ -9,15 +9,6 @@
 #    configured ftp service, and upload it to the original location after 
 #    some processing
 #
-#    (1) 根据cfg/cfg.cfg文件配置，用ftp脚本下载业务清单busilist_${YYYYMMDD}_0.xml
-#    (2) 将下载的业务清单中DOS下的回车符去掉
-#    (3) 将处理完的业务清单文件上传到原来下载的位置
-#    (4) 给想着人员发送见邮件
-#limit
-#    (1) 相同服务器相同路径下的业务清单一天只处理一次，如果已经处理过一次第二次
-#        调用脚本将根据tmp/rcd.txt文件的记录决定是否需要重新下载
-#    (2) 只有当有上传成功的情况才发邮件，其它情况不发邮件
-#
 #############################################################################
 
 debugFlagM=3            
@@ -62,6 +53,10 @@ tmpDir="${baseDir}/tmp"
 ftpLdir="${tmpDir}"
 smailFile="${tmpDir}/smail.txt"
 rcdFile="${tmpDir}/rcd.txt"
+
+tposDir="${tmpDir}/post"
+tattFile="attachment.zip"
+tposAttach="${tposDir}/${tattFile}"
 
 doNum=0
 
@@ -140,6 +135,69 @@ function F_mailFileCnt()
 }
 
 
+function F_cpBuFToAttsub() # copy business list file to ataachement sub dir
+{
+	if [ $# -lt 2 ];then
+		return 1
+	fi
+
+	local ftpRdir="$1"
+	local filename="$2"
+	local ret=0
+
+	local frmname=$(echo "${ftpRdir}"|awk -F'/' '{print $2}')
+	local ttatadir="${tposDir}/${frmname}"
+	[ ! -d "${ttatadir}" ] &&  mkdir -p "${ttatadir}"
+	cp -a "${ftpLdir}/${fileName}" "${ttatadir}"
+	ret=$?
+	return ${ret}
+}
+
+function F_zipAttachFile()
+{
+	if [ -z "${post_do_flag}" ];then
+		return 0
+	fi
+
+	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
+		if [ ! -d "${tposDir}" ];then
+			return 1
+		fi
+
+		if [ ! -e "${tattFile}" ];then
+			rm -rf "${tattFile}"
+		fi
+		local tnum=0
+		local tpwd="$(pwd)"
+		cd "${tposDir}"
+		tnum=$(find . -type f -print|wc -l)
+		if [ ${tnum} -lt 1 ];then
+			return 2
+		fi
+
+		zip -r "${tattFile}"  *  >/dev/null 2>&1
+		cd "${tpwd}"
+	else
+		return 0
+	fi
+
+
+	return 0
+}
+
+function F_clearAttachDir()
+{
+	if [ -z "${post_do_flag}" ];then
+		return 0
+	fi
+
+	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
+		rm -rf "${tposDir}"/*
+	fi
+	return 0
+}
+
+
 function F_chkDir()
 {
 	if [ ! -f ${diyFuncFile} ];then
@@ -160,6 +218,11 @@ function F_chkDir()
         mkdir -p "${tmpDir}"
     fi
 
+
+    if [ ! -d "${tposDir}" ];then
+        mkdir -p "${tposDir}"
+    fi
+
     return 0
 }
 
@@ -174,6 +237,11 @@ function F_chkCfgFile()
 
     if [ -z "${rMailAddr}" ];then
         F_outShDebugMsg ${logFile} 1 1 "ERROR:There is no configuration variable [rMailAddr] in file [${tconfFile}]!"
+        exit 1
+    fi
+
+    if [ -z "${post_do_flag}" ];then
+        F_outShDebugMsg ${logFile} 1 1 "ERROR:There is no configuration variable [post_do_flag] in file [${tconfFile}]!"
         exit 1
     fi
 
@@ -259,11 +327,20 @@ function F_doFormatOneSite()
 
 
 
-    #upload new file
-    opFlag=1 #0:download, 1:upload
-    ftpRet=$(getOrPutFtpFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
-    ret=$?
-    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile up retturn[${ret}],retRet=[${frpRet}]"
+	#copy to attachment dir
+	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
+		F_cpBuFToAttsub "${ftpRdir}" "${fileName}"
+		ret=$?
+		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_cpBuFToAttsub ${ftpRdir} ${fileName} retturn[${ret}]"
+	fi
+
+	#upload new file
+	if [[ ${post_do_flag} -eq 0 || ${post_do_flag} -eq 2 ]];then
+		opFlag=1 #0:download, 1:upload
+		ftpRet=$(getOrPutFtpFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
+		ret=$?
+		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile up retturn[${ret}],retRet=[${frpRet}]"
+	fi
 
 	if [ ${ret} -eq 0 ];then
 		F_mailFileCnt 0
@@ -364,6 +441,8 @@ function main()
     local i; local it; local tChkList; local rcdContent; local retstat;
     local sedMailFlag=0
 
+	F_clearAttachDir
+
     for ((i=0;i<${doNum};i++))
     do
         tChkList=$(F_convertVLineToSpace "${chkStr[$i]}")
@@ -392,11 +471,13 @@ function main()
 
 
     if [ ${sedMailFlag} -eq 1 ];then
+		F_zipAttachFile
+
 		F_mailFileCnt 0
 		F_mailFileCnt 0
 		F_mailFileTail
         #F_sendMail "${sdmailTitle}" "${smailFile}" "${attachFile}" "${rMailAddr[0]}" "${logFile}"
-        F_sendMail "${sdmailTitle}" "${smailFile}" "" "${rMailAddr}" "${logFile}"
+        F_sendMail "${sdmailTitle}" "${smailFile}" "${tposAttach}" "${rMailAddr}" "${logFile}"
     fi
 
     endTm="$(date +%Y-%m-%d_%H:%M:%S.%N)"
