@@ -17,11 +17,13 @@ function F_delDosCRCharinFile() #delete DOS Carriage return character in file
 
     local tfile="$1"
 
-    if [ ! -e "${tfile}" ];then
+	local tnum=0
+	tnum=$(ls -1 ${tfile} 2>/dev/null|wc -l)
+    if [ ${tnum} -lt 1 ];then
         return 2
     fi
 
-    sed -i 's///g' "${tfile}"
+    sed -i 's///g' ${tfile}
 
     return 0
 }
@@ -621,7 +623,7 @@ function getOrPutFtpFile() #download or upload files from ftp server
         modeStr="active"
         modeOpt="-A"
     fi
-    local outmsg="function getOrPutFtpFile input param ${logTime} 
+    local outmsg="function ${FUNCNAME} input param ${logTime} 
          debugflag=[${debugflag}]
          opFlag=[${opFlag}],opStr=[${opStr}],opCmd=[${opCmd}]
          trsType=[${trsType}],typeStr=[${typeStr}]
@@ -742,6 +744,152 @@ function getOrPutFtpFile() #download or upload files from ftp server
             echo "${fileRet}"
             return 15
         fi
+    fi
+
+
+    echo "${ftpRet}"
+    return 0
+}
+
+
+function delFtpSerFile() #delete ftp server's file
+{
+    if [ $# -ne 10 ];then
+        return 1
+    fi
+
+    local opFlag=$1 #not used
+    local tcheck=$(echo "${opFlag}"|sed -n "/^[0-1]$/p"|wc -l)
+    [ ${tcheck} -eq 0 ] && opFlag=0
+    shift
+
+    local trsType=$1 #0:ascii ,1:binary
+    tcheck=$(echo "${trsType}"|sed -n "/^[0-1]$/p"|wc -l)
+    [ ${tcheck} -eq 0 ] && trsType=0
+    shift
+
+    local trsMode=$1 #0:passive mode for data transfers, 1:active mode for data transfers
+    tcheck=$(echo "${trsMode}"|sed -n "/^[0-1]$/p"|wc -l)
+    [ ${tcheck} -eq 0 ] && trsMode=0
+    shift
+
+    
+    local debugflag=1
+
+    local ftpIP=$1      #ftp ip address
+    local ftpUser=$2    #ftp username
+    local ftpPwd=$3     #ftp password
+    local ftpRdir="$4"  #ftp server path
+    local ftpLdir="$5"  #ftp client local path
+    local fileName="$6" #file name on the service to be processed
+    local ftpCtrPNum=$7 #the port number
+
+
+    local logTime="$(date '+%Y/%m/%d %H:%M:%S.%N')"
+
+    local opStr="mdelete"
+    local opCmd="mdelete"
+
+    local typeStr
+    if [ ${trsType} -eq 0 ];then
+        typeStr="ascii"
+    else
+        typeStr="binary"
+    fi
+
+    local modeStr
+    local modeOpt
+    if [ ${trsMode} -eq 0 ];then
+        modeStr="passive"
+        modeOpt="-p"
+    else
+        modeStr="active"
+        modeOpt="-A"
+    fi
+    local outmsg="function ${FUNCNAME} input param ${logTime} 
+         debugflag=[${debugflag}]
+         opFlag=[${opFlag}],opStr=[${opStr}],opCmd=[${opCmd}]
+         trsType=[${trsType}],typeStr=[${typeStr}]
+         trsMode=[${trsMode}],modeStr=[${modeStr}],modeOpt=[${modeOpt}]
+         fileNameTmp=[$fileNameTmp]--------
+         ---------ftp para begine--------
+         ----ftpIP     =[${ftpIP}]
+         ----ftpUser   =[${ftpUser}]
+         ----ftpPwd    =[${ftpPwd}]
+         ----ftpRdir   =[${ftpRdir}]
+         ----ftpLdir   =[${ftpLdir}]
+         ----fileName  =[${fileName}]
+         ----ftpCtrPNum=[${ftpCtrPNum}]
+         ---------ftp para end----------
+         "
+    #outShDebugMsg "" ${debugflag} 1 "${outmsg}"
+    
+    if [[ -z "${fileName}" ]];then
+        #file name is null
+        echo "file name is null"
+        return 9
+    fi
+
+
+    nc -z ${ftpIP} ${ftpCtrPNum} >/dev/null 2>&1
+    local ret=$?
+    if [ ${ret} -ne 0 ];then
+        #connect ftp server error
+        echo "connect ftp server[${ftpIP} ${ftpCtrPNum}] error"
+        return 11
+    fi
+
+    if [ -z "${ftpRdir}" ];then
+        ftpRdir="./"
+    fi
+
+    local fileRet
+    local retStat
+
+    #delete file
+    local ftpRet
+    ftpRet=$(echo "user ${ftpUser} ${ftpPwd}
+          ${typeStr}
+          cd ${ftpRdir}
+          prompt
+          ${opCmd} ${fileName}
+          bye"|ftp -n -v ${modeOpt} ${ftpIP} ${ftpCtrPNum} 2>&1|while read tmpRead
+    do      
+    echo ${tmpRead}     
+    done);
+
+
+    logTime="$(date '+%Y/%m/%d %H:%M:%S.%N')"
+
+    #service ready
+    local v220=$(echo ${ftpRet}|grep -E "\s+\<220\>\s+"|wc -l)
+    #User logged in
+    local v230=$(echo ${ftpRet}|grep -E "\s+\<230\>\s+"|wc -l)
+    #Transfer complete
+    local v226=$(echo ${ftpRet}|grep -E "\s+\<226\>\s+"|wc -l)
+    #Password required
+    local v331=$(echo ${ftpRet}|grep -E "\s+\<331\>\s+"|wc -l)
+    #not logging in to the network
+    local v530=$(echo ${ftpRet}|grep -E "\s+\<530\>\s+"|wc -l)
+    #login to the internet
+    local v230=$(echo ${ftpRet}|grep -E "\s+\<230\>\s+"|wc -l)
+    #The system cannot find the file specified.
+    local v550=$(echo ${ftpRet}|grep -E "\s+\<550\>\s+"|wc -l)
+
+    #TTNUM=$(echo ${ftpRet}|grep -E "User[ ]+cannot[ ]+log"|wc -l)
+    #if [[ "${TTNUM}" -gt 0 ]];then
+    if [[ "${v331}" -gt 0 && "${v530}" -gt 0 && "${v230}" -eq 0 ]];then
+        #wrong user name or password
+        echo "${ftpRet}"
+        return 12
+    fi
+
+    #TTNUM=$(echo ${ftpRet}|grep -E "cannot[ ]+find[ ]+the[ ]+file"|wc -l)
+    #if [[ "${TTNUM}" -gt 0 ]];then
+    if [[ "${v230}" -gt 0 && "${v550}" -gt 0 ]];then
+        #The system cannot find the file specified.
+        echo "${ftpRet}"
+        return 13
     fi
 
 
@@ -1176,7 +1324,7 @@ function F_sendMail()
 				outmsg="/bin/mail -s \"${sdmailTitle}\"  ${mailAddr} <${smailFile}"
 			fi
             #echo "outmsg=[${outmsg}]"
-            F_outShDebugMsg ${logFile} 1 1 "${outmsg}"
+            F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:${outmsg}"
         fi
     done 
 

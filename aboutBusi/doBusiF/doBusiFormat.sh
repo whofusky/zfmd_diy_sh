@@ -16,9 +16,15 @@
 #        的动作）
 #    (4) 给想关人员发送见邮件
 #limit
-#    (1) 相同服务器相同路径下的业务清单一天只处理一次，如果已经处理过一次第二次
+#    (1) 相同服务器相同路径下的业务清单同一天根据配置只处理一次(如果配置的是2次则
+#        同一天在相应时间点各处理一次），如果已经处理过一次第二次
 #        调用脚本将根据tmp/rcd.txt文件的记录决定是否需要重新下载
-#    (2) 只有当有上传成功的情况才发邮件，其它情况不发邮件
+#    (2) 只有当有上传成功或成功处理格式且要求发送业务清单文件作为附件发送的情况才发邮件，
+#        其它情况不发邮件
+#    (3) 当需要把业务清单作为附件邮件发送时，最终会有2个邮件：
+#        第一个：发送附件
+#        第二个：发送总的统计情况
+#        这两处发送邮件地方在配置文件中不同的位置进行配置
 #
 #############################################################################
 
@@ -63,6 +69,7 @@ logFile="${logDir}/${inNPre}.log"
 tmpDir="${baseDir}/tmp"
 ftpLdir="${tmpDir}"
 smailFile="${tmpDir}/smail.txt"
+smailattFile="${tmpDir}/smailatt.txt"
 rcdFile="${tmpDir}/rcd.txt"
 
 tposDir="${tmpDir}/post"
@@ -74,18 +81,26 @@ doNum=0
 
 #mail
 headCnt=""
+headattCnt=""
 tailCnt=""
 sdmailTitle=""
 
 function F_genMailFixCnt()
 {
 
+	headattCnt="
+
+To whom it may concern:
+
+   	Time $(date +%Y-%m-%d_%H:%M:%S), the business list file is 
+  formatted and processed, and the file is in the attachment."
+
 	headCnt="
 
 To whom it may concern:
 
-   	Date $(date +%Y-%m-%d), the results of the successful formatting 
-  of the business list file are as follows: "
+   	Time $(date +%Y-%m-%d_%H:%M:%S), the results of the successful 
+  formatting of the business list file are as follows: "
 
 	tailCnt="  
 
@@ -102,27 +117,43 @@ $(date +%y-%m-%d_%H:%M:%S.%N)
 
 function F_mailFileHead()
 {
-	echo "${headCnt}">${smailFile}
+	if [ $# -lt 2 ];then
+		return 1
+	fi
+	local tType="$1"
+	local tmailF="$2"
+
+	if [[ ! -z "${tType}" && "${tType}" = "1" ]];then
+		echo "${headattCnt}">${tmailF}
+	else
+		echo "${headCnt}">${tmailF}
+	fi
 	return 0
 }
 
 
 function F_mailFileTail()
 {
-	echo "${tailCnt}">>${smailFile}
+	if [ $# -lt 1 ];then
+		return 1
+	fi
+	local tmailF="$1"
+
+	echo "${tailCnt}">>${tmailF}
 	return 0
 }
 
 function F_mailFileCnt()
 {
-	if [ $# -lt 1 ];then
+	if [ $# -lt 2 ];then
 		return 0
 	fi
-
 	local level="$1"
+	local tmailF="$2"
+
 
 	if [ "${level}" = "0" ];then
-		echo "">>${smailFile}
+		echo "">>${tmailF}
 		return 0
 	fi
 
@@ -130,16 +161,16 @@ function F_mailFileCnt()
 		return 0
 	fi
 
-	local inStr="$2"
+	local inStr="$3"
 
 	if [ "${level}" = "1" ];then
-		echo "  ${inStr}">>${smailFile}
+		echo "  ${inStr}">>${tmailF}
 	elif [ "${level}" = "2" ];then
-		echo "    ${inStr}">>${smailFile}
+		echo "    ${inStr}">>${tmailF}
 	elif [ "${level}" = "3" ];then
-		echo "      ${inStr}">>${smailFile}
+		echo "      ${inStr}">>${tmailF}
 	elif [ "${level}" = "4" ];then
-		echo "        ${inStr}">>${smailFile}
+		echo "        ${inStr}">>${tmailF}
 	fi
 
 	return 0
@@ -148,45 +179,59 @@ function F_mailFileCnt()
 
 function F_cpBuFToAttsub() # copy business list file to ataachement sub dir
 {
-	if [ $# -lt 2 ];then
+	if [ $# -lt 3 ];then
 		return 1
 	fi
 
-	local ftpRdir="$1"
-	local filename="$2"
+	local tftpLdir="$1"
+	local ttatadir="$2"
+	local filename="$3"
 	local ret=0
 
-	local frmname=$(echo "${ftpRdir}"|awk -F'/' '{print $2}')
-	local ttatadir="${tposDir}/${frmname}"
+	local tsrcFile="${tftpLdir}/${filename}"
+
+	local tnum=0
+	tnum=$(ls -1 ${tsrcFile} 2>/dev/null|wc -l)
+	if [ ${tnum} -lt 1 ];then
+		return 2
+	fi
+
 	[ ! -d "${ttatadir}" ] &&  mkdir -p "${ttatadir}"
-	cp -a "${ftpLdir}/${fileName}" "${ttatadir}"
+	cp -a  ${tsrcFile} "${ttatadir}"
 	ret=$?
 	return ${ret}
 }
 
 function F_zipAttachFile()
 {
+	if [ $# -lt 3 ];then
+		return 2
+	fi
 	if [ -z "${post_do_flag}" ];then
 		return 0
 	fi
 
+	local tzipDir="$1"
+	local tfrmName="$2"
+	local tzipName="$3"
+
 	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
-		if [ ! -d "${tposDir}" ];then
+		if [ ! -d "${tzipDir}" ];then
 			return 1
 		fi
 
-		if [ ! -e "${tattFile}" ];then
-			rm -rf "${tattFile}"
+		local tpwd="$(pwd)"
+		cd "${tzipDir}"
+		if [ ! -e "${tzipName}" ];then
+			rm -rf "${tzipName}"
 		fi
 		local tnum=0
-		local tpwd="$(pwd)"
-		cd "${tposDir}"
-		tnum=$(find . -type f -print|wc -l)
+		tnum=$(find ${tfrmName} -type f -print|wc -l)
 		if [ ${tnum} -lt 1 ];then
 			return 2
 		fi
 
-		zip -r "${tattFile}"  *  >/dev/null 2>&1
+		zip -r "${tzipName}"  ${tfrmName}  >/dev/null 2>&1
 		cd "${tpwd}"
 	else
 		return 0
@@ -275,7 +320,7 @@ function F_doFormatOneSite()
     ftpUser="$4"
     ftpPwd="$5"
     ftpCtrPNum="$6"      #default 21
-    chkStr="$7"          #chkStr="busilist#/xinglongshan/up"
+    chkStr="$7"          #chkStr="busilist#/xinglongshan/up#0#20210309-20210310#6,13#xlsfdc@163.com"
     ftpLdir="$8"
     local logFile="$9"
 
@@ -283,7 +328,7 @@ function F_doFormatOneSite()
     local filePre=$(echo "${chkStr}"|cut -d '#' -f 1)
 
     #busilist_20190114_0.xml
-    fileName="${filePre}_$(date +%Y%m%d)_0.xml"
+    fileName="${filePre}_$(date +%Y%m%d)_*.xml"
 
     local ftpRet; local ret;
 
@@ -317,9 +362,11 @@ function F_doFormatOneSite()
 
     local tmpDoFile="${ftpLdir}/${fileName}"
 
+	local tnum=0
     #delete old file
-    if [ -e "${tmpDoFile}" ];then
-        rm  -rf "${tmpDoFile}"
+	tnum=$(ls -1 ${tmpDoFile} 2>/dev/null|wc -l)
+    if [ ${tnum} -gt 0 ];then
+        rm  -rf ${tmpDoFile}
     fi
 
     #downing file
@@ -327,7 +374,8 @@ function F_doFormatOneSite()
     ret=$?
     F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile down retturn[${ret}]]"
 
-    if [ ! -e "${tmpDoFile}" ];then
+	tnum=$(ls -1 ${tmpDoFile} 2>/dev/null|wc -l)
+    if [ ${tnum} -lt 1 ];then
         F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile down retRet=[${frpRet}]"
         return 4
     fi
@@ -338,11 +386,51 @@ function F_doFormatOneSite()
 
 
 
-	#copy to attachment dir
+	local frmname=$(echo "${ftpRdir}"|awk -F'/' '{print $2}')
+	local tCpDst="${tposDir}/${frmname}"
+	local tzipName="${frmname}$(date +%Y%m%d_%H).zip"
+	local tzipDir="${tposDir}"
+	local tataFile="${tzipDir}/${tzipName}"
+	#copy to attachment dir and send email
 	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
-		F_cpBuFToAttsub "${ftpRdir}" "${fileName}"
+		F_cpBuFToAttsub "${ftpLdir}" "${tCpDst}" "${fileName}"
 		ret=$?
-		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_cpBuFToAttsub ${ftpRdir} ${fileName} retturn[${ret}]"
+		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_cpBuFToAttsub ${ftpLdir} ${tCpDst} ${fileName} retturn[${ret}]"
+
+		#zip attach busilist file and send mail
+		if [ ${ret} -eq 0 ];then 
+
+			#attach file
+			F_zipAttachFile "${tzipDir}" "${frmname}" "${tzipName}"
+			ret=$?
+
+			local tmailTitle="busi_${frmname}$(date +%Y%m%d_%H%M%S)"
+			#chkStr="busilist#/xinglongshan/up#0#20210309-20210310#6,13#xlsfdc@163.com"
+			local tmailAddr="$(echo ${chkStr}|cut -d '#' -f 6)"
+			local delFtpFile_flag="$(echo ${chkStr}|cut -d '#' -f 3)"
+			tmailAddr="1#${tmailAddr}"
+
+			F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_zipAttachFile ${tzipDir} ${frmname} ${tzipName} retturn[${ret}],tmailAddr=[${tmailAddr}]"
+			#send mail
+			if [[ ${ret} -eq 0 && ! -z "${tmailAddr}" ]];then
+				F_mailFileHead 1 ${smailattFile}
+				F_mailFileTail ${smailattFile}
+				F_sendMail "${tmailTitle}" "${smailattFile}" "${tataFile}" "${tmailAddr}" "${logFile}"
+				ret=$?
+				F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_sendMail retturn[${ret}],delFtpFile_flag=[${delFtpFile_flag}]"
+
+				local delRet
+				local delStat
+				#delete ftp file delFtpSerFile
+				if [[ ${ret} -eq 0 && ! -z "${delFtpFile_flag}" && "${delFtpFile_flag}" = "1" ]];then
+					delRet=$(delFtpSerFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
+					delStat=$?
+					F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:delFtpSerFile ${ftpIP}:${ftpRdir}/${fileName} retturn[${delStat}]"
+
+				fi
+			fi
+
+		fi
 	fi
 
 	#upload new file
@@ -354,8 +442,8 @@ function F_doFormatOneSite()
 	fi
 
 	if [ ${ret} -eq 0 ];then
-		F_mailFileCnt 0
-		F_mailFileCnt 2 "ip[${ftpIP}]:file[ ${ftpRdir}/${fileName} ]"
+		F_mailFileCnt 0 ${smailFile}
+		F_mailFileCnt 2 ${smailFile} "ip[${ftpIP}]:file[ ${ftpRdir}/${fileName} ]"
 	fi
 
     return ${ret}
@@ -367,11 +455,19 @@ function F_recordOnSucess()
         return 1
     fi
     local rcdFile="$1"
-    local rcdContent="$2"  #"ip#busilist#/xinglongshan/up
+    local rcdContent="$2"  #"ip#busilist#/xinglongshan/up#0#20210309-20210310#6,13#xlsfdc@163.com"
 
     local upDate=$(date +%Y%m%d)
-    local rcdResult="${rcdContent}#${upDate}"
-    local fsearStr="${rcdContent}#"
+	local curHour="$(date +%H)"
+
+	#"ip#busilist#/xinglongshan/up"
+	local fixStr=$(echo ${rcdContent}|cut -d '#' -f 1-3)
+
+	#42.121.65.50#busilist#/xinglongshan/up#20210309#14
+    local rcdResult="${fixStr}#${upDate}#${curHour}"
+
+	#"ip#busilist#/xinglongshan/up#" 
+    local fsearStr="${fixStr}#"
 
     if [ ! -e "${rcdFile}" ];then
         echo "${rcdResult}" >>"${rcdFile}"
@@ -398,37 +494,93 @@ function F_recordOnSucess()
 }
 
 
-function F_judgeTodayHav() #return: 0 not; 1 have
+function F_judgeShouldDo() #return: 1 should do; 0 no shuld do
 {
     if [  $# -lt 2 ];then
         return 0
     fi
     local rcdFile="$1"
-    local rcdContent="$2"  #"ip#busilist#/xinglongshan/up
+    local rcdContent="$2"  #"ip#busilist#/xinglongshan/up#0#20210309-20210310#6,13#xlsfdc@163.com"
 
-    if [ ! -e "${rcdFile}" ];then
-        return 0
-    fi
 
     local curDate=$(date +%Y%m%d)
-    local fsearStr="${rcdContent}#"
+    local curHour=$(date +%H)
 
-    #egrep -n "192.168.0.42#busilist#/xinglongshan/up#20210226" rcd.txt
+	#"ip#busilist#/xinglongshan/up"
+	local fixStr=$(echo ${rcdContent}|cut -d '#' -f 1-3)
+    local fsearStr="${fixStr}#"
 
-    local tNum=0
-    local filedate=0
-    tNum=$(egrep -n "${fsearStr}" "${rcdFile}"|wc -l)
-    if [ ${tNum} -lt 1 ];then
-        return 0
-    else
-        filedate=$(egrep -n "${fsearStr}" "${rcdFile}"|tail -1|cut -d '#' -f 4)
-        if [ "${filedate}" != "${curDate}" ];then
-            return 0
-        fi
+	#6,13 ->6 13
+	local fixHours=$(echo ${rcdContent}|cut -d '#' -f 6|sed 's/,/ /g' )
+
+	#20210309
+	local fixBgDate=$(echo ${rcdContent}|cut -d '#' -f 5|cut -d '-' -f 1)
+	#20210310
+	local fixEdDate=$(echo ${rcdContent}|cut -d '#' -f 5|cut -d '-' -f 2)
+
+	local rightFlag=0
+	rightFlag=$(echo "${curDate}>=${fixBgDate} && ${curDate}<=${fixEdDate}"|bc)
+
+	#not within the configured time range
+	if [ ${rightFlag} -eq 0 ];then
+		return 0
+	fi
+
+	local maybe_flag=0
+	local i
+	if [[ ! -z "${fixHours}" ]];then
+		for i in ${fixHours}
+		do
+			rightFlag=$(echo "${curHour}>=${i}"|bc)
+			if [ ${rightFlag} -eq 1 ];then
+				maybe_flag=1
+				break;
+			fi
+		done
+
+		#not within the configured hours
+		if [ ${maybe_flag} -eq 0 ];then
+			return 0
+		fi
+	fi
+
+
+    if [ ! -e "${rcdFile}" ];then
+        return 1
     fi
 
-    return 1
+    #egrep -n "192.168.0.42#busilist#/xinglongshan/up#20210226" rcd.txt
+	#
+	# rcd.txt:
+	#42.121.65.50#busilist#/xinglongshan/up#20210309#14
+
+    local tNum=0
+    local rcdDate=0
+	local rcdHour=0
+	local tmpStr
+    tNum=$(egrep -n "${fsearStr}" "${rcdFile}"|wc -l)
+    if [ ${tNum} -lt 1 ];then
+        return 1
+    else
+		tmpStr=$(egrep -n "${fsearStr}" "${rcdFile}"|tail -1)
+        rcdDate=$(echo "${tmpStr}"|cut -d '#' -f 4)
+        rcdHour=$(echo "${tmpStr}"|cut -d '#' -f 5)
+        if [ "${rcdDate}" != "${curDate}" ];then
+            return 1
+        fi
+
+		for i in ${fixHours}
+		do
+			rightFlag=$(echo "${curHour}>=${i} && ${rcdHour}<${i}"|bc)
+			if [ ${rightFlag} -eq 1 ];then
+				return 1
+			fi
+		done
+    fi
+
+    return 0
 }
+
 
 function main()
 {
@@ -445,7 +597,7 @@ function main()
     F_chkCfgFile
 
 	F_genMailFixCnt
-	F_mailFileHead
+	F_mailFileHead 0 ${smailFile}
 
     #echo "haha doNum=[${doNum}]"
 
@@ -463,10 +615,10 @@ function main()
 
             rcdContent="${ftpip[$i]}#${it}"
 
-            F_judgeTodayHav "${rcdFile}" "${rcdContent}" 
-            retstat=$? #0 not; 1 have did
-            if [ ${retstat} -eq 1 ];then
-                F_outShDebugMsg ${logFile} 1 1 "[${rcdContent}] have did today,not need to start again!!"
+            F_judgeShouldDo "${rcdFile}" "${rcdContent}" 
+            retstat=$? #0 not; 1 shuld did
+            if [ ${retstat} -eq 0 ];then
+                F_outShDebugMsg ${logFile} 1 1 "F_judgeShouldDo [${rcdContent}] return[${retstat}],not should do !"
                 continue
             fi
 
@@ -482,13 +634,13 @@ function main()
 
 
     if [ ${sedMailFlag} -eq 1 ];then
-		F_zipAttachFile
+		#F_zipAttachFile
 
-		F_mailFileCnt 0
-		F_mailFileCnt 0
-		F_mailFileTail
+		F_mailFileCnt 0 ${smailFile}
+		F_mailFileCnt 0 ${smailFile}
+		F_mailFileTail ${smailFile}
         #F_sendMail "${sdmailTitle}" "${smailFile}" "${attachFile}" "${rMailAddr[0]}" "${logFile}"
-        F_sendMail "${sdmailTitle}" "${smailFile}" "${tposAttach}" "${rMailAddr}" "${logFile}"
+        F_sendMail "${sdmailTitle}" "${smailFile}" "" "${rMailAddr}" "${logFile}"
     fi
 
     endTm="$(date +%Y-%m-%d_%H:%M:%S.%N)"

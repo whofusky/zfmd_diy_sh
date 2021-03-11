@@ -1,15 +1,109 @@
-21-03-03_10:36:23.186778281 ./doBusiFormat.sh running beine:21-03-03_10:36:23.133985603
-21-03-03_10:36:24.012642646 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-03-03_10:36:44.979831996 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-03-03_10:36:45.276590124 F_doFormatOneSite:F_cpBuFToAttsub /xinglongshan/up busilist_20210303_0.xml retturn[0]
-21-03-03_10:36:45.753747142 /bin/mail -s "[20210303_88894]format business report" -a ./tmp/post/attachment.zip fusk_zfmd@163.com,liwl_zfmd@163.com <./tmp/smail.txt
-21-03-03_10:36:45.792477091 ./doBusiFormat.sh running end:2021-03-03_10:36:45.755455749, [ 22 ] seconds in total!
-21-03-03_11:24:01.203627390 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-03_11:24:01.148625802
-21-03-03_11:24:02.012527237 F_doFormatOneSite:getFtpSerStatu retturn[0]
-21-03-03_11:24:21.985136073 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
-21-03-03_11:24:22.374842441 F_doFormatOneSite:F_cpBuFToAttsub /xinglongshan/up busilist_20210303_0.xml retturn[0]
-21-03-03_11:24:22.722574505 /bin/mail -s "[20210303_89439]format business report" -a /zfmd/wpfs20/mysh/doBusiF/tmp/post/attachment.zip fusk_zfmd@163.com,liwl_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
-21-03-03_11:24:22.743050738 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-03_11:24:22.723930305, [ 21 ] seconds in total!
-21-03-03_11:25:01.846064739 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-03_11:25:01.803458337
-21-03-03_11:25:01.922903741 [42.121.65.50#busilist#/xinglongshan/up] have did today,not need to start again!!
-21-03-03_11:25:01.967648372 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-03_11:25:01.925941906, [ 0 ] seconds in total!
+21-03-11_13:29:04.089987727 ./doBusiFormat.sh running beine:21-03-11_13:29:04.034306073
+21-03-11_13:29:04.175280995 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_13:29:04.210817769 ./doBusiFormat.sh running end:2021-03-11_13:29:04.177693554, [ 0 ] seconds in total!
+21-03-11_13:37:34.656480938 ./doBusiFormat.sh running beine:21-03-11_13:37:34.610149858
+21-03-11_13:37:34.727700906 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_13:37:35.464894851 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-11_13:37:38.895947336 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-11_13:37:39.006817881 F_doFormatOneSite:F_cpBuFToAttsub ./tmp ./tmp/post/linyou busilist_20210311_*.xml retturn[0]
+21-03-11_13:37:39.149428479 F_doFormatOneSite:F_zipAttachFile ./tmp/post linyou linyou20210311_13.zip retturn[0],tmailAddr=[fusk_zfmd@163.com]
+21-03-11_13:37:39.176565646 F_doFormatOneSite:F_sendMail retturn[0]
+21-03-11_13:37:39.214161134 /bin/mail -s "[20210311_20985]format business report"  fusk_zfmd@163.com <./tmp/smail.txt
+21-03-11_13:37:39.234152918 ./doBusiFormat.sh running end:2021-03-11_13:37:39.215503494, [ 5 ] seconds in total!
+21-03-11_13:55:20.734938796 ./doBusiFormat.sh running beine:21-03-11_13:55:20.689516226
+21-03-11_13:55:20.812526645 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_13:55:20.924858288 F_judgeShouldDo [42.121.65.50#busilist#/linyou/fusktest#0#20210309-20210312#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_13:55:20.962065371 ./doBusiFormat.sh running end:2021-03-11_13:55:20.927480191, [ 0 ] seconds in total!
+21-03-11_13:56:25.867911743 ./doBusiFormat.sh running beine:21-03-11_13:56:25.823322003
+21-03-11_13:56:25.938376228 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_13:56:26.718024619 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-11_13:56:34.537141652 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-11_13:56:34.679485134 F_doFormatOneSite:F_cpBuFToAttsub ./tmp ./tmp/post/linyou busilist_20210311_*.xml retturn[0]
+21-03-11_13:56:34.909537096 F_doFormatOneSite:F_zipAttachFile ./tmp/post linyou linyou20210311_13.zip retturn[0],tmailAddr=[1#fusk_zfmd@163.com]
+21-03-11_13:56:34.950021719 /bin/mail -s "busi_linyou20210311_135634" -a ./tmp/post/linyou20210311_13.zip fusk_zfmd@163.com <./tmp/smailatt.txt
+21-03-11_13:56:34.981259291 F_doFormatOneSite:F_sendMail retturn[0]
+21-03-11_13:56:35.090670284 /bin/mail -s "[20210311_21730]format business report"  fusk_zfmd@163.com <./tmp/smail.txt
+21-03-11_13:56:35.134309225 ./doBusiFormat.sh running end:2021-03-11_13:56:35.094050752, [ 10 ] seconds in total!
+21-03-11_14:06:15.802833835 ./doBusiFormat.sh running beine:21-03-11_14:06:15.758422093
+21-03-11_14:06:15.873179343 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_14:06:15.960199172 F_judgeShouldDo [42.121.65.50#busilist#/linyou/fusktest#0#20210309-20210312#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_14:06:16.007034625 ./doBusiFormat.sh running end:2021-03-11_14:06:15.963385104, [ 0 ] seconds in total!
+21-03-11_14:09:24.586976692 ./doBusiFormat.sh running beine:21-03-11_14:09:24.542091242
+21-03-11_14:09:24.682250058 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_14:09:24.778577012 F_judgeShouldDo [42.121.65.50#busilist#/linyou/fusktest#0#20210309-20210312#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_14:09:24.823267272 ./doBusiFormat.sh running end:2021-03-11_14:09:24.781125438, [ 0 ] seconds in total!
+21-03-11_15:00:05.815583977 ./doBusiFormat.sh running beine:21-03-11_15:00:05.768659181
+21-03-11_15:00:05.886637229 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:00:06.673178714 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-11_15:00:27.002339896 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-11_15:00:27.203788378 F_doFormatOneSite:F_cpBuFToAttsub ./tmp ./tmp/post/linyou busilist_20210311_*.xml retturn[0]
+21-03-11_15:00:27.561762723 F_doFormatOneSite:F_zipAttachFile ./tmp/post linyou linyou20210311_15.zip retturn[0],tmailAddr=[1#fusk_zfmd@163.com]
+21-03-11_15:00:27.601418720 F_sendMail:/bin/mail -s "busi_linyou20210311_150027" -a ./tmp/post/linyou20210311_15.zip fusk_zfmd@163.com <./tmp/smailatt.txt
+21-03-11_15:00:27.625321004 F_doFormatOneSite:F_sendMail retturn[0],delFtpFile_flag=[1]
+21-03-11_15:00:28.412058759 F_doFormatOneSite:delFtpSerFile 42.121.65.50:/linyou/fusktest/busilist_20210311_*.xml retturn[14]
+21-03-11_15:00:28.498036462 F_sendMail:/bin/mail -s "[20210311_22751]format business report"  fusk_zfmd@163.com <./tmp/smail.txt
+21-03-11_15:00:28.547715702 ./doBusiFormat.sh running end:2021-03-11_15:00:28.500322325, [ 23 ] seconds in total!
+21-03-11_15:07:43.209713768 ./doBusiFormat.sh running beine:21-03-11_15:07:43.164326056
+21-03-11_15:07:43.279433253 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:07:43.367722901 F_judgeShouldDo [42.121.65.50#busilist#/linyou/fusktest#1#20210309-20210312#6,14#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:07:43.414061551 ./doBusiFormat.sh running end:2021-03-11_15:07:43.370886821, [ 0 ] seconds in total!
+21-03-11_15:15:53.535889254 ./doBusiFormat.sh running beine:21-03-11_15:15:53.490478468
+21-03-11_15:15:53.604773848 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:15:54.388380788 F_doFormatOneSite:getFtpSerStatu retturn[14]
+21-03-11_15:15:54.416386504 F_doFormatOneSite:getFtpSerStatu outmsg[the file  [busilist_20210311_*.xml] is not exists
+],ftpRet=[21-03-11_15:15:53.695297358 function getFtpSerStatu input param 2021/03/11 15:15:53.685215029 
+         debugflag=[1]
+         opFlag=[0],opStr=[downlaod],opCmd=[mget]
+         trsType=[0],typeStr=[ascii]
+         trsMode=[0],modeStr=[passive],modeOpt=[-p]
+         fileNameTmp=[busilist_20210311_.{0,}\.xml]--------
+         ---------ftp para begine--------
+         ----ftpIP     =[42.121.65.50]
+         ----ftpUser   =[yc1]
+         ----ftpPwd    =[1qaz2wsx]
+         ----ftpRdir   =[/linyou/fusktest]
+         ----ftpLdir   =[./tmp]
+         ----fileName  =[busilist_20210311_*.xml]
+         ----ftpCtrPNum=[21]
+         ---------ftp para end----------
+         
+Connected to 42.121.65.50 (42.121.65.50).
+220 Serv-U FTP Server v11.2 ready...
+331 User name okay, need password.
+230 User logged in, proceed.
+200 Type set to A.
+250 Directory changed to /linyou/fusktest
+Local directory now /zfmd/wpfs20/mysh/doBusiF/tmp
+227 Entering Passive Mode (42,121,65,50,14,17)
+150 Opening ASCII mode data connection for /bin/ls.
+drwxrwxrwx 1 user group 0 Mar 11 15:00 .
+drwxrwxrwx 1 user group 0 Mar 11 15:00 ..
+226 Transfer complete. 117 bytes transferred. 0.11 KB/sec.
+221 Goodbye, closing session.]
+21-03-11_15:15:54.452172819 ./doBusiFormat.sh running end:2021-03-11_15:15:54.419807137, [ 1 ] seconds in total!
+21-03-11_15:20:01.534659348 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-11_15:20:01.475782827
+21-03-11_15:20:01.610661516 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:20:02.382434711 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-11_15:20:12.748087654 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-11_15:20:12.912430220 F_doFormatOneSite:F_cpBuFToAttsub /zfmd/wpfs20/mysh/doBusiF/tmp /zfmd/wpfs20/mysh/doBusiF/tmp/post/linyou busilist_20210311_*.xml retturn[0]
+21-03-11_15:20:13.146080488 F_doFormatOneSite:F_zipAttachFile /zfmd/wpfs20/mysh/doBusiF/tmp/post linyou linyou20210311_15.zip retturn[0],tmailAddr=[1#fusk_zfmd@163.com]
+21-03-11_15:20:13.171624533 F_sendMail:/bin/mail -s "busi_linyou20210311_152013" -a /zfmd/wpfs20/mysh/doBusiF/tmp/post/linyou20210311_15.zip fusk_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smailatt.txt
+21-03-11_15:20:13.185685941 F_doFormatOneSite:F_sendMail retturn[0],delFtpFile_flag=[0]
+21-03-11_15:20:13.225538390 F_sendMail:/bin/mail -s "[20210311_23817]format business report"  fusk_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
+21-03-11_15:20:13.243135827 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-11_15:20:13.226732216, [ 12 ] seconds in total!
+21-03-11_15:21:01.350840590 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-11_15:21:01.304384667
+21-03-11_15:21:01.420788444 F_judgeShouldDo [42.121.65.50#busilist#/xinglongshan/up#0#20210309-20210310#6,13#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:21:01.494251926 F_judgeShouldDo [42.121.65.50#busilist#/linyou/fusktest#0#20210309-20210312#6,14#fusk_zfmd@163.com] return[0],not should do !
+21-03-11_15:21:01.518871233 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-11_15:21:01.495944557, [ 0 ] seconds in total!
+21-03-11_15:34:01.799422340 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-11_15:34:01.745880900
+21-03-11_15:34:02.671177640 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-11_15:34:07.337841887 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-11_15:34:07.496025890 F_doFormatOneSite:F_cpBuFToAttsub /zfmd/wpfs20/mysh/doBusiF/tmp /zfmd/wpfs20/mysh/doBusiF/tmp/post/meigang busilist_20210311_*.xml retturn[0]
+21-03-11_15:34:07.718853000 F_doFormatOneSite:F_zipAttachFile /zfmd/wpfs20/mysh/doBusiF/tmp/post meigang meigang20210311_15.zip retturn[0],tmailAddr=[1#fusk_zfmd@163.com,yuanc_zfmd@163.com]
+21-03-11_15:34:07.752902189 F_sendMail:/bin/mail -s "busi_meigang20210311_153407" -a /zfmd/wpfs20/mysh/doBusiF/tmp/post/meigang20210311_15.zip fusk_zfmd@163.com,yuanc_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smailatt.txt
+21-03-11_15:34:07.766349003 F_doFormatOneSite:F_sendMail retturn[0],delFtpFile_flag=[0]
+21-03-11_15:34:07.835287021 F_sendMail:/bin/mail -s "[20210311_24552]format business report"  fusk_zfmd@163.com </zfmd/wpfs20/mysh/doBusiF/tmp/smail.txt
+21-03-11_15:34:07.865041749 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-11_15:34:07.836470478, [ 6 ] seconds in total!
+21-03-11_15:35:01.979204820 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-11_15:35:01.933533479
+21-03-11_15:35:02.074110493 F_judgeShouldDo [42.121.65.50#busilist#/meigang/up#0#20210311-20210316#6#fusk_zfmd@163.com,yuanc_zfmd@163.com] return[0],not should do !
+21-03-11_15:35:02.104538554 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-11_15:35:02.076232026, [ 1 ] seconds in total!
