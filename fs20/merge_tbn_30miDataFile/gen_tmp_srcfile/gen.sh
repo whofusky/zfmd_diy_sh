@@ -121,7 +121,7 @@ function F_genhalfeMi()
 
 function F_gencursftbnorgn()
 {
-    local multiplier=$(shuf -i 0-127 -n 1 -r)
+    local multiplier=$(shuf -i 0-127 -n 1 )
     cursftbnorgn=$(echo "${fixsftbnorgn} * ${multiplier} "|bc)
     return 0
 }
@@ -129,21 +129,21 @@ function F_gencursftbnorgn()
 
 function F_gencurwsavg()
 {
-    local multiplier=$(shuf -i 1-10 -n 1 -r)
+    local multiplier=$(shuf -i 1-10 -n 1 )
     curwsavg=$(echo "${fixwsavg} * ${multiplier} "|bc)
     return 0
 }
 
 function F_gencurppavg()
 {
-    local multiplier=$(shuf -i 1-10 -n 1 -r)
+    local multiplier=$(shuf -i 1-10 -n 1 )
     curppavg=$(echo "${fixppavg} * ${multiplier} "|bc)
     return 0
 }
 
 function F_gencurpqavg()
 {
-    local multiplier=$(shuf -i 1-10 -n 1 -r)
+    local multiplier=$(shuf -i 1-10 -n 1 )
     curpqavg=$(echo "${fixpqavg} * ${multiplier} "|bc)
     return 0
 }
