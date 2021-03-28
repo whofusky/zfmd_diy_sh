@@ -13,13 +13,14 @@
 #         ./$0  
 #
 #Version change record:
+#     2021-03-28         version  v20.01.010 @ 将脚本添加长驻内存及退出信息处理
 #     2021-03-27 initial version  v20.01.000
 #
 #
 ################################################################################
 #
 
-versionNo="software version number: v20.01.000"
+versionNo="software version number: v20.01.010"
 
 
 trap ""  1 2 3 9 11 13 15
