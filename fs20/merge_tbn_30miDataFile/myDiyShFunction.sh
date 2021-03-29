@@ -243,6 +243,10 @@ function F_cfgFileCheck()
         F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_suffix_domian\"!" 2
         exit 1
     fi
+    if [ -z "${g_1mi_fixCnt_FaultJinChar}" ];then
+        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_fixCnt_FaultJinChar\"!" 2
+        exit 1
+    fi
     if [ -z "${g_1mi_joiner_char}" ];then
         F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_joiner_char\"!" 2
         exit 1

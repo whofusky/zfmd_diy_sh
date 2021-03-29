@@ -470,7 +470,9 @@ function F_doOneTurbByEcNo()  #根据风机的EC编号对某一个风机进行�
         #rFault=$(echo "${rFault}"|sed 's/\(\s\+0\|0\s\+\)//g')
         #rFault=$(echo "${rFault}"|sed 's/\s\+/,/g')
         #tFault="'("$(echo "${rFault}"|sed 's/\s*,\s*/)(/g')")'"
-        tFault="'("$(echo "${rFault}"|sed 's/\(\s\+0\b\|\b0\s\+\)//g;s/\s\+/,/g;s/\s*,\s*/)(/g')")'"
+        #tFault="'("$(echo "${rFault}"|sed 's/\(\s\+0\b\|\b0\s\+\)//g;s/\s\+/,/g;s/\s*,\s*/)(/g')")'"
+        #tFault="'("$(echo "${rFault}"|sed 's/\(\s\+0\b\|\b0\s\+\)//g;s/\s\+/^/g;s/\s*^\s*/)(/g')")'"
+        tFault="'("$(echo "${rFault}"|sed "s/\(\s\+0\b\|\b0\s\+\)//g;s/\s\+/${g_1mi_fixCnt_FaultJinChar}/g;s/\s*${g_1mi_fixCnt_FaultJinChar}\s*/)(/g")")'"
 
         echo "${tIdex} ${tID} ${tType} ${tTime} ${tPwrat} ${tPwrreact} ${tSpd} ${tState} ${tFault}"|sed 's/\s\+/ /g' >>"${tmpFile}"
 

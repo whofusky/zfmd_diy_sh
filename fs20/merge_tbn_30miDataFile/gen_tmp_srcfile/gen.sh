@@ -77,17 +77,21 @@ itemStr="@  EC  PPAVG   PQ_AVG  WS_AVG  SF_TBN_OGN  FAULT"
 fileNamePre="genwnd_1_${fileDate}_${fileHour}"
 fileNamePos=".cime"
 
+tfaultJinter="^"
+
 fixppavg=5.123
 fixpqavg=2.123
 fixwsavg=1.232
 fixsftbnorgn=1
-fixfault="16,17"
+#fixfault="16,17"
+fixfault="16${tfaultJinter}17"
 
 curppavg=5.123
 curpqavg=2.123
 curwsavg=1.232
 cursftbnorgn=1
-curfault="16,17"
+#curfault="16,17"
+curfault="16${tfaultJinter}17"
 
 curitem=""
 
