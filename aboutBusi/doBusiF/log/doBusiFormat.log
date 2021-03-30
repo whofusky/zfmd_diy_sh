@@ -107,3 +107,13 @@ drwxrwxrwx 1 user group 0 Mar 11 15:00 ..
 21-03-11_15:35:01.979204820 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running beine:21-03-11_15:35:01.933533479
 21-03-11_15:35:02.074110493 F_judgeShouldDo [42.121.65.50#busilist#/meigang/up#0#20210311-20210316#6#fusk_zfmd@163.com,yuanc_zfmd@163.com] return[0],not should do !
 21-03-11_15:35:02.104538554 /zfmd/wpfs20/mysh/doBusiF/doBusiFormat.sh running end:2021-03-11_15:35:02.076232026, [ 1 ] seconds in total!
+21-03-30_10:33:20.482271977 ./doBusiFormat.sh running beine:21-03-30_10:33:20.454777669
+21-03-30_10:33:22.094554196 F_doFormatOneSite:getFtpSerStatu retturn[0]
+21-03-30_10:33:26.561509247 F_doFormatOneSite:getOrPutFtpFile down retturn[0]]
+21-03-30_10:33:26.664232588 F_cpBuFToLocalDir:cp -a ./tmp/busilist_20210330_*.xml /home/fusky/tmp/t1
+21-03-30_10:33:26.678377526 F_cpBuFToLocalDir:cp -a ./tmp/busilist_20210330_*.xml /home/fusky/tmp/t2
+21-03-30_10:33:26.691359754 F_doFormatOneSite:F_cpBuFToLocalDir ./tmp busilist_20210330_*.xml retturn[0]
+21-03-30_10:33:26.717914275 ./doBusiFormat.sh running end:2021-03-30_10:33:26.700855547, [ 6 ] seconds in total!
+21-03-30_10:40:05.806495247 ./doBusiFormat.sh running beine:21-03-30_10:40:05.781074448
+21-03-30_10:40:05.922994352 F_judgeShouldDo [114.215.180.225#busilist#/binyang/up#0#20210329-20210916#6#fusk_zfmd@163.com] return[0],not should do !
+21-03-30_10:40:05.946743377 ./doBusiFormat.sh running end:2021-03-30_10:40:05.926040028, [ 0 ] seconds in total!

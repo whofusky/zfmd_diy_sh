@@ -12,7 +12,8 @@
 #    (1) 根据cfg/cfg.cfg文件配置，用ftp脚本下载业务清单busilist_${YYYYMMDD}_0.xml
 #    (2) 将下载的业务清单中DOS下的回车符去掉
 #    (3) 将处理完的业务清单文件上传到原来下载的位置 
-#        或者将业务清单打包成zip作为邮件的附件(根据post_do_flag的配置值决定对应
+#        或者将业务清单打包成zip作为邮件的附件或者只将业务清单
+#        cp到本地的某些目录(根据post_do_flag的配置值决定对应
 #        的动作）
 #    (4) 给想关人员发送见邮件
 #limit
@@ -31,6 +32,11 @@
 debugFlagM=3            
 #debugFlagM=255            
                           
+
+thisShName="$0"
+onlyShName=${thisShName##*/}
+onlyShPre=${onlyShName%.*}
+
 #加载系统环境变量配置
 if [ -f /etc/profile ]; then
     . /etc/profile >/dev/null 2>&1
@@ -40,7 +46,7 @@ if [ -f ~/.bash_profile ];then
 fi
 
 #已经有脚本在运行则退出
-tmpShPid=$(pidof -x $0)
+tmpShPid=$(pidof -x ${onlyShName})
 tmpShPNum=$(echo ${tmpShPid}|awk 'BEGIN {tNum=0;} { if(NF>0){tNum=NF;}} END{print tNum}')
 if [ ${tmpShPNum} -gt 1 ]; then
     echo "+++${tmpShPid}+++++${tmpShPNum}+++"
@@ -64,7 +70,7 @@ diyFuncFile=${baseDir}/doBFFunc.sh
 tconfFile="${baseDir}/cfg/cfg.cfg"
 
 logDir="${baseDir}/log"
-logFile="${logDir}/${inNPre}.log"
+logFile="${logDir}/${inNPre}$(date +%Y%m%d).log"
 
 tmpDir="${baseDir}/tmp"
 ftpLdir="${tmpDir}"
@@ -200,6 +206,40 @@ function F_cpBuFToAttsub() # copy business list file to ataachement sub dir
 	cp -a  ${tsrcFile} "${ttatadir}"
 	ret=$?
 	return ${ret}
+}
+
+function F_cpBuFToLocalDir() # copy business list file to local target dir
+{
+    if [ -z "${cp_dst_local_dirS}" ];then
+        return 0
+    fi
+
+	if [ $# -lt 2 ];then
+		return 1
+	fi
+
+	local tSrcDir="$1"
+	local filename="$2"
+
+	local tsrcFile="${tSrcDir}/${filename}"
+
+	local tnum=0; local it; local tDstDirS;
+
+	tnum=$(ls -1 ${tsrcFile} 2>/dev/null|wc -l)
+	if [ ${tnum} -lt 1 ];then
+		return 2
+	fi
+    
+
+    tDstDirS=$(F_convertVLineToSpace "${cp_dst_local_dirS}")
+    for it in ${tDstDirS}
+    do
+        [ ! -d "${it}" ] &&  mkdir -p "${it}"
+        cp -a  ${tsrcFile} "${it}"
+        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:cp -a ${tsrcFile} ${it}"
+    done
+
+	return 0
 }
 
 function F_zipAttachFile()
@@ -391,6 +431,12 @@ function F_doFormatOneSite()
 	local tzipName="${frmname}$(date +%Y%m%d_%H).zip"
 	local tzipDir="${tposDir}"
 	local tataFile="${tzipDir}/${tzipName}"
+
+    #copy busi file to lcoal dst dir
+    F_cpBuFToLocalDir "${ftpLdir}"  "${fileName}"
+    ret=$?
+    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_cpBuFToLocalDir ${ftpLdir} ${fileName} retturn[${ret}]"
+
 	#copy to attachment dir and send email
 	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
 		F_cpBuFToAttsub "${ftpLdir}" "${tCpDst}" "${fileName}"
@@ -626,7 +672,9 @@ function main()
             retstat=$? #0 sucess; !0 error
             if [ ${retstat} -eq 0 ];then
                 F_recordOnSucess "${rcdFile}" "${rcdContent}"
-                sedMailFlag=1
+                if [[ ! -z "${post_do_flag}" && "${post_do_flag}x" != "3x" ]];then
+                    sedMailFlag=1
+                fi
             fi
 
         done
