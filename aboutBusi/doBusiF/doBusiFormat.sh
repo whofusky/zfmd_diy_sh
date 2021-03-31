@@ -29,7 +29,8 @@
 #
 #############################################################################
 
-debugFlagM=3            
+debugFlagM=1            
+#debugFlagM=3            
 #debugFlagM=255            
                           
 
@@ -638,7 +639,7 @@ function main()
 
     . ${diyFuncFile}
 
-    F_outShDebugMsg ${logFile} 1 1 "$0 running beine:${begineTm}"
+    F_outShDebugMsg ${logFile} ${debugFlagM} 2 "$0 running beine:${begineTm}"
 
     F_chkCfgFile
 
@@ -648,7 +649,7 @@ function main()
     #echo "haha doNum=[${doNum}]"
 
     local i; local it; local tChkList; local rcdContent; local retstat;
-    local sedMailFlag=0
+    local sedMailFlag=0; local outDebugFlag=0;
 
 	F_clearAttachDir
 
@@ -664,9 +665,11 @@ function main()
             F_judgeShouldDo "${rcdFile}" "${rcdContent}" 
             retstat=$? #0 not; 1 shuld did
             if [ ${retstat} -eq 0 ];then
-                F_outShDebugMsg ${logFile} 1 1 "F_judgeShouldDo [${rcdContent}] return[${retstat}],not should do !"
+                F_outShDebugMsg ${logFile} ${debugFlagM} 2 "F_judgeShouldDo [${rcdContent}] return[${retstat}],not should do !"
                 continue
             fi
+
+            outDebugFlag=1
 
             F_doFormatOneSite "${trsType[$i]}"  "${trsMode[$i]}" "${ftpip[$i]}" "${ftpuname[$i]}" "${ftpupwd[$i]}" "${ftpport[$i]}"  "${it}" "${ftpLdir}" "${logFile}"
             retstat=$? #0 sucess; !0 error
@@ -695,7 +698,9 @@ function main()
     local edScds=$(date +%s)
     local difScds=$(echo "${edScds} - ${bgScds}"|bc)
 
-    F_outShDebugMsg ${logFile} 1 1 "$0 running end:${endTm}, [ ${difScds} ] seconds in total!"
+    if [ ${outDebugFlag} -eq 1 ];then
+        F_outShDebugMsg ${logFile} 1 1 "$0 running end:${endTm}, [ ${difScds} ] seconds in total!"
+    fi
 
     return 0
 }
