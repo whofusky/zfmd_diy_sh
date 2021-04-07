@@ -397,7 +397,8 @@ function F_doFormatOneSite()
     fi
 
     if [ ${errFlag} -eq 1 ];then
-        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu outmsg[${outmsg}],ftpRet=[${ftpRet}]"
+        #F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu outmsg[${outmsg}],ftpRet=[${ftpRet}]"
+        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu outmsg[${outmsg}]"
         return 3
     fi
 
