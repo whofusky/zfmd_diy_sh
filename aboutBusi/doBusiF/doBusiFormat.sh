@@ -29,8 +29,8 @@
 #
 #############################################################################
 
-debugFlagM=1            
-#debugFlagM=3            
+debugFlagM=3            
+#debugFlagM=1            
 #debugFlagM=255            
                           
 
@@ -372,11 +372,12 @@ function F_doFormatOneSite()
     fileName="${filePre}_$(date +%Y%m%d)_*.xml"
 
     local ftpRet; local ret;
+	local frmname=$(echo "${ftpRdir}"|awk -F'/' '{print $2}')
 
     #check ftp server file status
     ftpRet=$(getFtpSerStatu "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
     ret=$?
-    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu retturn[${ret}]"
+    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getFtpSerStatu return[${ret}]"
 
     local outmsg
     local errFlag=1
@@ -391,14 +392,15 @@ function F_doFormatOneSite()
     elif [ ${ret} -eq 13 ];then #remote path error
         outmsg="the file path [${ftpRdir}]is error\n"
     elif [ ${ret} -eq 14 ];then #file name does not exist
-        outmsg="the file  [${fileName}] is not exists\n"
+        outmsg="the file  [${ftpRdir}/${fileName}] is not exists\n"
     else
         errFlag=0
     fi
 
     if [ ${errFlag} -eq 1 ];then
-        #F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu outmsg[${outmsg}],ftpRet=[${ftpRet}]"
-        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getFtpSerStatu outmsg[${outmsg}]"
+		#outmsg="[ ${frmname} ]${outmsg}"
+        #F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getFtpSerStatu outmsg[${outmsg}],ftpRet=[${ftpRet}]"
+        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getFtpSerStatu outmsg[${outmsg}]"
         return 3
     fi
 
@@ -414,11 +416,11 @@ function F_doFormatOneSite()
     #downing file
     ftpRet=$(getOrPutFtpFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
     ret=$?
-    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile down retturn[${ret}]]"
+    F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getOrPutFtpFile down return[${ret}]]"
 
 	tnum=$(ls -1 ${tmpDoFile} 2>/dev/null|wc -l)
     if [ ${tnum} -lt 1 ];then
-        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile down retRet=[${frpRet}]"
+        F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getOrPutFtpFile down retRet=[${frpRet}]"
         return 4
     fi
 
@@ -428,7 +430,6 @@ function F_doFormatOneSite()
 
 
 
-	local frmname=$(echo "${ftpRdir}"|awk -F'/' '{print $2}')
 	local tCpDst="${tposDir}/${frmname}"
 	local tzipName="${frmname}$(date +%Y%m%d_%H).zip"
 	local tzipDir="${tposDir}"
@@ -443,7 +444,7 @@ function F_doFormatOneSite()
 	if [[ ${post_do_flag} -eq 1 || ${post_do_flag} -eq 2 ]];then
 		F_cpBuFToAttsub "${ftpLdir}" "${tCpDst}" "${fileName}"
 		ret=$?
-		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_cpBuFToAttsub ${ftpLdir} ${tCpDst} ${fileName} retturn[${ret}]"
+		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]F_cpBuFToAttsub ${ftpLdir} ${tCpDst} ${fileName} return[${ret}]"
 
 		#zip attach busilist file and send mail
 		if [ ${ret} -eq 0 ];then 
@@ -458,14 +459,14 @@ function F_doFormatOneSite()
 			local delFtpFile_flag="$(echo ${chkStr}|cut -d '#' -f 3)"
 			tmailAddr="1#${tmailAddr}"
 
-			F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_zipAttachFile ${tzipDir} ${frmname} ${tzipName} retturn[${ret}],tmailAddr=[${tmailAddr}]"
+			F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]F_zipAttachFile ${tzipDir} ${frmname} ${tzipName} return[${ret}],tmailAddr=[${tmailAddr}]"
 			#send mail
 			if [[ ${ret} -eq 0 && ! -z "${tmailAddr}" ]];then
 				F_mailFileHead 1 ${smailattFile}
 				F_mailFileTail ${smailattFile}
 				F_sendMail "${tmailTitle}" "${smailattFile}" "${tataFile}" "${tmailAddr}" "${logFile}"
 				ret=$?
-				F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:F_sendMail retturn[${ret}],delFtpFile_flag=[${delFtpFile_flag}]"
+				F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]F_sendMail return[${ret}],delFtpFile_flag=[${delFtpFile_flag}]"
 
 				local delRet
 				local delStat
@@ -473,7 +474,7 @@ function F_doFormatOneSite()
 				if [[ ${ret} -eq 0 && ! -z "${delFtpFile_flag}" && "${delFtpFile_flag}" = "1" ]];then
 					delRet=$(delFtpSerFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
 					delStat=$?
-					F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:delFtpSerFile ${ftpIP}:${ftpRdir}/${fileName} retturn[${delStat}]"
+					F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]delFtpSerFile ${ftpIP}:${ftpRdir}/${fileName} return[${delStat}]"
 
 				fi
 			fi
@@ -486,7 +487,7 @@ function F_doFormatOneSite()
 		opFlag=1 #0:download, 1:upload
 		ftpRet=$(getOrPutFtpFile "${opFlag}" "${trsType}" "${trsMode}" "${ftpIP}" "${ftpUser}" "${ftpPwd}" "${ftpRdir}" "${ftpLdir}" "${fileName}" "${ftpCtrPNum}")
 		ret=$?
-		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:getOrPutFtpFile up retturn[${ret}],retRet=[${frpRet}]"
+		F_outShDebugMsg ${logFile} 1 1 "${FUNCNAME}:[ ${frmname} ]getOrPutFtpFile up return[${ret}],retRet=[${frpRet}]"
 	fi
 
 	if [ ${ret} -eq 0 ];then
