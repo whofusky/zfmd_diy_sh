@@ -5,26 +5,33 @@
 #date         :    20210225
 #linux_version:    Red Hat Enterprise Linux Server release 6.7 
 #dsc          :   
-#    Download the business list from the corresponding directory on the 
-#    configured ftp service, and upload it to the original location after 
-#    some processing
+#    Download and delte the business list from the corresponding 
+#    directory on the configured ftp service, Compressed into a 
+#    compressed package with wind farm name and date
 #
-#    (1) 根据cfg/cfg.cfg文件配置，用ftp脚本下载业务清单busilist_${YYYYMMDD}_0.xml
-#    (2) 将下载的业务清单中DOS下的回车符去掉
-#    (3) 将处理完的业务清单文件上传到原来下载的位置 
-#        或者将业务清单打包成zip作为邮件的附件(根据post_do_flag的配置值决定对应
-#        的动作）
-#    (4) 给想关人员发送见邮件
+#    (1) 根据cfg/cfg.cfg文件配置，用ftp脚本下载服务器配置目录下的的*.xml文件
+#    (2) 下载完.xml文件后根据配置文件配置决定是否对下载成功的文件进行删除
+#    (3) 对下载的文件格式处理（去掉DOS操作系统下的换行符：即去掉行尾的^M）
+#    (4) 将下载的xml文件放于脚本同级目录下的result文件夹（脚本自动创建）并按远程
+#        服务器对应的第一级目录（往往根据风场名取名)在本地result目录下建立二级
+#        目录
+#    (5) 每下载完后一个风场目录的文件后，对下载的文件进行打包，包名规则为:
+#        远程服务器第一级目录名_文件开始时间_文件结束时间busi.zip
+#    (6) 下载过程产生的日志记录于log/backBusiFile.log文件
+#
+#    例如：
+#        下载服务上/gaolongshan/up目录下的所有xml文件
+#        这些下载的文件时间跨度为:20210507到20210703
+# 
+#        文件下载到 result/gaolongshan文件夹下，所有文件下载完后，将此文件夹打包
+#        成gaolongshan20210507_20210703busi.zip放于result目录，并清空本的目录
+#        result/gaolongshan下的所有文件
+# 
 #limit
-#    (1) 相同服务器相同路径下的业务清单同一天根据配置只处理一次(如果配置的是2次则
-#        同一天在相应时间点各处理一次），如果已经处理过一次第二次
-#        调用脚本将根据tmp/rcd.txt文件的记录决定是否需要重新下载
-#    (2) 只有当有上传成功或成功处理格式且要求发送业务清单文件作为附件发送的情况才发邮件，
-#        其它情况不发邮件
-#    (3) 当需要把业务清单作为附件邮件发送时，最终会有2个邮件：
-#        第一个：发送附件
-#        第二个：发送总的统计情况
-#        这两处发送邮件地方在配置文件中不同的位置进行配置
+#    (1) 目前观察下载的速度不是很满意可能与具体的网络环境有关系
+#
+#version:
+#    2021-07-04 update 注释
 #
 #############################################################################
 
