@@ -1,0 +1,8 @@
+            <phyObjVal phyType="8" grpNo="0" grpAttr="0" calcMethd="169" hisMaxNum="0" scalFactor="1" offsetCoe="0" phyValLng="8" algType="0" dataSource="0" zoomMode="0">
+                <algorithmGoal/>
+                <pntAddrs numOfAdd="2">
+                    <pntAddr remoteAddr="2" localAddr="2" name="整场无功功率" type="3" startBit="0" bitLength="16" codCoefficient="1" pntDataLng="16" offset="0" unitDesc="" encoding="0"/>
+                    <pntAddr remoteAddr="3" localAddr="3" name="整场无功功率" type="3" startBit="0" bitLength="16" codCoefficient="1" pntDataLng="16" offset="0" unitDesc="" encoding="0"/>
+                </pntAddrs>
+                <dataId didVal="FF4FFF1902080080103097000000000100" serialNo="1002" didName="15分钟整场无功功率平均值IAS"/>
+            </phyObjVal>

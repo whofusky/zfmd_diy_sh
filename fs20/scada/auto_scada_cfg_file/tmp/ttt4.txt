@@ -1,0 +1,1 @@
+                <dataId didVal="FF4FFF1902080080103097000000000100" serialNo="1002" didName="15分钟整场无功功率平均值IAS"/>

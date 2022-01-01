@@ -1,0 +1,35 @@
+        <channel chnNum="0" maxPhyType="0" tmStmpLng="8" pntObjLng="0" cfgTime="">
+            <prtl prtlNo="106" name="ModbusTcp" state="0" transType="0" bufLng="255">
+                <timerInfo>
+                    <timer name="T0" timeoutValue="30"/>
+                </timerInfo>
+                <controlPara W="0" K="0"/>
+                <APDU_DSCR InfoEleLng="1" ASDU_TID="0" asduCmtbNum="11">
+                    <APCI value="7"/>
+                    <ASDU_TID value="0"/>
+                    <ASDU_LNG value="1"/>
+                    <ASDU_VSQ value="248"/>
+                    <ASDU_COT value="0"/>
+                    <ASDU_ADDR value="0"/>
+                    <BODY_TID value="0"/>
+                    <BODY_ADDR value="0"/>
+                    <BODY_SET value="0"/>
+                    <BODY_TSP value="0"/>
+                    <ASDU_TSP value="0"/>
+                </APDU_DSCR>
+            </prtl>
+            <stationCfg stationNum="0" bStationConfig="1">
+                <localStation role="1" equipmentID="17" name="scada测风塔采集">
+                    <netAddr ip="127.0.0.1" port="0"/>
+                </localStation>
+                <remoteStation role="2" bigEndian="0" name="测风塔采集">
+                    <netAddr ip="127.0.0.1" port="502"/>
+                </remoteStation>
+            </stationCfg>
+            <putStagFlag>1</putStagFlag>
+            <phyQuaCfg>
+                <phyCat name="1"/>
+                <phyCat name="5"/>
+                <phyCat name="15"/>
+            </phyQuaCfg>
+        </channel>

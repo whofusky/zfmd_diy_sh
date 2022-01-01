@@ -1,0 +1,10 @@
+        <stationCfg stationNum="0" bStationConfig="1">
+            <localStation role="1" equipmentID="17" name="scada测风塔采集">
+                <netAddr ip="127.0.0.1" port="0"/>
+            </localStation>
+            <remoteStation role="2" bigEndian="0" name="测风塔采集">
+                <netAddr ip="127.0.0.1" port="502"/>
+            </remoteStation>
+            <stationSon>
+            </stationSon>
+        </stationCfg>

@@ -1,0 +1,8 @@
+            <phyObjVal phyType="1" grpNo="0" grpAttr="0" calcMethd="167" hisMaxNum="0" scalFactor="1" offsetCoe="0" phyValLng="8" algType="0" dataSource="0" zoomMode="0">
+                <algorithmGoal/>
+                <pntAddrs numOfAdd="2">
+                    <pntAddr encoding="0" bitLength="16" name="10m风速实时值低" codCoefficient="1" type="3" unitDesc="" localAddr="0" startBit="0" didName="1分钟风机1有功功率平均值" remoteAddr="0" pntDataLng="16" offset="0"/>
+                    <pntAddr encoding="0" bitLength="" name="10m风速实时值高" codCoefficient="1" type="3" unitDesc="" localAddr="1" startBit="0" didName="1分钟风机1有功功率实时值" remoteAddr="1" pntDataLng="16" offset="0"/>
+                </pntAddrs>
+                <dataId didVal="FF410A0901080001503081000000000100" serialNo="13" didName="1分钟10m测风塔1风速实时值"/>
+            </phyObjVal>

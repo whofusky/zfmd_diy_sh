@@ -1,0 +1,624 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE Channel
+(
+    Number NVARCHAR(32) primary key,
+   	Describe NVARCHAR(128) not null,
+    Switch bool,  
+    Protocol NVARCHAR(64) not null,
+    ConnString NVARCHAR(256) not null,
+    EventOption NVARCHAR(64) not null    
+);
+INSERT INTO Channel VALUES('1','二期测风塔采集',1,'M-MODBUS','ConnectionType=TCP;SlaveIP=192.168.10.100;DelayBetween=500;LocalPort=65022;LocalIP=192.168.10.20;','110111');
+INSERT INTO Channel VALUES('2','一期测风塔采集',1,'M-MODBUS','ConnectionType=RTU;ComPortName=ttyS1;RecvTimeout=3000;SendTimeout=2000;DelayBetween=500;BaudRate=9600;','110111');
+INSERT INTO Channel VALUES('3','测风塔转发至远动',1,'S-MODBUS','ConnectionType=TCP;MasterIP=198.122.0.200;LocalPort=502;LocalIP=198.122.0.1;AddrList=[1,3,0,170,5];','110111');
+INSERT INTO Channel VALUES('4','一期测风塔转发至scada',1,'S-MODBUS','ConnectionType=TCP;MasterIP=100.110.120.30;AddrList=[1,3,0,175,5];LocalIP=100.110.120.30;LocalPort=502;','110111');
+INSERT INTO Channel VALUES('5','二期测风塔转发至scada',1,'S-MODBUS','ConnectionType=TCP;MasterIP=192.168.1.20;AddrList=[1,3,0,158,5];LocalIP=192.168.1.20;LocalPort=5021;','110111');
+INSERT INTO Channel VALUES('6','从scada采集理论功率',1,'M-IEC104','SlaveIP=198.123.0.1;SlavePort=2405;StationSummonInterval=300;','10111');
+INSERT INTO Channel VALUES('7','理论功率再转出到远动',1,'S-IEC104','MasterIP=198.123.0.200;LocalIP=198.123.0.1;LocalPort=2404;AddrList=[13,16385,5];','10111');
+INSERT INTO Channel VALUES('8','从远动接整场数据',1,'M-IEC104','SlaveIP=198.124.0.200;SlavePort=2404;StationSummonInterval=300;','10111');
+INSERT INTO Channel VALUES('9','转发给scada整场数据',1,'S-IEC104','MasterIP=198.124.0.1;LocalIP=198.124.0.1;LocalPort=2405;AddrList=[13,16432,2];','10111');
+CREATE TABLE IF NOT EXISTS "Channel_001_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_001_Item VALUES('001','0001','年','1','3','0','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0002','月','1','3','2','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0003','日','1','3','4','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0004','时','1','3','6','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0005','分','1','3','8','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0006','秒','1','3','10','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0007','测风塔编号','1','3','12','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0008','纬度','1','3','14','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0009','经度','1','3','16','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0010','海拔高度','1','3','18','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0011','100米风速平均值','1','3','20','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0012','100米风速实时值','1','3','22','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0013','100米风速Gust值(三秒平均值)','1','3','24','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0014','100米风速平均标准偏差','1','3','26','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0015','100米风速最大值','1','3','28','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0016','100米风速最小值','1','3','30','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0017','100米风向平均值','1','3','32','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0018','100米风向实时值','1','3','34','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0019','100米风向平均标准偏差','1','3','36','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0020','100米风向最大值','1','3','38','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0021','100米风向最小值','1','3','40','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0022','70米风速平均值','1','3','42','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0023','70米风速实时值','1','3','44','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0024','70米风速Gust值(三秒平均值)','1','3','46','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0025','70米风速平均标准偏差','1','3','48','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0026','70米风速最大值','1','3','50','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0027','70米风速最小值','1','3','52','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0028','70米风向平均值','1','3','54','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0029','70米风向实时值','1','3','56','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0030','70米风向平均标准偏差','1','3','58','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0031','70米风向最大值','1','3','60','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0032','70米风向最小值','1','3','62','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0033','50米风速平均值','1','3','64','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0034','50米风速实时值','1','3','66','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0035','50米风速Gust值(三秒平均值)','1','3','68','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0036','50米风速平均标准偏差','1','3','70','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0037','50米风速最大值','1','3','72','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0038','50米风速最小值','1','3','74','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0039','50米风向平均值','1','3','76','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0040','50米风向实时值','1','3','78','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0041','50米风向平均标准偏差','1','3','80','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0042','50米风向最大值','1','3','82','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0043','50米风向最小值','1','3','84','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0044','30米风速平均值','1','3','86','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0045','30米风速实时值','1','3','88','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0046','30米风速Gust值(三秒平均值)','1','3','90','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0047','30米风速平均标准偏差','1','3','92','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0048','30米风速最大值','1','3','94','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0049','30米风速最小值','1','3','96','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0050','30米风向平均值','1','3','98','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0051','30米风向实时值','1','3','100','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0052','30米风向平均标准偏差','1','3','102','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0053','30米风向最大值','1','3','104','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0054','30米风向最小值','1','3','106','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0055','10米风速平均值','1','3','108','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0056','10米风速实时值','1','3','110','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0057','10米风速Gust值(三秒平均值)','1','3','112','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0058','10米风速平均标准偏差','1','3','114','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0059','10米风速最大值','1','3','116','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0060','10米风速最小值','1','3','118','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0061','10米风向平均值','1','3','120','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0062','10米风向实时值','1','3','122','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0063','10米风向平均标准偏差','1','3','124','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0064','10米风向最大值','1','3','126','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0065','10米风向最小值','1','3','128','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0066','8米温度平均值','1','3','130','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0067','8米温度实时值','1','3','132','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0068','8米温度标准偏差','1','3','134','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0069','8米温度最大值','1','3','136','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0070','8米温度最小值','1','3','138','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0071','8米湿度平均值','1','3','140','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0072','8米湿度实时值','1','3','142','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0073','8米湿度标准偏差','1','3','144','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0074','8米湿度最大值','1','3','146','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0075','8米湿度最小值','1','3','148','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0076','8米气压平均值','1','3','150','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0077','8米气压实时值','1','3','152','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0078','8米气压标准偏差','1','3','154','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0079','8米气压最大值','1','3','156','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_001_Item VALUES('001','0080','8米气压最小值','1','3','158','FLOAT',NULL,NULL,'1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_001_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_001_Group VALUES('001','一期测风塔遥测采集');
+CREATE TABLE IF NOT EXISTS "Channel_003_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_003_Item VALUES('001','0001','年','1','3','1','FLOAT',NULL,'[0020010001]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0002','月','1','3','3','FLOAT',NULL,'[0020010002]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0003','日','1','3','5','FLOAT',NULL,'[0020010003]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0004','小时','1','3','7','FLOAT',NULL,'[0020010004]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0005','分钟','1','3','9','FLOAT',NULL,'[0020010005]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0006','秒','1','3','11','FLOAT',NULL,'[0020010006]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0007','数据记录号','1','3','13','FLOAT',NULL,'[0020010007]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0008','站点号','1','3','15','FLOAT',NULL,'[0020010008]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0009','纬度','1','3','17','FLOAT',NULL,'[0020010009]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0010','经度','1','3','19','FLOAT',NULL,'[0020010010]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0011','海拔高度','1','3','21','FLOAT',NULL,'[0020010011]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0012','10米风速5分钟平均值','1','3','23','FLOAT',NULL,'[0020010012]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0013','10米风向5分钟实时值','1','3','25','FLOAT',NULL,'[0020010013]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0014','10米风速5分钟标准方差','1','3','27','FLOAT',NULL,'[0020010014]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0015','10米风速瞬时值','1','3','31','FLOAT',NULL,'[0020010015]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0016','10米风向瞬时值','1','3','33','FLOAT',NULL,'[0020010016]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0017','10米风速极大值','1','3','35','FLOAT',NULL,'[0020010017]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0018','10米风速5分钟最大值','1','3','37','FLOAT',NULL,'[0020010018]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0019','10米风速5分钟最小值','1','3','39','FLOAT',NULL,'[0020010019]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0020','10米风向5分钟平均方差','1','3','41','FLOAT',NULL,'[0020010020]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0021','10米风向5分钟最大值','1','3','43','FLOAT',NULL,'[0020010021]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0022','10米风向5分钟最小值','1','3','45','FLOAT',NULL,'[0020010022]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0023','30米风速5分钟平均值','1','3','47','FLOAT',NULL,'[0020010023]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0024','30米风向5分钟实时值','1','3','49','FLOAT',NULL,'[0020010024]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0025','30米风速5分钟标准方差','1','3','51','FLOAT',NULL,'[0020010025]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0026','30米风速瞬时值','1','3','53','FLOAT',NULL,'[0020010026]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0027','30米风向瞬时值','1','3','55','FLOAT',NULL,'[0020010027]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0028','30米风速极大值','1','3','57','FLOAT',NULL,'[0020010028]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0029','30米风速5分钟最大值','1','3','59','FLOAT',NULL,'[0020010029]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0030','30米风速5分钟最小值','1','3','61','FLOAT',NULL,'[0020010030]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0031','30米风向5分钟平均方差','1','3','63','FLOAT',NULL,'[0020010031]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0032','30米风向5分钟最大值','1','3','65','FLOAT',NULL,'[0020010032]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0033','30米风向5分钟最小值','1','3','67','FLOAT',NULL,'[0020010033]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0034','50米风速5分钟平均值','1','3','69','FLOAT',NULL,'[0020010034]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0035','50米风向5分钟实时值','1','3','71','FLOAT',NULL,'[0020010035]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0036','50米风速5分钟标准方差','1','3','73','FLOAT',NULL,'[0020010036]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0037','50米风速瞬时值','1','3','75','FLOAT',NULL,'[0020010037]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0038','50米风向瞬时值','1','3','77','FLOAT',NULL,'[0020010038]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0039','50米风速极大值','1','3','79','FLOAT',NULL,'[0020010039]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0040','50米风速5分钟最大值','1','3','81','FLOAT',NULL,'[0020010040]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0041','50米风速5分钟最小值','1','3','83','FLOAT',NULL,'[0020010041]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0042','50米风向5分钟平均方差','1','3','85','FLOAT',NULL,'[0020010042]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0043','50米风向5分钟最大值','1','3','87','FLOAT',NULL,'[0020010043]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0044','50米风向5分钟最小值','1','3','89','FLOAT',NULL,'[0020010044]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0045','90米风速5分钟平均值','1','3','91','FLOAT',NULL,'[0020010045]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0046','90米风向5分钟实时值','1','3','93','FLOAT',NULL,'[0020010046]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0047','90米风速5分钟标准方差','1','3','95','FLOAT',NULL,'[0020010047]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0048','90米风速瞬时值','1','3','97','FLOAT',NULL,'[0020010048]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0049','90米风向瞬时值','1','3','99','FLOAT',NULL,'[0020010049]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0050','90米风速极大值','1','3','101','FLOAT',NULL,'[0020010050]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0051','90米风速5分钟最大值','1','3','103','FLOAT',NULL,'[0020010051]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0052','90米风速5分钟最小值','1','3','105','FLOAT',NULL,'[0020010052]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0053','90米风向5分钟平均方差','1','3','107','FLOAT',NULL,'[0020010053]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0054','90米风向5分钟最大值','1','3','109','FLOAT',NULL,'[0020010054]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0055','90米风向5分钟最小值','1','3','111','FLOAT',NULL,'[0020010055]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0056','10米温度5分钟平均值','1','3','113','FLOAT',NULL,'[0020010056]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0057','10米温度5分钟实时值','1','3','115','FLOAT',NULL,'[0020010057]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0058','10米温度5分钟平均方差','1','3','117','FLOAT',NULL,'[0020010058]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0059','10米温度5分钟最大值','1','3','119','FLOAT',NULL,'[0020010059]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0060','10米温度5分钟最小值','1','3','121','FLOAT',NULL,'[0020010060]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0061','10米湿度5分钟平均值','1','3','123','FLOAT',NULL,'[0020010061]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0062','10米湿度5分钟实时值','1','3','125','FLOAT',NULL,'[0020010062]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0063','10米湿度5分钟平均方差','1','3','127','FLOAT',NULL,'[0020010063]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0064','10米湿度5分钟最大值','1','3','129','FLOAT',NULL,'[0020010064]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0065','10米湿度5分钟最小值','1','3','131','FLOAT',NULL,'[0020010065]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0066','10米气压5分钟平均值','1','3','133','FLOAT',NULL,'[0020010066]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0067','10米气压5分钟实时值','1','3','135','FLOAT',NULL,'[0020010067]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0068','10米气压5分钟平均方差','1','3','137','FLOAT',NULL,'[0020010068]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0069','10米气压5分钟最大值','1','3','139','FLOAT',NULL,'[0020010069]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0070','10米气压5分钟最小值','1','3','141','FLOAT',NULL,'[0020010070]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0071','系统电压5分钟平均值','1','3','143','FLOAT',NULL,'[0020010071]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0072','系统电压5分钟实时值','1','3','145','FLOAT',NULL,'[0020010072]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0073','系统电压5分钟平均方差','1','3','147','FLOAT',NULL,'[0020010073]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0074','系统电压5分钟最大值','1','3','146','FLOAT',NULL,'[0020010074]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0075','系统电压5分钟最小值','1','3','149','FLOAT',NULL,'[0020010075]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0076','70米风速5分钟平均值','1','3','151','FLOAT',NULL,'[0020010076]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0077','70米风向5分钟实时值','1','3','153','FLOAT',NULL,'[0020010077]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0078','70米风速5分钟标准方差','1','3','155','FLOAT',NULL,'[0020010078]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0079','70米风速瞬时值','1','3','157','FLOAT',NULL,'[0020010079]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0080','70米风向瞬时值','1','3','159','FLOAT',NULL,'[0020010080]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0081','70米风速极大值','1','3','161','FLOAT',NULL,'[0020010081]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0082','70米风速5分钟最大值','1','3','163','FLOAT',NULL,'[0020010082]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0083','70米风速5分钟最小值','1','3','165','FLOAT',NULL,'[0020010083]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0084','70米风向5分钟平均方差','1','3','167','FLOAT',NULL,'[0020010084]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0085','70米风向5分钟最大值','1','3','169','FLOAT',NULL,'[0020010085]','1',NULL);
+INSERT INTO Channel_003_Item VALUES('001','0086','70米风向5分钟最小值','1','3','171','FLOAT',NULL,'[0020010086]','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_003_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_003_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_004_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_004_Item VALUES('001','0001','年','1','3','1','FLOAT',NULL,'[0020010001]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0002','月','1','3','3','FLOAT',NULL,'[0020010002]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0003','日','1','3','5','FLOAT',NULL,'[0020010003]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0004','小时','1','3','7','FLOAT',NULL,'[0020010004]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0005','分钟','1','3','9','FLOAT',NULL,'[0020010005]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0006','秒','1','3','11','FLOAT',NULL,'[0020010006]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0007','数据记录号','1','3','13','FLOAT',NULL,'[0020010007]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0008','站点号','1','3','15','FLOAT',NULL,'[0020010008]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0009','纬度','1','3','17','FLOAT',NULL,'[0020010009]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0010','经度','1','3','19','FLOAT',NULL,'[0020010010]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0011','海拔高度','1','3','21','FLOAT',NULL,'[0020010011]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0012','10米风速5分钟平均值','1','3','23','FLOAT',NULL,'[0020010012]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0013','10米风向5分钟实时值','1','3','25','FLOAT',NULL,'[0020010013]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0014','10米风速5分钟标准方差','1','3','27','FLOAT',NULL,'[0020010014]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0015','10米风速瞬时值','1','3','31','FLOAT',NULL,'[0020010015]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0016','10米风向瞬时值','1','3','33','FLOAT',NULL,'[0020010016]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0017','10米风速极大值','1','3','35','FLOAT',NULL,'[0020010017]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0018','10米风速5分钟最大值','1','3','37','FLOAT',NULL,'[0020010018]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0019','10米风速5分钟最小值','1','3','39','FLOAT',NULL,'[0020010019]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0020','10米风向5分钟平均方差','1','3','41','FLOAT',NULL,'[0020010020]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0021','10米风向5分钟最大值','1','3','43','FLOAT',NULL,'[0020010021]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0022','10米风向5分钟最小值','1','3','45','FLOAT',NULL,'[0020010022]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0023','30米风速5分钟平均值','1','3','47','FLOAT',NULL,'[0020010023]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0024','30米风向5分钟实时值','1','3','49','FLOAT',NULL,'[0020010024]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0025','30米风速5分钟标准方差','1','3','51','FLOAT',NULL,'[0020010025]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0026','30米风速瞬时值','1','3','53','FLOAT',NULL,'[0020010026]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0027','30米风向瞬时值','1','3','55','FLOAT',NULL,'[0020010027]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0028','30米风速极大值','1','3','57','FLOAT',NULL,'[0020010028]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0029','30米风速5分钟最大值','1','3','59','FLOAT',NULL,'[0020010029]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0030','30米风速5分钟最小值','1','3','61','FLOAT',NULL,'[0020010030]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0031','30米风向5分钟平均方差','1','3','63','FLOAT',NULL,'[0020010031]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0032','30米风向5分钟最大值','1','3','65','FLOAT',NULL,'[0020010032]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0033','30米风向5分钟最小值','1','3','67','FLOAT',NULL,'[0020010033]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0034','50米风速5分钟平均值','1','3','69','FLOAT',NULL,'[0020010034]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0035','50米风向5分钟实时值','1','3','71','FLOAT',NULL,'[0020010035]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0036','50米风速5分钟标准方差','1','3','73','FLOAT',NULL,'[0020010036]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0037','50米风速瞬时值','1','3','75','FLOAT',NULL,'[0020010037]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0038','50米风向瞬时值','1','3','77','FLOAT',NULL,'[0020010038]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0039','50米风速极大值','1','3','79','FLOAT',NULL,'[0020010039]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0040','50米风速5分钟最大值','1','3','81','FLOAT',NULL,'[0020010040]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0041','50米风速5分钟最小值','1','3','83','FLOAT',NULL,'[0020010041]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0042','50米风向5分钟平均方差','1','3','85','FLOAT',NULL,'[0020010042]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0043','50米风向5分钟最大值','1','3','87','FLOAT',NULL,'[0020010043]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0044','50米风向5分钟最小值','1','3','89','FLOAT',NULL,'[0020010044]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0045','90米风速5分钟平均值','1','3','91','FLOAT',NULL,'[0020010045]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0046','90米风向5分钟实时值','1','3','93','FLOAT',NULL,'[0020010046]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0047','90米风速5分钟标准方差','1','3','95','FLOAT',NULL,'[0020010047]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0048','90米风速瞬时值','1','3','97','FLOAT',NULL,'[0020010048]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0049','90米风向瞬时值','1','3','99','FLOAT',NULL,'[0020010049]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0050','90米风速极大值','1','3','101','FLOAT',NULL,'[0020010050]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0051','90米风速5分钟最大值','1','3','103','FLOAT',NULL,'[0020010051]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0052','90米风速5分钟最小值','1','3','105','FLOAT',NULL,'[0020010052]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0053','90米风向5分钟平均方差','1','3','107','FLOAT',NULL,'[0020010053]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0054','90米风向5分钟最大值','1','3','109','FLOAT',NULL,'[0020010054]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0055','90米风向5分钟最小值','1','3','111','FLOAT',NULL,'[0020010055]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0056','10米温度5分钟平均值','1','3','113','FLOAT',NULL,'[0020010056]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0057','10米温度5分钟实时值','1','3','115','FLOAT',NULL,'[0020010057]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0058','10米温度5分钟平均方差','1','3','117','FLOAT',NULL,'[0020010058]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0059','10米温度5分钟最大值','1','3','119','FLOAT',NULL,'[0020010059]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0060','10米温度5分钟最小值','1','3','121','FLOAT',NULL,'[0020010060]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0061','10米湿度5分钟平均值','1','3','123','FLOAT',NULL,'[0020010061]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0062','10米湿度5分钟实时值','1','3','125','FLOAT',NULL,'[0020010062]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0063','10米湿度5分钟平均方差','1','3','127','FLOAT',NULL,'[0020010063]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0064','10米湿度5分钟最大值','1','3','129','FLOAT',NULL,'[0020010064]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0065','10米湿度5分钟最小值','1','3','131','FLOAT',NULL,'[0020010065]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0066','10米气压5分钟平均值','1','3','133','FLOAT',NULL,'[0020010066]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0067','10米气压5分钟实时值','1','3','135','FLOAT',NULL,'[0020010067]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0068','10米气压5分钟平均方差','1','3','137','FLOAT',NULL,'[0020010068]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0069','10米气压5分钟最大值','1','3','139','FLOAT',NULL,'[0020010069]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0070','10米气压5分钟最小值','1','3','141','FLOAT',NULL,'[0020010070]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0071','系统电压5分钟平均值','1','3','143','FLOAT',NULL,'[0020010071]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0072','系统电压5分钟实时值','1','3','145','FLOAT',NULL,'[0020010072]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0073','系统电压5分钟平均方差','1','3','147','FLOAT',NULL,'[0020010073]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0074','系统电压5分钟最大值','1','3','146','FLOAT',NULL,'[0020010074]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0075','系统电压5分钟最小值','1','3','149','FLOAT',NULL,'[0020010075]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0076','70米风速5分钟平均值','1','3','151','FLOAT',NULL,'[0020010076]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0077','70米风向5分钟实时值','1','3','153','FLOAT',NULL,'[0020010077]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0078','70米风速5分钟标准方差','1','3','155','FLOAT',NULL,'[0020010078]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0079','70米风速瞬时值','1','3','157','FLOAT',NULL,'[0020010079]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0080','70米风向瞬时值','1','3','159','FLOAT',NULL,'[0020010080]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0081','70米风速极大值','1','3','161','FLOAT',NULL,'[0020010081]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0082','70米风速5分钟最大值','1','3','163','FLOAT',NULL,'[0020010082]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0083','70米风速5分钟最小值','1','3','165','FLOAT',NULL,'[0020010083]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0084','70米风向5分钟平均方差','1','3','167','FLOAT',NULL,'[0020010084]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0085','70米风向5分钟最大值','1','3','169','FLOAT',NULL,'[0020010085]','1',NULL);
+INSERT INTO Channel_004_Item VALUES('001','0086','70米风向5分钟最小值','1','3','171','FLOAT',NULL,'[0020010086]','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_004_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_004_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_002_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_002_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_002_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_002_Item VALUES('001','0001','年','1','3','0','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0002','月','1','3','2','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0003','日','1','3','4','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0004','小时','1','3','6','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0005','分钟','1','3','8','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0006','秒','1','3','10','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0007','数据记录号','1','3','12','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0008','站点号','1','3','14','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0009','纬度','1','3','16','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0010','经度','1','3','18','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0011','海拔高度','1','3','20','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0012','10米风速5分钟平均值','1','3','22','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0013','10米风向5分钟实时值','1','3','24','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0014','10米风速5分钟标准方差','1','3','26','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0015','10米风速瞬时值','1','3','28','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0016','10米风向瞬时值','1','3','30','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0017','10米风速极大值','1','3','32','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0018','10米风速5分钟最大值','1','3','34','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0019','10米风速5分钟最小值','1','3','36','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0020','10米风向5分钟平均方差','1','3','38','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0021','10米风向5分钟最大值','1','3','40','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0022','10米风向5分钟最小值','1','3','42','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0023','30米风速5分钟平均值','1','3','44','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0024','30米风向5分钟实时值','1','3','46','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0025','30米风速5分钟标准方差','1','3','48','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0026','30米风速瞬时值','1','3','50','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0027','30米风向瞬时值','1','3','52','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0028','30米风速极大值','1','3','54','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0029','30米风速5分钟最大值','1','3','56','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0030','30米风速5分钟最小值','1','3','58','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0031','30米风向5分钟平均方差','1','3','60','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0032','30米风向5分钟最大值','1','3','62','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0033','30米风向5分钟最小值','1','3','64','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0034','50米风速5分钟平均值','1','3','66','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0035','50米风向5分钟实时值','1','3','68','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0036','50米风速5分钟标准方差','1','3','70','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0037','50米风速瞬时值','1','3','72','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0038','50米风向瞬时值','1','3','74','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0039','50米风速极大值','1','3','76','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0040','50米风速5分钟最大值','1','3','78','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0041','50米风速5分钟最小值','1','3','80','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0042','50米风向5分钟平均方差','1','3','82','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0043','50米风向5分钟最大值','1','3','84','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0044','50米风向5分钟最小值','1','3','86','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0045','90米风速5分钟平均值','1','3','88','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0046','90米风向5分钟实时值','1','3','90','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0047','90米风速5分钟标准方差','1','3','92','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0048','90米风速瞬时值','1','3','94','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0049','90米风向瞬时值','1','3','96','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0050','90米风速极大值','1','3','98','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0051','90米风速5分钟最大值','1','3','100','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0052','90米风速5分钟最小值','1','3','102','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0053','90米风向5分钟平均方差','1','3','104','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0054','90米风向5分钟最大值','1','3','106','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0055','90米风向5分钟最小值','1','3','108','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0056','10米温度5分钟平均值','1','3','110','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0057','10米温度5分钟实时值','1','3','112','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0058','10米温度5分钟平均方差','1','3','114','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0059','10米温度5分钟最大值','1','3','116','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0060','10米温度5分钟最小值','1','3','118','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0061','10米湿度5分钟平均值','1','3','120','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0062','10米湿度5分钟实时值','1','3','122','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0063','10米湿度5分钟平均方差','1','3','124','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0064','10米湿度5分钟最大值','1','3','126','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0065','10米湿度5分钟最小值','1','3','128','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0066','10米气压5分钟平均值','1','3','130','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0067','10米气压5分钟实时值','1','3','132','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0068','10米气压5分钟平均方差','1','3','134','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0069','10米气压5分钟最大值','1','3','136','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0070','10米气压5分钟最小值','1','3','138','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0071','系统电压5分钟平均值','1','3','140','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0072','系统电压5分钟实时值','1','3','142','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0073','系统电压5分钟平均方差','1','3','144','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0074','系统电压5分钟最大值','1','3','146','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0075','系统电压5分钟最小值','1','3','148','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0076','70米风速5分钟平均值','1','3','150','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0077','70米风向5分钟实时值','1','3','152','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0078','70米风速5分钟标准方差','1','3','154','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0079','70米风速瞬时值','1','3','156','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0080','70米风向瞬时值','1','3','158','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0081','70米风速极大值','1','3','160','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0082','70米风速5分钟最大值','1','3','162','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0083','70米风速5分钟最小值','1','3','164','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0084','70米风向5分钟平均方差','1','3','166','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0085','70米风向5分钟最大值','1','3','168','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_002_Item VALUES('001','0086','70米风向5分钟最小值','1','3','170','FLOAT',NULL,NULL,'1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_005_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_005_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_005_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_005_Item VALUES('001','0001','年','1','3','0','FLOAT',NULL,'[0010010001]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0002','月','1','3','2','FLOAT',NULL,'[0010010002]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0003','日','1','3','4','FLOAT',NULL,'[0010010003]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0004','时','1','3','6','FLOAT',NULL,'[0010010004]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0005','分','1','3','8','FLOAT',NULL,'[0010010005]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0006','秒','1','3','10','FLOAT',NULL,'[0010010006]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0007','测风塔编号','1','3','12','FLOAT',NULL,'[0010010007]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0008','纬度','1','3','14','FLOAT',NULL,'[0010010008]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0009','经度','1','3','16','FLOAT',NULL,'[0010010009]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0010','海拔高度','1','3','18','FLOAT',NULL,'[0010010010]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0011','100米风速平均值','1','3','20','FLOAT',NULL,'[0010010011]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0012','100米风速实时值','1','3','22','FLOAT',NULL,'[0010010012]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0013','100米风速Gust值(三秒平均值)','1','3','24','FLOAT',NULL,'[0010010013]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0014','100米风速平均标准偏差','1','3','26','FLOAT',NULL,'[0010010014]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0015','100米风速最大值','1','3','28','FLOAT',NULL,'[0010010015]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0016','100米风速最小值','1','3','30','FLOAT',NULL,'[0010010016]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0017','100米风向平均值','1','3','32','FLOAT',NULL,'[0010010017]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0018','100米风向实时值','1','3','34','FLOAT',NULL,'[0010010018]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0019','100米风向平均标准偏差','1','3','36','FLOAT',NULL,'[0010010019]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0020','100米风向最大值','1','3','38','FLOAT',NULL,'[0010010020]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0021','100米风向最小值','1','3','40','FLOAT',NULL,'[0010010021]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0022','70米风速平均值','1','3','42','FLOAT',NULL,'[0010010022]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0023','70米风速实时值','1','3','44','FLOAT',NULL,'[0010010023]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0024','70米风速Gust值(三秒平均值)','1','3','46','FLOAT',NULL,'[0010010024]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0025','70米风速平均标准偏差','1','3','48','FLOAT',NULL,'[0010010025]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0026','70米风速最大值','1','3','50','FLOAT',NULL,'[0010010026]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0027','70米风速最小值','1','3','52','FLOAT',NULL,'[0010010027]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0028','70米风向平均值','1','3','54','FLOAT',NULL,'[0010010028]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0029','70米风向实时值','1','3','56','FLOAT',NULL,'[0010010029]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0030','70米风向平均标准偏差','1','3','58','FLOAT',NULL,'[0010010030]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0031','70米风向最大值','1','3','60','FLOAT',NULL,'[0010010031]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0032','70米风向最小值','1','3','62','FLOAT',NULL,'[0010010032]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0033','50米风速平均值','1','3','64','FLOAT',NULL,'[0010010033]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0034','50米风速实时值','1','3','66','FLOAT',NULL,'[0010010034]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0035','50米风速Gust值(三秒平均值)','1','3','68','FLOAT',NULL,'[0010010035]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0036','50米风速平均标准偏差','1','3','70','FLOAT',NULL,'[0010010036]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0037','50米风速最大值','1','3','72','FLOAT',NULL,'[0010010037]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0038','50米风速最小值','1','3','74','FLOAT',NULL,'[0010010038]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0039','50米风向平均值','1','3','76','FLOAT',NULL,'[0010010039]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0040','50米风向实时值','1','3','78','FLOAT',NULL,'[0010010040]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0041','50米风向平均标准偏差','1','3','80','FLOAT',NULL,'[0010010041]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0042','50米风向最大值','1','3','82','FLOAT',NULL,'[0010010042]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0043','50米风向最小值','1','3','84','FLOAT',NULL,'[0010010043]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0044','30米风速平均值','1','3','86','FLOAT',NULL,'[0010010044]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0045','30米风速实时值','1','3','88','FLOAT',NULL,'[0010010045]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0046','30米风速Gust值(三秒平均值)','1','3','90','FLOAT',NULL,'[0010010046]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0047','30米风速平均标准偏差','1','3','92','FLOAT',NULL,'[0010010047]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0048','30米风速最大值','1','3','94','FLOAT',NULL,'[0010010048]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0049','30米风速最小值','1','3','96','FLOAT',NULL,'[0010010049]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0050','30米风向平均值','1','3','98','FLOAT',NULL,'[0010010050]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0051','30米风向实时值','1','3','100','FLOAT',NULL,'[0010010051]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0052','30米风向平均标准偏差','1','3','102','FLOAT',NULL,'[0010010052]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0053','30米风向最大值','1','3','104','FLOAT',NULL,'[0010010053]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0054','30米风向最小值','1','3','106','FLOAT',NULL,'[0010010054]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0055','10米风速平均值','1','3','108','FLOAT',NULL,'[0010010055]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0056','10米风速实时值','1','3','110','FLOAT',NULL,'[0010010056]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0057','10米风速Gust值(三秒平均值)','1','3','112','FLOAT',NULL,'[0010010057]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0058','10米风速平均标准偏差','1','3','114','FLOAT',NULL,'[0010010058]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0059','10米风速最大值','1','3','116','FLOAT',NULL,'[0010010059]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0060','10米风速最小值','1','3','118','FLOAT',NULL,'[0010010060]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0061','10米风向平均值','1','3','120','FLOAT',NULL,'[0010010061]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0062','10米风向实时值','1','3','122','FLOAT',NULL,'[0010010062]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0063','10米风向平均标准偏差','1','3','124','FLOAT',NULL,'[0010010063]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0064','10米风向最大值','1','3','126','FLOAT',NULL,'[0010010064]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0065','10米风向最小值','1','3','128','FLOAT',NULL,'[0010010065]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0066','8米温度平均值','1','3','130','FLOAT',NULL,'[0010010066]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0067','8米温度实时值','1','3','132','FLOAT',NULL,'[0010010067]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0068','8米温度标准偏差','1','3','134','FLOAT',NULL,'[0010010068]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0069','8米温度最大值','1','3','136','FLOAT',NULL,'[0010010069]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0070','8米温度最小值','1','3','138','FLOAT',NULL,'[0010010070]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0071','8米湿度平均值','1','3','140','FLOAT',NULL,'[0010010071]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0072','8米湿度实时值','1','3','142','FLOAT',NULL,'[0010010072]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0073','8米湿度标准偏差','1','3','144','FLOAT',NULL,'[0010010073]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0074','8米湿度最大值','1','3','146','FLOAT',NULL,'[0010010074]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0075','8米湿度最小值','1','3','148','FLOAT',NULL,'[0010010075]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0076','8米气压平均值','1','3','150','FLOAT',NULL,'[0010010076]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0077','8米气压实时值','1','3','152','FLOAT',NULL,'[0010010077]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0078','8米气压标准偏差','1','3','154','FLOAT',NULL,'[0010010078]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0079','8米气压最大值','1','3','156','FLOAT',NULL,'[0010010079]','1',NULL);
+INSERT INTO Channel_005_Item VALUES('001','0080','8米气压最小值','1','3','158','FLOAT',NULL,'[0010010080]','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_006_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_006_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_006_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_006_Item VALUES('001','0001','1分钟整场理论功率平均值TPS','1','13','16385','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_006_Item VALUES('001','0002','1分钟整场可用功率平均值TPS','1','13','16386','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_006_Item VALUES('001','0003','1分钟整场有功功率平均值TPS','1','13','16387','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_006_Item VALUES('001','0004','1分钟整场有功功率平均值TPS','1','13','16388','FLOAT',NULL,NULL,'1',NULL);
+INSERT INTO Channel_006_Item VALUES('001','0005','1分钟整场限功率状态标志TPS','1','13','16389','FLOAT',NULL,NULL,'1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_007_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_007_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_007_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_007_Item VALUES('001','0001','1分钟整场理论功率平均值TPS','1','13','16385','FLOAT',NULL,'[0060010001]','1',NULL);
+INSERT INTO Channel_007_Item VALUES('001','0002','1分钟整场可用功率平均值TPS','1','13','16386','FLOAT',NULL,'[0060010002]','1',NULL);
+INSERT INTO Channel_007_Item VALUES('001','0003','1分钟整场有功功率平均值TPS','1','13','16387','FLOAT',NULL,'[0060010003]','1',NULL);
+INSERT INTO Channel_007_Item VALUES('001','0004','1分钟整场有功功率平均值TPS','1','13','16388','FLOAT',NULL,'[0060010004]','1',NULL);
+INSERT INTO Channel_007_Item VALUES('001','0005','1分钟整场限功率状态标志TPS','1','13','16389','FLOAT',NULL,'[0060010005]','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_008_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_008_Group VALUES('001','遥测');
+CREATE TABLE IF NOT EXISTS "Channel_008_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_008_Item VALUES('001','0001','1分钟整场有功功率瞬时值','1','13','16432','FLOAT',NULL,'','1',NULL);
+INSERT INTO Channel_008_Item VALUES('001','0002','1分钟整场无功功率瞬时值','1','13','16433','FLOAT',NULL,'','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_009_Item" (
+  "GroupNumber" TEXT(255),
+  "Number" TEXT(255),
+  "Describe" TEXT(255),
+  "PublicAddr" TEXT(255),
+  "Code" TEXT(255),
+  "Addr" TEXT(255),
+  "Type" TEXT(255),
+  "Units" TEXT(255),
+  "Value" TEXT(255),
+  "Coef" TEXT(255),
+  "Verify" TEXT(255)
+);
+INSERT INTO Channel_009_Item VALUES('001','0001','1分钟整场有功功率瞬时值','1','13','16432','FLOAT',NULL,'[0080010001]','1',NULL);
+INSERT INTO Channel_009_Item VALUES('001','0002','1分钟整场无功功率瞬时值','1','13','16433','FLOAT',NULL,'[0080010002]','1',NULL);
+CREATE TABLE IF NOT EXISTS "Channel_009_Group" (
+  "Number" NVARCHAR(32),
+  "Describe" NVARCHAR(128) NOT NULL,
+  PRIMARY KEY ("Number")
+);
+INSERT INTO Channel_009_Group VALUES('001','遥测');
+COMMIT;

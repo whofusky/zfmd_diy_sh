@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='gb2312' standalone='no'?>
+<!-- xxxxxxxxxx 风电场 scada 各通道点表相关配置文件 -->
+<!--The revision history is as follows:-->
+<!-- 0000-00-00 建立文件初始版本 内部版本号: v0.001-->
+<!--通道 channel 节点配置说明：-->
+<!--chnNum:    通道号,-->
+<!--pntObjLng: 点地址关联通用数据对象的长度,若配置为0,程序自动读结构体T_snnUsrData的大小 -->
+<!--maxPhyType:通道中包括的物理量最大数（至少不能小于实际配的物理量的值)-->
+<!--tmStmpLng:时标长度 -->
+<!--dataIdLng:数据id长度;              (非必配参数) -->
+<!--pntAddrNum:通道中包括的点地址总数; (非必配参数) -->
+<!--phyUnitNum:通道中包括的物理量总数; (非必配参数) -->
+<!--物理量 phyObjVal 节点配置说明:-->
+<!--phyType:   物理量的数字表示-->
+<!--calcMethd: 物理量值的算法 -->
+<!--phyValLng: 物理量对应的值长度 -->
+<!--multFactor:乘法系数;                            (非必配参数)不配置时默认为1-->
+<!--valOffset: 值的偏移量;                          (非必配参数)不配置时默认为0-->
+<!--chToDbFlag:值变了才入库标识;                    (非必配参数)不配置时默认为0-->
+<!--hisMaxNum: 表示在算法中需要存的最大历史值的个数;(非必配参数)不配置时默认为0 -->
+<!--grpNo:     物理量对应的组号;                    (非必配参数)不配置时默认为0-->
+<!--grpAttr:   组属性;                              (非必配参数)不配置时默认为0-->
+<!--pntAddrs:  配置一个物理量对应点地址配置         (非必配参数)不配置时说明没有对应点地址-->
+<!--pntAddr :  对应点地址值 -->
+<root>
+    <protocolSet>
+        <!--支持的协议集-->
+        <prtl prtlNo="106" name="ModbusTcp" transType="0" noteTxt="注释" bufLng="255">
+            <sessionSet>
+                <ssn name="功能码3" ssnNo="3">
+                    <mode No="0"/>
+                </ssn>
+                <ssn name="功能码1" ssnNo="1">
+                    <mode No="0"/>
+                </ssn>
+                <ssn name="功能码4" ssnNo="4">
+                    <mode No="0"/>
+                </ssn>
+            </sessionSet>
+            <timerInfo>
+                <timer name="T0"/>
+            </timerInfo>
+            <controlPara W="0" K="0"/>
+        </prtl>
+    </protocolSet>
+    <sysCfg>
+        <!--数据中心入库-->
+        <dataInIP lcalPort="5406" rmtPort="9009" lcalIp="127.0.0.1" rmtIp="127.0.0.1">
+            <lcalIpNote/>
+            <lcalPortNote/>
+            <rmtIpNote/>
+            <rmtPortNote/>
+        </dataInIP>
+        <!--数据中心出库-->
+        <dataOutIP lcalPort="6407" rmtPort="9009" lcalIp="127.0.0.1" rmtIp="127.0.0.1">
+            <lcalIpNote/>
+            <lcalPortNote/>
+            <rmtIpNote/>
+            <rmtPortNote/>
+        </dataOutIP>
+        <stationNum value="3">备注</stationNum>
+    </sysCfg>

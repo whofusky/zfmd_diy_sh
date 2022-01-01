@@ -1,0 +1,14 @@
+            <sessionCfgList waitTime="3000">
+                <sessionCfg snnMaxRetryNum="0" waitTime="3000" prio="1" actFlag="0" ssnMode="0" check="" ssnDscNo="3">
+                    <sessionInst cmnAddr="1" collMethods="1" number="120" addrStart="0" cycTm="" instNo="0"/>
+                    <sessionInst cmnAddr="1" collMethods="1" number="62" addrStart="120" cycTm="" instNo="1"/>
+                    <ptclStepList>
+                        <ptclStep reqORres="0" stepNo="1" storORload="0">
+                            <frame tidORfuncode="3" TID="" objNum="0" ptclHead="0" VSQ_SQ="" COT="" serialNo="1" objstartAddr="0"/>
+                        </ptclStep>
+                        <ptclStep reqORres="1" stepNo="2" storORload="1">
+                            <frame tidORfuncode="3" TID="" objNum="0" ptclHead="0" VSQ_SQ="" COT="" serialNo="1" objstartAddr="0"/>
+                        </ptclStep>
+                    </ptclStepList>
+                </sessionCfg>
+            </sessionCfgList>

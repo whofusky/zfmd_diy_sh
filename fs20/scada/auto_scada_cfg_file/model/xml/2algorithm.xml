@@ -1,0 +1,34 @@
+    <!--全局算法配置-->
+    <algorithmCfg>
+        <!--serialNo序号-->
+        <!--name算法名称-->
+        <!--algNo算法编号-->
+        <!--algType算法类型-->
+        <!--algrth的值可以填写注释-->
+        <algrth name="Z直接保存" serialNo="0" algType="0" algNo="161">104协议与Modbus协议都可用</algrth>
+        <algrth name="Z寄存器拼接" serialNo="1" algType="0" algNo="162">将点值按配置的顺序拼接（Modbus）</algrth>
+        <algrth name="Z求平均" serialNo="2" algType="0" algNo="163">累加做除法（104协议与Modbus协议都可用）</algrth>
+        <algrth name="Z寄存器拼接求平均" serialNo="3" algType="0" algNo="164">将点值按配置的顺序拼接并累加做除法（Modbus）</algrth>
+        <algrth name="Z按位拼接" serialNo="4" algType="0" algNo="165">将点按配置顺序（按位拼接Modbus）</algrth>
+        <algrth name="Z值变化保存" serialNo="5" algType="0" algNo="166">值有变化才保存(104)</algrth>
+        <algrth name="Z乘系数再加系数" serialNo="6" algType="0" algNo="167">乘系数再加系数，y =ax+b（104与Modbus）,</algrth>
+        <algrth name="Z风向求平均" serialNo="7" algType="0" algNo="168">风向求平均值（104与Modbus）</algrth>
+        <algrth name="Z乘系数再加系数之和求平均" serialNo="8" algType="0" algNo="169">乘法系数+累加系数求和后在累加做除法，之前的累加和+（y=ax+b），如风速求平均（104与Modbus）</algrth>
+        <algrth name="Z风速求标准差" serialNo="9" algType="0" algNo="170">风速求标准差（104与Modbus）</algrth>
+        <algrth name="Z风向求标准差" serialNo="10" algType="0" algNo="171">风向求标准差（104与Modbus）</algrth>
+        <algrth name="Z获取本地时间" serialNo="11" algType="0" algNo="172">获取时间（Modbus）</algrth>
+        <algrth name="Z超短期转发" serialNo="12" algType="0" algNo="173">多个点对应一个数据时，按顺序拼接（Modbus）如超短期数据</algrth>
+        <algrth name="Z寄存器拼接（大端）" serialNo="13" algType="0" algNo="175">将点值按配置的顺序拼接（Modbus大端）</algrth>
+        <algrth name="Z寄存器拼接求平均(大端)" serialNo="14" algType="0" algNo="177">将点按配置的顺序拼接并累加做除法（Modbus大端）</algrth>
+        <algrth name="Z风向求平均（大端）" serialNo="15" algType="0" algNo="178">风向求平均值（Modbus大端）</algrth>
+        <algrth name="Z风速求标准差（大端）" serialNo="16" algType="0" algNo="179">风速求标准差（Modbus大端）</algrth>
+        <algrth name="Z风向求标准差（大端）" serialNo="17" algType="0" algNo="180">风向求标准差（大端）</algrth>
+        <algrth name="Z乘系数再加系数之和求平均（大端）" serialNo="18" algType="0" algNo="181">乘法系数+累加系数求和后在累加做除法，之前的累加和+（y=ax+b），如风速求平均（104与Modbus大端）</algrth>
+        <algrth name="Z乘系数再加系数（大端）" serialNo="19" algType="0" algNo="182">乘系数再加系数，y =ax+b（104与Modbus）</algrth>
+        <algrth name="Z庄河限电标志位推测" serialNo="20" algType="0" algNo="183">庄河AGC限电标志位推测（仅适用于庄河现场）</algrth>
+        <algrth name="Z风向实时值" serialNo="21" algType="0" algNo="184">风向实时值（104与Modbus）</algrth>
+        <algrth name="Z风向实时值（大端）" serialNo="22" algType="0" algNo="185">风向实时值（大端104与Modbus）</algrth>
+    </algorithmCfg>
+    <zoomModeList>
+        <zoomMode serialNo="0">a*x+b</zoomMode>
+    </zoomModeList>

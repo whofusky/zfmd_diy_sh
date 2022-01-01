@@ -1,0 +1,3 @@
+addr_val,addr_name,did_core_name0,did_core_name1,did_core_name2,did_suffix_name,append_add_num,offset_to_local,is_it_used,addr_type,1mi_x_val,1mi_rtv_val,1mi_avg_val,1mi_sdv_val,5mi_x_val,5mi_rtv_val,5mi_avg_val,5mi_sdv_val,15mi_sdv_val,15mi_avg_val,15mi_x_val
+0,整场有功功率,整场有功功率,,,IAS,1,0,1,3,,0#167#0#1#0,0#169#0#1#0,,,,0#169#0#1#0,,,0#169#0#1#0,
+2,整场无功功率,整场无功功率,,,IAS,1,0,1,3,,0#167#0#1#0,0#169#0#1#0,,,,0#169#0#1#0,,,0#169#0#1#0,
