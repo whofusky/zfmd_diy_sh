@@ -382,9 +382,10 @@ function F_cpModF2Data()
         exit 1
     fi
     local inFile="$1"
-    local tPath="${inFile%/*}"
+    local tPath=$(echo "${inFile%/*}"|sed "s+/${mdDname}/+/${dtDname}/+g")
     F_mkDir "${tPath}"
-    curDoDataFile=$(echo "${inFile}"|sed "s+/${mdDname}/+/${dtDname}/+g")
+    #curDoDataFile=$(echo "${inFile}"|sed "s+/${mdDname}/+/${dtDname}/+g")
+    curDoDataFile="${tPath}/${inFile##*/}"
     cp -a "${inFile}" "${curDoDataFile}"
     return 0
 }
@@ -400,9 +401,10 @@ function F_cpCsvF2Data()
         exit 1
     fi
     local inFile="$1"
-    local tPath="${inFile%/*}"
+    local tPath=$(echo "${inFile%/*}/csv"|sed "s+/${csvDname}/+/${dtDname}/+g")
     F_mkDir "${tPath}"
-    curDoDataFile=$(echo "${inFile}"|sed "s+/${csvDname}/+/${dtDname}/+g")
+    #curDoDataFile=$(echo "${inFile}"|sed "s+/${csvDname}/+/${dtDname}/+g")
+    curDoDataFile="${tPath}/${inFile##*/}"
 
     local tchSet=$(file  --mime-encoding "${inFile}"|awk '{print $2}')
     tchSet="${tchSet%%-*}"
