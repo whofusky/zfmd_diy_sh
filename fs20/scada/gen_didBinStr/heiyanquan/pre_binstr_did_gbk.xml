@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="gb2312" standalone="no" ?>
+<root idNum="334">
+
+
+
+    <!--1分钟 10m 测风塔1 温度-->
+    <!--1分钟 10m 测风塔1 温度 实时值-->
+    <dataId name="1分钟10m测风塔1温度实时值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 温度 最大值-->
+    <dataId name="1分钟10m测风塔1温度最大值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 温度 最小值-->
+    <dataId name="1分钟10m测风塔1温度最小值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 温度 标准差值-->
+    <dataId name="1分钟10m测风塔1温度标准差值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 湿度-->
+    <!--1分钟 10m 测风塔1 湿度 实时值-->
+    <dataId name="1分钟10m测风塔1湿度实时值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 湿度 最大值-->
+    <dataId name="1分钟10m测风塔1湿度最大值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 湿度 最小值-->
+    <dataId name="1分钟10m测风塔1湿度最小值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 湿度 标准差值-->
+    <dataId name="1分钟10m测风塔1湿度标准差值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 气压-->
+    <!--1分钟 10m 测风塔1 气压 实时值-->
+    <dataId name="1分钟10m测风塔1气压实时值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 气压 最大值-->
+    <dataId name="1分钟10m测风塔1气压最大值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 气压 最小值-->
+    <dataId name="1分钟10m测风塔1气压最小值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 气压 标准差值-->
+    <dataId name="1分钟10m测风塔1气压标准差值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 风速-->
+    <!--1分钟 10m 测风塔1 风速 实时值-->
+    <dataId name="1分钟10m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风速 最大值-->
+    <dataId name="1分钟10m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风速 最小值-->
+    <dataId name="1分钟10m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风速 标准差值-->
+    <dataId name="1分钟10m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 风向-->
+    <!--1分钟 10m 测风塔1 风向 实时值-->
+    <dataId name="1分钟10m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风向 最大值-->
+    <dataId name="1分钟10m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风向 最小值-->
+    <dataId name="1分钟10m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m 测风塔1 风向 标准差值-->
+    <dataId name="1分钟10m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 50m 测风塔1 风速-->
+    <!--1分钟 50m 测风塔1 风速 实时值-->
+    <dataId name="1分钟50m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风速 最大值-->
+    <dataId name="1分钟50m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风速 最小值-->
+    <dataId name="1分钟50m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风速 标准差值-->
+    <dataId name="1分钟50m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 50m 测风塔1 风向-->
+    <!--1分钟 50m 测风塔1 风向 实时值-->
+    <dataId name="1分钟50m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风向 最大值-->
+    <dataId name="1分钟50m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风向 最小值-->
+    <dataId name="1分钟50m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 50m 测风塔1 风向 标准差值-->
+    <dataId name="1分钟50m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 80m 测风塔1 风速-->
+    <!--1分钟 80m 测风塔1 风速 实时值-->
+    <dataId name="1分钟80m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风速 最大值-->
+    <dataId name="1分钟80m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风速 最小值-->
+    <dataId name="1分钟80m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风速 标准差值-->
+    <dataId name="1分钟80m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 80m 测风塔1 风向-->
+    <!--1分钟 80m 测风塔1 风向 实时值-->
+    <dataId name="1分钟80m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风向 最大值-->
+    <dataId name="1分钟80m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风向 最小值-->
+    <dataId name="1分钟80m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 80m 测风塔1 风向 标准差值-->
+    <dataId name="1分钟80m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 100m 测风塔1 风速-->
+    <!--1分钟 100m 测风塔1 风速 实时值-->
+    <dataId name="1分钟100m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风速 最大值-->
+    <dataId name="1分钟100m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风速 最小值-->
+    <dataId name="1分钟100m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风速 标准差值-->
+    <dataId name="1分钟100m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 100m 测风塔1 风向-->
+    <!--1分钟 100m 测风塔1 风向 实时值-->
+    <dataId name="1分钟100m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风向 最大值-->
+    <dataId name="1分钟100m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风向 最小值-->
+    <dataId name="1分钟100m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 100m 测风塔1 风向 标准差值-->
+    <dataId name="1分钟100m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 110m 测风塔1 风速-->
+    <!--1分钟 110m 测风塔1 风速 实时值-->
+    <dataId name="1分钟110m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风速 最大值-->
+    <dataId name="1分钟110m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风速 最小值-->
+    <dataId name="1分钟110m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风速 标准差值-->
+    <dataId name="1分钟110m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 110m 测风塔1 风向-->
+    <!--1分钟 110m 测风塔1 风向 实时值-->
+    <dataId name="1分钟110m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风向 最大值-->
+    <dataId name="1分钟110m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风向 最小值-->
+    <dataId name="1分钟110m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 110m 测风塔1 风向 标准差值-->
+    <dataId name="1分钟110m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 测风塔1 电池电压 平均值-->
+    <dataId name="1分钟测风塔1电池电压平均值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+    <!--1分钟 测风塔1 电池电压 实时值-->
+    <dataId name="1分钟测风塔1电池电压实时值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+    <!--1分钟 测风塔1 电池电压标准差值-->
+    <dataId name="1分钟测风塔1电池电压标准差值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+    <!--1分钟 测风塔1 电池电压 最大值-->
+    <dataId name="1分钟测风塔1电池电压最大值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+    <!--1分钟 测风塔1 电池电压 最小值-->
+    <dataId name="1分钟测风塔1电池电压最小值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+    <!--1分钟 10m 测风塔1 风速 平均值-->
+    <dataId name="1分钟10m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 风向 平均值-->
+    <dataId name="1分钟10m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 温度 平均值-->
+    <dataId name="1分钟10m测风塔1温度平均值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+        
+    <!--1分钟 10m 测风塔1 湿度 平均值-->
+    <dataId name="1分钟10m测风塔1湿度平均值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m 测风塔1 气压 平均值-->
+    <dataId name="1分钟10m测风塔1气压平均值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 50m 测风塔1 风速 平均值-->
+    <dataId name="1分钟50m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 50m 测风塔1 风向 平均值-->
+    <dataId name="1分钟50m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 80m 测风塔1 风速 平均值-->
+    <dataId name="1分钟80m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 80m 测风塔1 风向 平均值-->
+    <dataId name="1分钟80m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 100m 测风塔1 风速 平均值-->
+    <dataId name="1分钟100m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 100m 测风塔1 风向 平均值-->
+    <dataId name="1分钟100m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 110m 测风塔1 风速 平均值-->
+    <dataId name="1分钟110m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 110m 测风塔1 风向 平均值-->
+    <dataId name="1分钟110m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--5分钟 测风塔1 电池电压 平均值-->
+    <dataId name="5分钟测风塔1电池电压平均值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5" />
+
+    <!--5分钟 测风塔1 电池电压 实时值-->
+    <dataId name="5分钟测风塔1电池电压实时值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5" />
+
+    <!--5分钟 测风塔1 电池电压标准差值-->
+    <dataId name="5分钟测风塔1电池电压标准差值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5" />
+
+    <!--5分钟 测风塔1 电池电压 最大值-->
+    <dataId name="5分钟测风塔1电池电压最大值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5" />
+
+    <!--5分钟 测风塔1 电池电压 最小值-->
+    <dataId name="5分钟测风塔1电池电压最小值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5" />
+
+    <!--5分钟 10m 测风塔1 风速 平均值-->
+    <dataId name="5分钟10m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 风向 平均值-->
+    <dataId name="5分钟10m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 风速 最大值-->
+    <dataId name="5分钟10m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 风速 最小值-->
+    <dataId name="5分钟10m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 风速 标准差值-->
+    <dataId name="5分钟10m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 风向 最大值-->
+    <dataId name="5分钟10m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 风向 最小值-->
+    <dataId name="5分钟10m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 风向 标准差值-->
+    <dataId name="5分钟10m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 温度 平均值-->
+    <dataId name="5分钟10m测风塔1温度平均值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+        
+    <!--5分钟 10m 测风塔1 湿度 平均值-->
+    <dataId name="5分钟10m测风塔1湿度平均值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 气压 平均值-->
+    <dataId name="5分钟10m测风塔1气压平均值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 温度 最大值-->
+    <dataId name="5分钟10m测风塔1温度最大值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 温度 最小值-->
+    <dataId name="5分钟10m测风塔1温度最小值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 温度 标准差值-->
+    <dataId name="5分钟10m测风塔1温度标准差值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 湿度 最大值-->
+    <dataId name="5分钟10m测风塔1湿度最大值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 湿度 最小值-->
+    <dataId name="5分钟10m测风塔1湿度最小值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 湿度 标准差值-->
+    <dataId name="5分钟10m测风塔1湿度标准差值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 气压 最大值-->
+    <dataId name="5分钟10m测风塔1气压最大值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 气压 最小值-->
+    <dataId name="5分钟10m测风塔1气压最小值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 气压 标准差值-->
+    <dataId name="5分钟10m测风塔1气压标准差值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 50m 测风塔1 风速 平均值-->
+    <dataId name="5分钟50m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 50m 测风塔1 风向 平均值-->
+    <dataId name="5分钟50m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 50m 测风塔1 风速 最大值-->
+    <dataId name="5分钟50m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 50m 测风塔1 风速 最小值-->
+    <dataId name="5分钟50m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 50m 测风塔1 风速 标准差值-->
+    <dataId name="5分钟50m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 50m 测风塔1 风向 最大值-->
+    <dataId name="5分钟50m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 50m 测风塔1 风向 最小值-->
+    <dataId name="5分钟50m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 50m 测风塔1 风向 标准差值-->
+    <dataId name="5分钟50m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 80m 测风塔1 风速 平均值-->
+    <dataId name="5分钟80m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 80m 测风塔1 风向 平均值-->
+    <dataId name="5分钟80m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 80m 测风塔1 风速 最大值-->
+    <dataId name="5分钟80m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 80m 测风塔1 风速 最小值-->
+    <dataId name="5分钟80m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 80m 测风塔1 风速 标准差值-->
+    <dataId name="5分钟80m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 80m 测风塔1 风向 最大值-->
+    <dataId name="5分钟80m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 80m 测风塔1 风向 最小值-->
+    <dataId name="5分钟80m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 80m 测风塔1 风向 标准差值-->
+    <dataId name="5分钟80m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 100m 测风塔1 风速 平均值-->
+    <dataId name="5分钟100m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 100m 测风塔1 风向 平均值-->
+    <dataId name="5分钟100m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 100m 测风塔1 风速 最大值-->
+    <dataId name="5分钟100m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 100m 测风塔1 风速 最小值-->
+    <dataId name="5分钟100m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 100m 测风塔1 风速 标准差值-->
+    <dataId name="5分钟100m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 100m 测风塔1 风向 最大值-->
+    <dataId name="5分钟100m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 100m 测风塔1 风向 最小值-->
+    <dataId name="5分钟100m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 100m 测风塔1 风向 标准差值-->
+    <dataId name="5分钟100m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 110m 测风塔1 风速 平均值-->
+    <dataId name="5分钟110m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 110m 测风塔1 风向 平均值-->
+    <dataId name="5分钟110m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 110m 测风塔1 风速 最大值-->
+    <dataId name="5分钟110m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 110m 测风塔1 风速 最小值-->
+    <dataId name="5分钟110m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 110m 测风塔1 风速 标准差值-->
+    <dataId name="5分钟110m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 110m 测风塔1 风向 最大值-->
+    <dataId name="5分钟110m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 110m 测风塔1 风向 最小值-->
+    <dataId name="5分钟110m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 110m 测风塔1 风向 标准差值-->
+    <dataId name="5分钟110m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--15分钟 测风塔1 电池电压 平均值-->
+    <dataId name="15分钟测风塔1电池电压平均值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15" />
+
+    <!--15分钟 测风塔1 电池电压 实时值-->
+    <dataId name="15分钟测风塔1电池电压实时值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15" />
+
+    <!--15分钟 测风塔1 电池电压标准差值-->
+    <dataId name="15分钟测风塔1电池电压标准差值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15" />
+
+    <!--15分钟 测风塔1 电池电压 最大值-->
+    <dataId name="15分钟测风塔1电池电压最大值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15" />
+
+    <!--15分钟 测风塔1 电池电压 最小值-->
+    <dataId name="15分钟测风塔1电池电压最小值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15" />
+
+    <!--15分钟 10m 测风塔1 风速 平均值-->
+    <dataId name="15分钟10m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 风向 平均值-->
+    <dataId name="15分钟10m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 风速 最大值-->
+    <dataId name="15分钟10m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 风速 最小值-->
+    <dataId name="15分钟10m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 风速 标准差值-->
+    <dataId name="15分钟10m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 风向 最大值-->
+    <dataId name="15分钟10m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 风向 最小值-->
+    <dataId name="15分钟10m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 风向 标准差值-->
+    <dataId name="15分钟10m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 温度 平均值-->
+    <dataId name="15分钟10m测风塔1温度平均值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+        
+    <!--15分钟 10m 测风塔1 湿度 平均值-->
+    <dataId name="15分钟10m测风塔1湿度平均值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 气压 平均值-->
+    <dataId name="15分钟10m测风塔1气压平均值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 温度 最大值-->
+    <dataId name="15分钟10m测风塔1温度最大值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 温度 最小值-->
+    <dataId name="15分钟10m测风塔1温度最小值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 温度 标准差值-->
+    <dataId name="15分钟10m测风塔1温度标准差值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 湿度 最大值-->
+    <dataId name="15分钟10m测风塔1湿度最大值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 湿度 最小值-->
+    <dataId name="15分钟10m测风塔1湿度最小值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 湿度 标准差值-->
+    <dataId name="15分钟10m测风塔1湿度标准差值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 10m 测风塔1 气压 最大值-->
+    <dataId name="15分钟10m测风塔1气压最大值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 气压 最小值-->
+    <dataId name="15分钟10m测风塔1气压最小值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 10m 测风塔1 气压 标准差值-->
+    <dataId name="15分钟10m测风塔1气压标准差值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 50m 测风塔1 风速 平均值-->
+    <dataId name="15分钟50m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 50m 测风塔1 风向 平均值-->
+    <dataId name="15分钟50m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 50m 测风塔1 风速 最大值-->
+    <dataId name="15分钟50m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 50m 测风塔1 风速 最小值-->
+    <dataId name="15分钟50m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 50m 测风塔1 风速 标准差值-->
+    <dataId name="15分钟50m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 50m 测风塔1 风向 最大值-->
+    <dataId name="15分钟50m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 50m 测风塔1 风向 最小值-->
+    <dataId name="15分钟50m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 50m 测风塔1 风向 标准差值-->
+    <dataId name="15分钟50m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 80m 测风塔1 风速 平均值-->
+    <dataId name="15分钟80m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 80m 测风塔1 风向 平均值-->
+    <dataId name="15分钟80m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 80m 测风塔1 风速 最大值-->
+    <dataId name="15分钟80m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 80m 测风塔1 风速 最小值-->
+    <dataId name="15分钟80m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 80m 测风塔1 风速 标准差值-->
+    <dataId name="15分钟80m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 80m 测风塔1 风向 最大值-->
+    <dataId name="15分钟80m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 80m 测风塔1 风向 最小值-->
+    <dataId name="15分钟80m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 80m 测风塔1 风向 标准差值-->
+    <dataId name="15分钟80m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 100m 测风塔1 风速 平均值-->
+    <dataId name="15分钟100m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 100m 测风塔1 风向 平均值-->
+    <dataId name="15分钟100m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 100m 测风塔1 风速 最大值-->
+    <dataId name="15分钟100m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 100m 测风塔1 风速 最小值-->
+    <dataId name="15分钟100m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 100m 测风塔1 风速 标准差值-->
+    <dataId name="15分钟100m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 100m 测风塔1 风向 最大值-->
+    <dataId name="15分钟100m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 100m 测风塔1 风向 最小值-->
+    <dataId name="15分钟100m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 100m 测风塔1 风向 标准差值-->
+    <dataId name="15分钟100m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 110m 测风塔1 风速 平均值-->
+    <dataId name="15分钟110m测风塔1风速平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 110m 测风塔1 风向 平均值-->
+    <dataId name="15分钟110m测风塔1风向平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 110m 测风塔1 风速 最大值-->
+    <dataId name="15分钟110m测风塔1风速最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 110m 测风塔1 风速 最小值-->
+    <dataId name="15分钟110m测风塔1风速最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 110m 测风塔1 风速 标准差值-->
+    <dataId name="15分钟110m测风塔1风速标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--15分钟 110m 测风塔1 风向 最大值-->
+    <dataId name="15分钟110m测风塔1风向最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 110m 测风塔1 风向 最小值-->
+    <dataId name="15分钟110m测风塔1风向最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 110m 测风塔1 风向 标准差值-->
+    <dataId name="15分钟110m测风塔1风向标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+    <!--1分钟 风机1 风机状态float-->
+    <dataId name="1分钟风机1风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 有功功率 实时值-->
+	<dataId name="1分钟风机1有功功率实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!-- 1分钟 风机1 无功功率 实时值-->
+	<dataId name="1分钟风机1无功功率实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 风速 实时值-->
+	<dataId name="1分钟风机1风速实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 风向 实时值-->
+	<dataId name="1分钟风机1风向实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 桨距角 实时值-->
+    <dataId name="1分钟风机1桨距角实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 发电机转速 实时值-->
+    <dataId name="1分钟风机1发电机转速实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 环境温度 实时值-->
+    <dataId name="1分钟风机1环境温度实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 累积发电量-->
+    <dataId name="1分钟风机1累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 风机2 风机状态float-->
+    <dataId name="1分钟风机2风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 有功功率 实时值-->
+	<dataId name="1分钟风机2有功功率实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!-- 1分钟 风机2 无功功率 实时值-->
+	<dataId name="1分钟风机2无功功率实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 风速 实时值-->
+	<dataId name="1分钟风机2风速实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 风向 实时值-->
+	<dataId name="1分钟风机2风向实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 桨距角 实时值-->
+    <dataId name="1分钟风机2桨距角实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 发电机转速 实时值-->
+    <dataId name="1分钟风机2发电机转速实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 环境温度 实时值-->
+    <dataId name="1分钟风机2环境温度实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 累积发电量-->
+    <dataId name="1分钟风机2累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 风机3 风机状态float-->
+    <dataId name="1分钟风机3风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 有功功率 实时值-->
+	<dataId name="1分钟风机3有功功率实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!-- 1分钟 风机3 无功功率 实时值-->
+	<dataId name="1分钟风机3无功功率实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 风速 实时值-->
+	<dataId name="1分钟风机3风速实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 风向 实时值-->
+	<dataId name="1分钟风机3风向实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 桨距角 实时值-->
+    <dataId name="1分钟风机3桨距角实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 发电机转速 实时值-->
+    <dataId name="1分钟风机3发电机转速实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 环境温度 实时值-->
+    <dataId name="1分钟风机3环境温度实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 累积发电量-->
+    <dataId name="1分钟风机3累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 风机4 风机状态float-->
+    <dataId name="1分钟风机4风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 有功功率 实时值-->
+	<dataId name="1分钟风机4有功功率实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!-- 1分钟 风机4 无功功率 实时值-->
+	<dataId name="1分钟风机4无功功率实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 风速 实时值-->
+	<dataId name="1分钟风机4风速实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 风向 实时值-->
+	<dataId name="1分钟风机4风向实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 桨距角 实时值-->
+    <dataId name="1分钟风机4桨距角实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 发电机转速 实时值-->
+    <dataId name="1分钟风机4发电机转速实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 环境温度 实时值-->
+    <dataId name="1分钟风机4环境温度实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 累积发电量-->
+    <dataId name="1分钟风机4累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 风机5 风机状态float-->
+    <dataId name="1分钟风机5风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 有功功率 实时值-->
+	<dataId name="1分钟风机5有功功率实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!-- 1分钟 风机5 无功功率 实时值-->
+	<dataId name="1分钟风机5无功功率实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 风速 实时值-->
+	<dataId name="1分钟风机5风速实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 风向 实时值-->
+	<dataId name="1分钟风机5风向实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 桨距角 实时值-->
+    <dataId name="1分钟风机5桨距角实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 发电机转速 实时值-->
+    <dataId name="1分钟风机5发电机转速实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 环境温度 实时值-->
+    <dataId name="1分钟风机5环境温度实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 累积发电量-->
+    <dataId name="1分钟风机5累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 数据-->
+    <!--1分钟 风机1 有功功率 平均值-->
+    <dataId name="1分钟风机1有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 无功功率 平均值-->
+    <dataId name="1分钟风机1无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 风速 平均值-->
+	<dataId name="1分钟风机1风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机1 风向 平均值-->
+	<dataId name="1分钟风机1风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 数据-->
+    <!--1分钟 风机2 有功功率 平均值-->
+    <dataId name="1分钟风机2有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 无功功率 平均值-->
+    <dataId name="1分钟风机2无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 风速 平均值-->
+	<dataId name="1分钟风机2风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机2 风向 平均值-->
+	<dataId name="1分钟风机2风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 数据-->
+    <!--1分钟 风机3 有功功率 平均值-->
+    <dataId name="1分钟风机3有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 无功功率 平均值-->
+    <dataId name="1分钟风机3无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 风速 平均值-->
+	<dataId name="1分钟风机3风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机3 风向 平均值-->
+	<dataId name="1分钟风机3风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 数据-->
+    <!--1分钟 风机4 有功功率 平均值-->
+    <dataId name="1分钟风机4有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 无功功率 平均值-->
+    <dataId name="1分钟风机4无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 风速 平均值-->
+	<dataId name="1分钟风机4风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机4 风向 平均值-->
+	<dataId name="1分钟风机4风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--1分钟 数据-->
+    <!--1分钟 风机5 有功功率 平均值-->
+    <dataId name="1分钟风机5有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 无功功率 平均值-->
+    <dataId name="1分钟风机5无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 风速 平均值-->
+	<dataId name="1分钟风机5风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 风机5 风向 平均值-->
+	<dataId name="1分钟风机5风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+
+
+    <!--5分钟 数据-->
+    <!--5分钟 风机1 有功功率 平均值-->
+    <dataId name="5分钟风机1有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机1 无功功率 平均值-->
+    <dataId name="5分钟风机1无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机1 风速 平均值-->
+	<dataId name="5分钟风机1风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机1 风向 平均值-->
+	<dataId name="5分钟风机1风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+
+
+    <!--5分钟 数据-->
+    <!--5分钟 风机2 有功功率 平均值-->
+    <dataId name="5分钟风机2有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机2 无功功率 平均值-->
+    <dataId name="5分钟风机2无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机2 风速 平均值-->
+	<dataId name="5分钟风机2风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机2 风向 平均值-->
+	<dataId name="5分钟风机2风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+
+
+    <!--5分钟 数据-->
+    <!--5分钟 风机3 有功功率 平均值-->
+    <dataId name="5分钟风机3有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机3 无功功率 平均值-->
+    <dataId name="5分钟风机3无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机3 风速 平均值-->
+	<dataId name="5分钟风机3风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机3 风向 平均值-->
+	<dataId name="5分钟风机3风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+
+
+    <!--5分钟 数据-->
+    <!--5分钟 风机4 有功功率 平均值-->
+    <dataId name="5分钟风机4有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机4 无功功率 平均值-->
+    <dataId name="5分钟风机4无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机4 风速 平均值-->
+	<dataId name="5分钟风机4风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机4 风向 平均值-->
+	<dataId name="5分钟风机4风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+
+
+    <!--5分钟 数据-->
+    <!--5分钟 风机5 有功功率 平均值-->
+    <dataId name="5分钟风机5有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机5 无功功率 平均值-->
+    <dataId name="5分钟风机5无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机5 风速 平均值-->
+	<dataId name="5分钟风机5风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 风机5 风向 平均值-->
+	<dataId name="5分钟风机5风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+
+
+    <!--15分钟 数据-->
+    <!--15分钟 风机1 有功功率 平均值-->
+    <dataId name="15分钟风机1有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机1 无功功率 平均值-->
+    <dataId name="15分钟风机1无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机1 风速 平均值-->
+	<dataId name="15分钟风机1风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机1 风向 平均值-->
+	<dataId name="15分钟风机1风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+
+
+    <!--15分钟 数据-->
+    <!--15分钟 风机2 有功功率 平均值-->
+    <dataId name="15分钟风机2有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机2 无功功率 平均值-->
+    <dataId name="15分钟风机2无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机2 风速 平均值-->
+	<dataId name="15分钟风机2风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机2 风向 平均值-->
+	<dataId name="15分钟风机2风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="1" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+
+
+    <!--15分钟 数据-->
+    <!--15分钟 风机3 有功功率 平均值-->
+    <dataId name="15分钟风机3有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机3 无功功率 平均值-->
+    <dataId name="15分钟风机3无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机3 风速 平均值-->
+	<dataId name="15分钟风机3风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机3 风向 平均值-->
+	<dataId name="15分钟风机3风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="2" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+
+
+    <!--15分钟 数据-->
+    <!--15分钟 风机4 有功功率 平均值-->
+    <dataId name="15分钟风机4有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机4 无功功率 平均值-->
+    <dataId name="15分钟风机4无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机4 风速 平均值-->
+	<dataId name="15分钟风机4风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机4 风向 平均值-->
+	<dataId name="15分钟风机4风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="3" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+
+
+    <!--15分钟 数据-->
+    <!--15分钟 风机5 有功功率 平均值-->
+    <dataId name="15分钟风机5有功功率平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机5 无功功率 平均值-->
+    <dataId name="15分钟风机5无功功率平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机5 风速 平均值-->
+	<dataId name="15分钟风机5风速平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <!--15分钟 风机5 风向 平均值-->
+	<dataId name="15分钟风机5风向平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="4" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+
+
+    <dataId name="1分钟整场有功功率实时值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟整场无功功率实时值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟整场有功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟整场无功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="5分钟整场有功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <dataId name="5分钟整场无功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <dataId name="15分钟整场有功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <dataId name="15分钟整场无功功率平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <dataId name="整场累计发电量IAS" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场开机台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_PGG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场开机容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_PGG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场待风台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_WWG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场待风容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_WWG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场检修台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_SPG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场检修容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_SPG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场限功率台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_PGGTHV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场限功率容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_PGGTHV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="通信中断台数" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_CBG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="通信中断容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_CBG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场数据时间AGC" funcType="2" dcatalog="DATACATALOG_DS" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="0"/>
+    <dataId name="1分钟AGC整场有功功率平均值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_TLN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="限电目标值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="有功上限值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_UTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="有功下限值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_LTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="理论功率AGC" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="限电标志AGC" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+
+
+
+    <!--理论功率-->
+    <dataId name="1分钟整场理论功率平均值TPS" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--可用功率-->
+    <dataId name="1分钟整场可用功率平均值TPS" funcType="2" dcatalog="DATACATALOG_VP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--受阻功率-->
+    <dataId name="1分钟整场受阻功率平均值TPS" funcType="2" dcatalog="DATACATALOG_BP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--实际有功-->
+    <dataId name="1分钟整场实际有功平均值TPS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--开机容量-->
+    <dataId name="1分钟整场开机容量平均值TPS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--实际风速-->
+    <dataId name="1分钟整场实际风速平均值TPS" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" htype="HEIGHTTYPE_HUB" hvalue="65536" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+
+
+    <!--5分钟 10m 测风塔1 风速 实时值-->
+    <dataId name="5分钟10m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 风向 实时值-->
+    <dataId name="5分钟10m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 50m 测风塔1 风速 实时值-->
+    <dataId name="5分钟50m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 50m 测风塔1 风向 实时值-->
+    <dataId name="5分钟50m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="50" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 80m 测风塔1 风速 实时值-->
+    <dataId name="5分钟80m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 80m 测风塔1 风向 实时值-->
+    <dataId name="5分钟80m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="80" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 100m 测风塔1 风速 实时值-->
+    <dataId name="5分钟100m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 100m 测风塔1 风向 实时值-->
+    <dataId name="5分钟100m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="100" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 110m 测风塔1 风速 实时值-->
+    <dataId name="5分钟110m测风塔1风速实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 110m 测风塔1 风向 实时值-->
+    <dataId name="5分钟110m测风塔1风向实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="110" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+    <!--5分钟 10m 测风塔1 温度 实时值-->
+    <dataId name="5分钟10m测风塔1温度实时值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 湿度 实时值-->
+    <dataId name="5分钟10m测风塔1湿度实时值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <!--5分钟 10m 测风塔1 气压 实时值-->
+    <dataId name="5分钟10m测风塔1气压实时值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+
+</root>
+
+
