@@ -1,0 +1,55 @@
+.read up.sql
+
+select distinct(table_name) from did_para;
+NWP_WND STF_TBN STF_FRM UTF_FRM AMT_WND_1MI AMT_WND_5MI AMT_WND_10MI AMT_WND_15MI AMT_SYS_1MI AMT_SYS_5MI AMT_SYS_15MI TSS_TBN_1MI TSS_TBN_5MI TSS_TBN_15MI INT_FRM_1MI INT_FRM_5MI INT_FRM_15MI
+TSS_FRM_1MI TSS_FRM_5MI TSS_FRM_15MI AMT_TBL DPH_TBL TPS_TP_1MI AGC_FRM PLN_OVH TBN_TBL DEV_STA CPT_STA CPT_WRN UPL_STA
+
+sqlite> .schema did_para
+CREATE TABLE IF NOT EXISTS "did_para"(
+  "sn" TEXT,
+  "table_name" TEXT,
+  "table_ch_name" TEXT,
+  "field_name" TEXT,
+  "field_ch_name" TEXT,
+  "catalog" TEXT,
+  "kind" TEXT,
+  "encoding_type" TEXT,
+  "source_type" TEXT,
+  "interval_unit" TEXT,
+  "interval_value" TEXT,
+  "height_type" TEXT,
+  "data_type" TEXT,
+  "data_length" TEXT,
+  "pattern" TEXT
+);
+
+select * from did_para where table_name='UPL_STA';
+select * from did_para where table_name='CPT_WRN';
+select * from did_para where table_name='CPT_STA';
+select * from did_para where table_name='DEV_STA';
+select * from did_para where table_name='TBN_TBL';
+select * from did_para where table_name='PLN_OVH';
+select * from did_para where table_name='AGC_FRM';
+select * from did_para where table_name='TPS_TP_1MI';
+select * from did_para where table_name='DPH_TBL';
+select * from did_para where table_name='AMT_TBL';
+select * from did_para where table_name='TSS_FRM_15MI';
+select * from did_para where table_name='TSS_FRM_5MI';
+select * from did_para where table_name='TSS_FRM_1MI';
+select * from did_para where table_name='INT_FRM_15MI';
+select * from did_para where table_name='INT_FRM_5MI';
+select * from did_para where table_name='INT_FRM_1MI';
+select * from did_para where table_name='TSS_TBN_15MI';
+select * from did_para where table_name='TSS_TBN_5MI';
+select * from did_para where table_name='TSS_TBN_1MI';
+select * from did_para where table_name='AMT_SYS_15MI';
+select * from did_para where table_name='AMT_SYS_5MI';
+select * from did_para where table_name='AMT_SYS_1MI';
+select * from did_para where table_name='AMT_WND_15MI';
+select * from did_para where table_name='AMT_WND_10MI';
+select * from did_para where table_name='AMT_WND_5MI';
+select * from did_para where table_name='AMT_WND_1MI';
+select * from did_para where table_name='UTF_FRM';
+select * from did_para where table_name='STF_FRM';
+select * from did_para where table_name='STF_TBN';
+select * from did_para where table_name='NWP_WND';
