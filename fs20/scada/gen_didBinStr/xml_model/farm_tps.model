@@ -1,0 +1,34 @@
+
+
+############################################################整场 TPS begin
+#TPS理论功率 
+tTpsTp1Min='
+    <!--理论功率-->
+    <dataId name="1分钟 整场 理论功率 平均值TPS" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+#TPS可用功率
+tTpsVp1Min='
+    <!--可用功率-->
+    <dataId name="1分钟 整场 可用功率 平均值TPS" funcType="2" dcatalog="DATACATALOG_VP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+#TPS受阻功率
+tTpsBp1Min='
+    <!--受阻功率-->
+    <dataId name="1分钟 整场 受阻功率 平均值TPS" funcType="2" dcatalog="DATACATALOG_BP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+#TPS实际有功
+tTpsPp1Min='
+    <!--实际有功-->
+    <dataId name="1分钟 整场 实际有功 平均值TPS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+#TPS开机容量
+tTpsCp1Min='
+    <!--开机容量-->
+    <dataId name="1分钟 整场 开机容量 平均值TPS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="0" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+#TPS实际风速
+tTpsWs1Min='
+    <!--实际风速-->
+    <dataId name="1分钟 整场 实际风速 平均值TPS" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_TPS" srcsn="0" htype="HEIGHTTYPE_HUB" hvalue="65536" itype="INTERVALUNIT_MINUTE" ivalue="1" />
+'
+############################################################整场 TPS end

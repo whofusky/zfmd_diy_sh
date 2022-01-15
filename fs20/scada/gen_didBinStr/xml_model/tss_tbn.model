@@ -1,0 +1,109 @@
+
+############################################################风机数据  begin
+
+
+#单风机的did
+
+#单风机 实时值
+
+#    <!--1分钟 风机0 风机状态float-->
+tss_rst_val_SFfloat='
+    <dataId name="1分钟 风机0 风机状态float" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 有功功率 实时值-->
+tss_rst_val_PP='
+	<dataId name="1分钟 风机0 有功功率 实时值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!-- 1分钟 风机0 无功功率 实时值-->
+tss_rst_val_PQ='
+	<dataId name="1分钟 风机0 无功功率 实时值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 风速 实时值-->
+tss_rst_val_WS='
+	<dataId name="1分钟 风机0 风速 实时值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 风向 实时值-->
+tss_rst_val_WD='
+	<dataId name="1分钟 风机0 风向 实时值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 桨距角 实时值-->
+tss_rst_val_PA='
+    <dataId name="1分钟 风机0 桨距角 实时值" funcType="2" dcatalog="DATACATALOG_PA" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 发电机转速 实时值-->
+tss_rst_val_RS='
+    <dataId name="1分钟 风机0 发电机转速 实时值" funcType="2" dcatalog="DATACATALOG_RS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 环境温度 实时值-->
+tss_rst_val_AT='
+    <dataId name="1分钟 风机0 环境温度 实时值" funcType="2" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 累积发电量-->
+tss_rst_val_GEAMV='
+    <dataId name="1分钟 风机0 累积发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 计算发电量-->
+tss_rst_val_GECLV='
+    <dataId name="1分钟 风机0 计算发电量" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_CLV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 理论功率 实时值-->
+tss_rst_val_TPTSS='
+    <dataId name="1分钟 风机0 理论功率 实时值" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 风机状态int-->
+tss_rst_val_SFint='
+    <dataId name="1分钟 风机0 风机状态int" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_OGN" dtype="DATATYPE_SINT32" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 A相电压-->
+tss_rst_val_PVA='
+    <dataId name="1分钟 风机0 A相电压" funcType="2" dcatalog="DATACATALOG_PV" dkind="DATAKIND_PSA" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 A相电流-->
+tss_rst_val_PIA='
+    <dataId name="1分钟 风机0 A相电流" funcType="2" dcatalog="DATACATALOG_PI" dkind="DATAKIND_PSA" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+#    <!--1分钟 风机0 功率因数 实时值-->
+tss_rst_val_PF='
+    <dataId name="1分钟 风机0 功率因数 实时值" funcType="2" dcatalog="DATACATALOG_PF" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+'
+
+#此变量赋予某风场某个风机平均值的配置(值在脚本中根据配置取得)
+tFjSingle='
+'
+
+
+
+#单风机 平均值
+
+#    <!--0分钟 风机0 桨距角 平均值-->  <!--注意此量没有平均值-->
+#    <!--0分钟 风机0 环境温度 平均值--><!--注意此量只有1分钟表有值，所以只能所瞬时值代替平均值-->
+#   <!--0分钟 风机0  发电机转速 平均值--><!--注意此量没有平均值-->
+#    <!--0分钟 风机0 累积发电量 平均值--><!--注意此量没有平均值,虽然5分和15分表里有值-->
+#    <dataId name="0分钟 风机0 累积发电量 平均值" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+#    <!--0分钟 风机0 有功功率 平均值-->
+tss_avg_val_PP='
+    <dataId name="0分钟 风机0 有功功率 平均值" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+#    <!--0分钟 风机0 无功功率 平均值-->
+tss_avg_val_PQ='
+    <dataId name="0分钟 风机0 无功功率 平均值" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+#    <!--0分钟 风机0 风速 平均值-->
+tss_avg_val_WS='
+	<dataId name="0分钟 风机0 风速 平均值" funcType="2" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+#    <!--0分钟 风机0 风向 平均值-->
+tss_avg_val_WD='
+	<dataId name="0分钟 风机0 风向 平均值" funcType="2" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+#    <!--0分钟 风机0 理论功率 平均值-->
+tss_avg_val_TPTSS='
+    <dataId name="0分钟 风机0 理论功率 平均值" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_TURBINE" ecsn="0" srctype="SOURCETYPE_TSS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+
+#此变量赋予某风场某个风机平均值的配置(值在脚本中根据配置取得)
+tFjSingleAVG='
+    <!--0分钟 数据-->
+'
+############################################################风机数据  end

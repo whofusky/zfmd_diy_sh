@@ -3,20 +3,27 @@
 #date: 2021-12-31_10:11:04
 #DSC:一次生成最终的 did二进制字符串文件
  
-farmName="heiyanquan"
-ftmN="heiyq"
+#farmName="heiyanquan"
+#ftmN="heiyq"
 
 basedir="$(dirname $0)"
 tBegineTm=$(date +%s)
 
 export LD_LIBRARY_PATH=${basedir}/lib:${LD_LIBRARY_PATH}
+cfgFile="${basedir}/cfg.cfg"
+if [ ! -f "${cfgFile}" ];then
+    echo -e "\n\tERROR: file [${cfgFile}] not exist!\n"
+    exit 1
+fi
+
+. ${cfgFile}
 
 export myRstDir="${basedir}/${farmName}"
 
 [ ! -d "${myRstDir}" ] && mkdir -p "${myRstDir}"
 preDoSh="${basedir}/todoDIdCfg.sh"
-cp -a "$0" "${myRstDir}"
-cp -a "${preDoSh}" "${myRstDir}"
+#cp -a "$0" "${myRstDir}"
+cp -a "${cfgFile}" "${myRstDir}"
 
 preUtfFile="${myRstDir}/pre_${frmN}binstr_did.xml"
 preGbkFile="${myRstDir}/pre_${frmN}binstr_did_gbk.xml"
@@ -104,6 +111,7 @@ fi
 F_echo_and_do F_rmExistFile ${preUtfFile} ${preGbkFile} ${oCsvFile}
 
 F_echo_and_do ${preDoSh} ${preUtfFile}
+[ $? -ne 0 ] && exit 1
 echo -e "\n"
 F_echo_and_do iconv -f utf8 -t gbk ${preUtfFile} -o ${preGbkFile}
 echo -e "\n"

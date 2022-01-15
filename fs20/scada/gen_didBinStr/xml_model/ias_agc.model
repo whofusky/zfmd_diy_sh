@@ -1,0 +1,33 @@
+
+#############################################################整场 IAS 和 AGC begin
+#整场相关数据did
+tFarmAbout='
+    <dataId name="1分钟 整场 有功功率 实时值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟 整场 无功功率 实时值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟 整场 有功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="1分钟 整场 无功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="5分钟 整场 有功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <dataId name="5分钟 整场 无功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="5"/>
+    <dataId name="15分钟 整场 有功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <dataId name="15分钟 整场 无功功率 平均值IAS" funcType="2" dcatalog="DATACATALOG_PQ" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+    <dataId name="整场累计发电量IAS" funcType="2" dcatalog="DATACATALOG_GE" dkind="DATAKIND_AMV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场开机台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_PGG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场开机容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_PGG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场待风台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_WWG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场待风容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_WWG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场检修台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_SPG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场检修容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_SPG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场限功率台数IAS" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_PGGTHV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场限功率容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_PGGTHV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="通信中断台数" funcType="2" dcatalog="DATACATALOG_TA" dkind="DATAKIND_CBG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="通信中断容量IAS" funcType="2" dcatalog="DATACATALOG_CP" dkind="DATAKIND_CBG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_FARM" ecsn="0" srctype="SOURCETYPE_IAS" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <dataId name="整场数据时间AGC" funcType="2" dcatalog="DATACATALOG_DS" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="0"/>
+    <dataId name="1分钟 AGC整场有功功率 平均值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_TLN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="限电目标值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="有功上限值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_UTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="有功下限值AGC" funcType="2" dcatalog="DATACATALOG_PP" dkind="DATAKIND_LTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="理论功率AGC" funcType="2" dcatalog="DATACATALOG_TP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+    <dataId name="限电标志AGC" funcType="2" dcatalog="DATACATALOG_SF" dkind="DATAKIND_LMT" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AGC" ecsn="0" srctype="SOURCETYPE_AGC" srcsn="0" itype="INTERVALUNIT_INVALID" ivalue="1"/>
+
+'
+#############################################################整场 IAS 和 AGC begin

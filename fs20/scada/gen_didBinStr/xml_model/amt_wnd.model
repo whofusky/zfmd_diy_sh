@@ -1,0 +1,179 @@
+
+############################################################测风塔 非1分钟实时数据 begin
+
+#0m层高非1分钟共有的实时数据
+tCf0mNo1TmRsData='
+    <!--0分钟 0m cft_name_place风速 实时值-->
+    <dataId name="0分钟 0m cft_name_place风速 实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 0m cft_name_place风向 实时值-->
+    <dataId name="0分钟 0m cft_name_place风向 实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+
+
+#特殊层高非1分钟特有的实时数据
+tCfSpmSpN1TmRsData='
+    <!--0分钟 10m cft_name_place温度 实时值-->
+    <dataId name="0分钟 10m cft_name_place温度 实时值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place湿度 实时值-->
+    <dataId name="0分钟 10m cft_name_place湿度 实时值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place气压 实时值-->
+    <dataId name="0分钟 10m cft_name_place气压 实时值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+'
+
+############################################################测风塔 非1分钟实时数据 end
+
+
+############################################################测风塔 所有层高共用的(风速，风向）数据 begine
+#0m层高共有的1分钟数据
+tCf0mData='
+    <!--1分钟 0m cft_name_place风速-->
+    <!--1分钟 0m cft_name_place风速 实时值-->
+    <dataId name="1分钟 0m cft_name_place风速 实时值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风速 最大值-->
+    <dataId name="1分钟 0m cft_name_place风速 最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风速 最小值-->
+    <dataId name="1分钟 0m cft_name_place风速 最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风速 标准差值-->
+    <dataId name="1分钟 0m cft_name_place风速 标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 0m cft_name_place风向-->
+    <!--1分钟 0m cft_name_place风向 实时值-->
+    <dataId name="1分钟 0m cft_name_place风向 实时值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风向 最大值-->
+    <dataId name="1分钟 0m cft_name_place风向 最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风向 最小值-->
+    <dataId name="1分钟 0m cft_name_place风向 最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 0m cft_name_place风向 标准差值-->
+    <dataId name="1分钟 0m cft_name_place风向 标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+'
+
+#0m层高共有的x分钟平均数据
+tCf0mAvgData='
+    <!--0分钟 0m cft_name_place风速 平均值-->
+    <dataId name="0分钟 0m cft_name_place风速 平均值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+    <!--0分钟 0m cft_name_place风向 平均值-->
+    <dataId name="0分钟 0m cft_name_place风向 平均值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+'
+
+#0m层高共有的非1分钟统计数据(除平均值之外的值)
+tCf0mNo1MiSticData='
+    <!--0分钟 0m cft_name_place风速 最大值-->
+    <dataId name="0分钟 0m cft_name_place风速 最大值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 0m cft_name_place风速 最小值-->
+    <dataId name="0分钟 0m cft_name_place风速 最小值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 0m cft_name_place风速 标准差值-->
+    <dataId name="0分钟 0m cft_name_place风速 标准差值" funcType="1" dcatalog="DATACATALOG_WS" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+    <!--0分钟 0m cft_name_place风向 最大值-->
+    <dataId name="0分钟 0m cft_name_place风向 最大值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 0m cft_name_place风向 最小值-->
+    <dataId name="0分钟 0m cft_name_place风向 最小值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 0m cft_name_place风向 标准差值-->
+    <dataId name="0分钟 0m cft_name_place风向 标准差值" funcType="1" dcatalog="DATACATALOG_WD" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="0" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+'
+
+############################################################测风塔 所有层高共用的(风速，风向）数据 end
+
+
+############################################################测风塔 没有层高的电池电压 数据begin
+#电池电压x分钟值
+tCfDyMinAvg='
+    <!--0分钟 cft_name_place电池电压 平均值-->
+    <dataId name="0分钟 cft_name_place电池电压 平均值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0" />
+
+    <!--0分钟 cft_name_place电池电压 实时值-->
+    <dataId name="0分钟 cft_name_place电池电压 实时值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0" />
+
+    <!--0分钟 cft_name_place电池电压标准差值-->
+    <dataId name="0分钟 cft_name_place电池电压标准差值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0" />
+
+    <!--0分钟 cft_name_place电池电压 最大值-->
+    <dataId name="0分钟 cft_name_place电池电压 最大值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0" />
+
+    <!--0分钟 cft_name_place电池电压 最小值-->
+    <dataId name="0分钟 cft_name_place电池电压 最小值" funcType="2" dcatalog="DATACATALOG_BL" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" itype="INTERVALUNIT_MINUTE" ivalue="0" />
+
+'
+
+############################################################测风塔 没有层高的电池电压 数据 end
+
+############################################################测风塔 只有10m层高特有的温湿压数据 begin
+#温湿压非统计数据
+tCfWSYData='
+    <!--1分钟 10m cft_name_place温度-->
+    <!--1分钟 10m cft_name_place温度 实时值-->
+    <dataId name="1分钟 10m cft_name_place温度 实时值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place温度 最大值-->
+    <dataId name="1分钟 10m cft_name_place温度 最大值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place温度 最小值-->
+    <dataId name="1分钟 10m cft_name_place温度 最小值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place温度 标准差值-->
+    <dataId name="1分钟 10m cft_name_place温度 标准差值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m cft_name_place湿度-->
+    <!--1分钟 10m cft_name_place湿度 实时值-->
+    <dataId name="1分钟 10m cft_name_place湿度 实时值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place湿度 最大值-->
+    <dataId name="1分钟 10m cft_name_place湿度 最大值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place湿度 最小值-->
+    <dataId name="1分钟 10m cft_name_place湿度 最小值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place湿度 标准差值-->
+    <dataId name="1分钟 10m cft_name_place湿度 标准差值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+    <!--1分钟 10m cft_name_place气压-->
+    <!--1分钟 10m cft_name_place气压 实时值-->
+    <dataId name="1分钟 10m cft_name_place气压 实时值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_RTV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place气压 最大值-->
+    <dataId name="1分钟 10m cft_name_place气压 最大值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place气压 最小值-->
+    <dataId name="1分钟 10m cft_name_place气压 最小值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+    <!--1分钟 10m cft_name_place气压 标准差值-->
+    <dataId name="1分钟 10m cft_name_place气压 标准差值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="1"/>
+
+'
+
+
+#温湿压平均数据
+tCfWSYAvgData='
+    <!--0分钟 10m cft_name_place温度 平均值-->
+    <dataId name="0分钟 10m cft_name_place温度 平均值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+        
+    <!--0分钟 10m cft_name_place湿度 平均值-->
+    <dataId name="0分钟 10m cft_name_place湿度 平均值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+    <!--0分钟 10m cft_name_place气压 平均值-->
+    <dataId name="0分钟 10m cft_name_place气压 平均值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+'
+
+
+#温湿压非1分钟统计数据
+tCfWSYNo1MiSticData='
+    <!--0分钟 10m cft_name_place温度 最大值-->
+    <dataId name="0分钟 10m cft_name_place温度 最大值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place温度 最小值-->
+    <dataId name="0分钟 10m cft_name_place温度 最小值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place温度 标准差值-->
+    <dataId name="0分钟 10m cft_name_place温度 标准差值" funcType="1" dcatalog="DATACATALOG_AT" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+    <!--0分钟 10m cft_name_place湿度 最大值-->
+    <dataId name="0分钟 10m cft_name_place湿度 最大值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place湿度 最小值-->
+    <dataId name="0分钟 10m cft_name_place湿度 最小值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place湿度 标准差值-->
+    <dataId name="0分钟 10m cft_name_place湿度 标准差值" funcType="1" dcatalog="DATACATALOG_AH" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+    <!--0分钟 10m cft_name_place气压 最大值-->
+    <dataId name="0分钟 10m cft_name_place气压 最大值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MAX" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place气压 最小值-->
+    <dataId name="0分钟 10m cft_name_place气压 最小值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_MIN" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+    <!--0分钟 10m cft_name_place气压 标准差值-->
+    <dataId name="0分钟 10m cft_name_place气压 标准差值" funcType="1" dcatalog="DATACATALOG_AP" dkind="DATAKIND_SDV" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_AMT" ecsn="0" srctype="SOURCETYPE_AMT" srcsn="0" htype="HEIGHTTYPE_ES" hvalue="10" itype="INTERVALUNIT_MINUTE" ivalue="0"/>
+
+'
+
+############################################################测风塔 只有10m层高特有的温湿压数据 end

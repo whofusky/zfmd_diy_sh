@@ -1,0 +1,299 @@
+#!/bin/bash
+#
+########################################################################
+#author        :    fushikai
+#creation date :    2019-05-19
+#linux_version :    Red Hat / UniKylin
+#dsc           :
+#    According to the hostname to execute the corresponding configuration 
+#    firewall script
+#    
+#revision history:
+#
+#   v20.01.010 2021-11-26：Support systemd type system
+#   v20.01.000 2019-09-23: modify v0.0.0.1 version to V20.01.000
+#   v0.0.0.1   2019-05-19: creation
+#
+########################################################################
+
+
+addfw_baseDir=$(dirname $0)
+
+
+function F_fwcm_checkAndLoad()
+{
+    [ -z "${g_logDir}" ] && g_logDir="${addfw_baseDir}/../log"
+    [ -z "${g_logName}" ] && g_logName="${g_logDir}/$(date +%Y%m%d).log"
+    [ ! -d "${g_logDir}" ] && mkdir -p "${g_logDir}"
+
+    #if [ ${fwcm_inParNum} -ne 1 ];then
+
+    #    echo -e "\n\tError: input like [${fwcm_shName} <server_flag>]!!\n" | tee -a "${g_logName}"
+    #    exit 1
+    #fi
+
+    local tUID=$(id -u)
+    if [[ -z "${tUID}" || ${tUID} -ne 0 ]];then
+
+        echo -e "\n\tError:\e[1;31m Please execute as root!\e[0m the current user is ${USER}\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+
+
+    [ -z "${g_funcFile}" ] && g_funcFile="${addfw_baseDir}/functions"
+
+    if [ ! -e ${g_funcFile} ];then
+        echo -e "\n\tError: File [${g_funcFile}] does not exist!!\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+
+    . ${g_funcFile}
+
+    local baseShDir="${addfw_baseDir}"
+    if [ ! -d "${baseShDir}" ];then
+        echo -e "\n\t\e[1;31mError:in [$0]\e[0m Directory ${baseShDir} does not exist!\n" | tee -a "${g_logName}"
+        exit 2
+    fi
+
+    for i in $(find ${baseShDir} ! -perm  -100 -type f)
+    do
+        F_ECHO_DO "chmod u+x $i"
+    done
+
+    [ -z "${g_cfgFile}" ] && g_cfgFile="${addfw_baseDir}/../cfg/network.conf"
+    if [ ! -e "${g_cfgFile}" ];then
+        echo -e "\n\t\e[1;31mError,in [$0]\e[0m: File [ ${g_cfgFile} ] does not exist!!\n" | tee -a "${g_logName}"
+        exit 9
+    fi
+    . ${g_cfgFile}
+
+    return 0
+}
+
+
+function F_fwcm_echoCfgFlag() #Print the flag value in the configuration file
+{
+    echo -e "\n\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m" | tee -a "${g_logName}"
+    echo -e "\t\e[1;31menablePing=[${enablePing}]\e[0m" | tee -a "${g_logName}"
+    echo -e "\t\e[1;31menInterSsh=[${enInterSsh}]\e[0m" | tee -a "${g_logName}"
+    echo -e "\t\e[1;31mbindNICByIP=[${bindNICByIP}]\e[0m" | tee -a "${g_logName}"
+
+    return 0
+}
+
+
+function F_genDefaultCfgHost() #If the corresponding name is not set in the configuration file, the default value is generated
+{
+    [ -z "${MS_HOSTNAME}" ] && MS_HOSTNAME="MeteoServer"
+    [ -z "${PS1_HOSTNAME}" ] && PS1_HOSTNAME="PredictServer1"
+    [ -z "${PS2_HOSTNAME}" ] && PS2_HOSTNAME="PredictServer2"
+    [ -z "${SCA_HOSTNAME}" ] && SCA_HOSTNAME="ScadaServer"
+    [ -z "${WK_HOSTNAME}" ] && WK_HOSTNAME="WorkStation"
+
+    return 0
+}
+
+
+function F_getCurHostName() #Get the hostname of the current server
+{
+    #initDir="${PWD}"
+    tHostName="${HOSTNAME}"
+
+    #tHostName="MeteoServer"          #气象服务器
+    #tHostName="PredictServer1"      #主预测服务器
+    #tHostName="PredictServer2"      #备预测服务器
+    #tHostName="ScadaServer"         #scada预测服务器
+    #tHostName="WorkStation"          #工作站
+
+    echo -e "\n\thostname=[\e[1;31m${tHostName}\e[0m]\n" | tee -a "${g_logName}"
+    #echo "${MS_HOSTNAME}" | tee -a "${g_logName}"
+
+    return 0
+}
+
+
+function F_getCurRuleItem() #Get the firewall rules corresponding to the configuration file according to the host name
+{
+    #get the entry rules in the configuration file
+
+    fwcm_curRule_item=""
+    fwcm_curSsh_item=""
+    fwcm_curRule_iptb=""
+
+    if [ "${tHostName}" == "${MS_HOSTNAME}" ];then
+        fwcm_curRule_item="${cfg_rule_items_qx}"
+        fwcm_curRule_iptb="${iptb_dir_rule_qx}"
+    elif [ "${tHostName}" == "${SCA_HOSTNAME}" ];then
+        fwcm_curRule_item="${cfg_rule_items_scada}"
+        fwcm_curSsh_item="${cfg_rule_ssh_scada}"
+        fwcm_curRule_iptb="${iptb_dir_rule_scada}"
+    elif  [ "${tHostName}" == "${PS1_HOSTNAME}" ];then 
+        fwcm_curRule_item="${cfg_rule_items_ps1}"
+        fwcm_curSsh_item="${cfg_rule_ssh_ps1}"
+        fwcm_curRule_iptb="${iptb_dir_rule_ps1}"
+    elif  [ "${tHostName}" == "${PS2_HOSTNAME}" ];then 
+        fwcm_curRule_item="${cfg_rule_items_ps2}"
+        fwcm_curSsh_item="${cfg_rule_ssh_ps2}"
+        fwcm_curRule_iptb="${iptb_dir_rule_ps2}"
+    elif  [ "${tHostName}" == "${WK_HOSTNAME}" ];then  
+        fwcm_curRule_item="${cfg_rule_items_wk}"
+        fwcm_curSsh_item="${cfg_rule_ssh_wk}"
+        fwcm_curRule_iptb="${iptb_dir_rule_wk}"
+    else
+        echo -e "\n\t\e[1;31mError:in [$0]\e[0m hostname [ ${tHostName} ] is not recognized!!\n" | tee -a "${g_logName}"
+        exit 4
+    fi
+
+    return 0
+}
+
+
+function F_fwcm_doIptbItem() #Process the rules in cfg_iptb_items
+{
+
+    if [[ ! -z "${fwcm_curRule_iptb}" ]];then
+
+        local cfg_iptb_items; local titem; local tnaa;
+
+        echo "${fwcm_curRule_iptb}"|while read tnaa
+        do
+            titem=$(echo "${tnaa}"|sed 's/^\s\+//g;s/\s\+$//g')
+            [ -z "${titem}" ] && continue
+            F_ECHO_DO "${titem}"
+        done
+    fi
+
+
+    return 0
+}
+
+
+    #--------------------------------------------------------------------------------
+    # F_new_fw_onerule_op( outPrtFlag, server_opFlag, op_protocol, NIC_name, local_ip:port, remote_ip:port )
+    #----------------------------------------------------------------------
+    # input:
+    #-------
+    #   outPrtFlag:        0:OUTPUT,INPUT; 1:OUTPUT; 2:INPUT 
+    #   server_opFlag      0:client; 1:server; 2:client,server; 3:stat null
+    #   op_protocol        tcp,upd,all
+    #   NIC_name           Network card name
+    #   local_Addr         local_ip:loca_port
+    #   remote_addr        remote_ip:remote_port
+    #----------------------------------------------------------------------
+    # output:
+    #-------
+    #   error msg OR null
+    #----------------------------------------------------------------------
+    # return:
+    #-------
+    #          0:      success
+    #      other:      error
+    # 
+    #--------------------------------------------------------------------------------
+
+
+function F_fwcm_doSshItem() #Process the rules in fwcm_curSsh_item
+{
+
+    if [[ ! -z "${enInterSsh}" && ${enInterSsh} -eq 1 ]];then
+
+        if [[ ! -z "${fwcm_curSsh_item}" ]];then
+
+            local cfg_ssh_items; local titem; local tfiledNum;
+            cfg_ssh_items=$(F_convertVLineToSpace "${fwcm_curSsh_item}") 
+            for titem in ${cfg_ssh_items}
+            do
+                tfiledNum=$(echo "${titem}"|awk -F'/' '{print NF}')
+                if [ ${tfiledNum} -ne 6 ];then
+                    echo -e "\n\t[${titem}] format error\n" | tee -a "${g_logName}"
+                    continue
+                fi
+                tPrtFlag=$(echo "${titem}"|cut -d '/' -f 1)
+                tSrvOp=$(echo "${titem}"|cut -d '/' -f 2)
+                tprotocol=$(echo "${titem}"|cut -d '/' -f 3)
+                tNICname=$(echo "${titem}"|cut -d '/' -f 4)
+                tLocalAddr=$(echo "${titem}"|cut -d '/' -f 5)
+                tRemoteAddr=$(echo "${titem}"|cut -d '/' -f 6)
+                F_new_fw_onerule_op "${tPrtFlag}" "${tSrvOp}" "${tprotocol}" "${tNICname}" "${tLocalAddr}" "${tRemoteAddr}"
+            done
+
+        fi
+
+    fi
+
+    return 0
+}
+
+
+function F_fwcm_doCmItem() #Process the rules in fwcm_curRule_item
+{
+    #echo "fwcm_serFlag=[${fwcm_serFlag}]" | tee -a "${g_logName}"
+    #echo "fwcm_curRule_item=[${fwcm_curRule_item}]" | tee -a "${g_logName}"
+
+    cfg_rule_items=$(F_convertVLineToSpace "${fwcm_curRule_item}") 
+    for titem in ${cfg_rule_items}
+    do
+        tfiledNum=$(echo "${titem}"|awk -F'/' '{print NF}')
+        if [ ${tfiledNum} -ne 6 ];then
+            echo -e "\n\t[${titem}] format error\n" | tee -a "${g_logName}"
+            continue
+        fi
+        tPrtFlag=$(echo "${titem}"|cut -d '/' -f 1)
+        tSrvOp=$(echo "${titem}"|cut -d '/' -f 2)
+        tprotocol=$(echo "${titem}"|cut -d '/' -f 3)
+        tNICname=$(echo "${titem}"|cut -d '/' -f 4)
+        tLocalAddr=$(echo "${titem}"|cut -d '/' -f 5)
+        tRemoteAddr=$(echo "${titem}"|cut -d '/' -f 6)
+        F_new_fw_onerule_op "${tPrtFlag}" "${tSrvOp}" "${tprotocol}" "${tNICname}" "${tLocalAddr}" "${tRemoteAddr}"
+    done
+
+    return 0
+}
+
+
+function F_addfw_DoAppRules()
+{
+    # Initiate Server.
+    FW_INIT
+
+    F_fwcm_doSshItem
+
+    F_fwcm_doCmItem
+
+    F_fwcm_doIptbItem
+
+    # Save it.
+    FW_SAVE
+
+    # View it.
+    FW_VIEW
+
+    echo -e "\n" | tee -a "${g_logName}"
+
+
+    return 0
+}
+
+
+
+
+F_addfw_main()
+{
+    F_fwcm_checkAndLoad
+
+    F_fwcm_echoCfgFlag
+
+    F_genDefaultCfgHost
+
+    F_getCurHostName
+
+    F_getCurRuleItem
+
+    F_addfw_DoAppRules
+
+    return 0
+}
+
+F_addfw_main
+exit 0
+

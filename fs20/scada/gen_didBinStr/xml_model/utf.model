@@ -1,0 +1,6 @@
+
+#超短期预测数据did  暂时不用
+tUPSAbout='
+    <dataId name="超短期预测数据" funcType="1" dcatalog="DATACATALOG_PP" dkind="DATAKIND_AVG" dtype="DATATYPE_FLOAT64" dlen="" amount="1" ectype="ENCODETYPE_MODEL" ecsn="65536" srctype="SOURCETYPE_UTF" srcsn="65536"  itype="INTERVALUNIT_MINUTE" ivalue="15"/>
+
+'

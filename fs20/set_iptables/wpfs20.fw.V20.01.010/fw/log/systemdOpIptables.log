@@ -1,0 +1,8 @@
+2021-11-26_13:56:41.101489708 /root/apptest/wpfs20.fw.V20.01.000/fw/basesh/sysd_iptb_serv.sh stop
+iptables: Setting chains to policy ACCEPT: security raw mangle nat filter [  确定  ]
+iptables: Flushing firewall rules: [  确定  ]
+iptables: Unloading modules: [  确定  ]
+2021-11-26_13:56:41.433202058 retStat=0
+2021-11-26_13:57:13.031616775 /root/apptest/wpfs20.fw.V20.01.000/fw/basesh/sysd_iptb_serv.sh start
+iptables: Applying firewall rules: [  确定  ]
+2021-11-26_13:57:13.724450007 retStat=0
