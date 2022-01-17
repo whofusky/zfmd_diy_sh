@@ -103,6 +103,7 @@ xmlModStaF="${xmlModDir}/3_1station.xml"
 xmlModChnsF="${xmlModDir}/4chns.xml"
 xmlModchnF="${xmlModDir}/4_1chn.xml"
 xmlModSesF="${xmlModDir}/4_2session_modbus.xml"
+xmlModSes2F="${xmlModDir}/4_2session_modbus_role2.xml"
 xmlModPhyF="${xmlModDir}/4_3phy.xml"
 
 
@@ -290,7 +291,7 @@ function F_preChkFileExist()
 
     #check fix xml model file
     #F_noFileAndExit "${xmlModDirF[@]}"
-    F_noFileAndExit "${xmlModHeadF}" "${xmlModDidF}" "${xmlModAlgF}" "${xmlModStasF}" "${xmlModStaF}" "${xmlModChnsF}" "${xmlModchnF}" "${xmlModSesF}" "${xmlModPhyF}" 
+    F_noFileAndExit "${xmlModHeadF}" "${xmlModDidF}" "${xmlModAlgF}" "${xmlModStasF}" "${xmlModStaF}" "${xmlModChnsF}" "${xmlModchnF}" "${xmlModSesF}" "${xmlModPhyF}" "${xmlModSes2F}" 
 
     #check fix import csv file
     F_noFileAndExit "${frmCsvF}" "${didCsvF}"
@@ -1167,14 +1168,21 @@ function F_addStationsCfg()
 #添加一个通道的会话配置到tmpFile1
 function F_addOneSsnsCfg()
 {
-    if [ $#  -ne 1 ];then
-        echo -e "\n\tERROR:${FUNCNAME}:input parameter number no eq 1 \n"
+    if [ $#  -ne 2 ];then
+        echo -e "\n\tERROR:${FUNCNAME}:input parameter number no eq 2 \n"
         exit 1
     fi
     local tChnNo="$1"
+    local tRole="$2"
     local staTbl="${staAddPre}${tChnNo}"
 
     echo -e "$(date +%F_%T.%N):${FUNCNAME}:INFO: in ...chnNo=[${tChnNo}]"
+
+    if [ ${tRole} -eq 2 ];then
+        cp -a "${xmlModSes2F}" "${tmpFile1}"
+        echo -e "$(date +%F_%T.%N):${FUNCNAME}:INFO: end chnNo=[${tChnNo}]"
+        return 0
+    fi
 
     cp -a "${xmlModSesF}" "${tmpFile1}"
     sed -i '/^\s*<\s*sessionInst\b/d' "${tmpFile1}" 
@@ -1366,7 +1374,7 @@ function F_addOneChnCfg()
     F_setXmlNodeAttrVal "${tmpFile}" "netAddr" "port" "${rmtPort}" "${rmtLinNo}"
     F_setXmlNodeVal "${tmpFile}" "putStagFlag" "${putStagFlag}"
 
-    F_addOneSsnsCfg "${tChnNo}"
+    F_addOneSsnsCfg "${tChnNo}" "${locRole}"
     sed -i "/^\s*<\s*\/\s*stationCfg\b/ r ${tmpFile1}"  "${tmpFile}"
     F_addChnPhyCfg "${tChnNo}"
     sed -i "/^\s*<\s*\/\s*sessionCfgList\b/ r ${tmpFile1}"  "${tmpFile}"

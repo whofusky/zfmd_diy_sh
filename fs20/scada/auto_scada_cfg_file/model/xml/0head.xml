@@ -25,6 +25,33 @@
 <root>
     <protocolSet>
         <!--支持的协议集-->
+        <prtl bufLng="255" noteTxt="注释" prtlNo="104" transType="0" name="IEC104">
+            <sessionSet>
+                <ssn ssnNo="6" name="站召唤">
+                    <mode No="0"/>
+                    <mode No="1"/>
+                </ssn>
+                <ssn ssnNo="4" name="突发">
+                    <mode No="0"/>
+                    <mode No="1"/>
+                </ssn>
+                <ssn ssnNo="15" name="激活">
+                    <mode No="0"/>
+                    <mode No="1"/>
+                </ssn>
+                <ssn ssnNo="17" name="测试">
+                    <mode No="0"/>
+                    <mode No="1"/>
+                </ssn>
+            </sessionSet>
+            <timerInfo>
+                <timer name="T0"/>
+                <timer name="T1"/>
+                <timer name="T2"/>
+                <timer name="T3"/>
+            </timerInfo>
+            <controlPara W="8" K="12"/>
+        </prtl>
         <prtl prtlNo="106" name="ModbusTcp" transType="0" noteTxt="注释" bufLng="255">
             <sessionSet>
                 <ssn name="功能码3" ssnNo="3">

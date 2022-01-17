@@ -1,0 +1,35 @@
+            <sessionCfgList waitTime="3000">
+                <sessionCfg prio="5" ssnMode="0" check="0" snnMaxRetryNum="0" actFlag="1" ssnDscNo="3" waitTime="3000">
+                    <sessionInst cmnAddr="1" number="0" collMethods="1" cycTm="" instNo="0" addrStart="0"/>
+                    <ptclStepList>
+                        <ptclStep storORload="0" reqORres="0" stepNo="1">
+                            <frame ptclHead="0" serialNo="1" COT="" TID="" tidORfuncode="3" objNum="0" objstartAddr="0" VSQ_SQ=""/>
+                        </ptclStep>
+                        <ptclStep storORload="1" reqORres="1" stepNo="2">
+                            <frame ptclHead="0" serialNo="1" COT="" TID="" tidORfuncode="3" objNum="0" objstartAddr="0" VSQ_SQ=""/>
+                        </ptclStep>
+                    </ptclStepList>
+                </sessionCfg>
+                <sessionCfg prio="5" ssnMode="0" check="0" snnMaxRetryNum="0" actFlag="1" ssnDscNo="1" waitTime="3000">
+                    <sessionInst cmnAddr="1" number="0" collMethods="1" cycTm="" instNo="0" addrStart="0"/>
+                    <ptclStepList>
+                        <ptclStep storORload="0" reqORres="0" stepNo="1">
+                            <frame ptclHead="0" serialNo="1" COT="" TID="" tidORfuncode="1" objNum="0" objstartAddr="0" VSQ_SQ=""/>
+                        </ptclStep>
+                        <ptclStep storORload="1" reqORres="1" stepNo="2">
+                            <frame ptclHead="0" serialNo="1" COT="" TID="" tidORfuncode="1" objNum="0" objstartAddr="0" VSQ_SQ=""/>
+                        </ptclStep>
+                    </ptclStepList>
+                </sessionCfg>
+                <sessionCfg ssnDscNo="4" waitTime="3000" snnMaxRetryNum="0" actFlag="1" ssnMode="0" prio="4" check="0">
+                    <sessionInst instNo="0" cycTm="" collMethods="1" addrStart="0" cmnAddr="1" number="0"/>
+                    <ptclStepList>
+                        <ptclStep stepNo="1" reqORres="0" storORload="0">
+                            <frame COT="" VSQ_SQ="" objstartAddr="0" tidORfuncode="4" objNum="0" serialNo="1" TID="" ptclHead="0"/>
+                        </ptclStep>
+                        <ptclStep stepNo="2" reqORres="1" storORload="1">
+                            <frame COT="" VSQ_SQ="" objstartAddr="0" tidORfuncode="4" objNum="0" serialNo="1" TID="" ptclHead="0"/>
+                        </ptclStep>
+                    </ptclStepList>
+                </sessionCfg>
+            </sessionCfgList>

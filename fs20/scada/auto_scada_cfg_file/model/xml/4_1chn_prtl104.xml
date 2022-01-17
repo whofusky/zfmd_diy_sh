@@ -1,0 +1,38 @@
+        <channel maxPhyType="0" tmStmpLng="8" cfgTime="" chnNum="3" pntObjLng="0">
+            <prtl name="IEC104" prtlNo="104" bufLng="255" transType="0" state="0">
+                <timerInfo>
+                    <timer name="T3" timeoutValue="20"/>
+                    <timer name="T2" timeoutValue="10"/>
+                    <timer name="T1" timeoutValue="15"/>
+                    <timer name="T0" timeoutValue="30"/>
+                </timerInfo>
+                <controlPara W="8" K="12"/>
+                <APDU_DSCR InfoEleLng="5" ASDU_TID="0" asduCmtbNum="11">
+                    <APCI value="6"/>
+                    <ASDU_TID value="1"/>
+                    <ASDU_LNG value="0"/>
+                    <ASDU_VSQ value="1"/>
+                    <ASDU_COT value="2"/>
+                    <ASDU_ADDR value="2"/>
+                    <BODY_TID value="0"/>
+                    <BODY_ADDR value="3"/>
+                    <BODY_SET value="48"/>
+                    <BODY_TSP value="0"/>
+                    <ASDU_TSP value="0"/>
+                </APDU_DSCR>
+            </prtl>
+            <stationCfg stationNum="3" bStationConfig="1">
+                <localStation name="scada104转发远动" role="2" equipmentID="22">
+                    <netAddr port="2404" ip="172.20.51.20"/>
+                </localStation>
+                <remoteStation name="转发远动" role="1" equipmentID="">
+                    <netAddr port="0" ip="172.20.51.120"/>
+                </remoteStation>
+            </stationCfg>
+            <putStagFlag>4</putStagFlag>
+            <phyQuaCfg>
+                <phyCat name="1"/>
+                <phyCat name="5"/>
+                <phyCat name="15"/>
+            </phyQuaCfg>
+        </channel>

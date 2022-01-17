@@ -1,0 +1,5 @@
+
+            <grpSpeOpList> <!--对某个组的物理量特殊操作时需要配置此项 -->
+                <!--grpOpFlag配置的值含义与putStagFlag一样,默认没有在此配置的组号对就的grpOpFlag的值就是putStagFlag的值 -->
+                <grpSpe grpNo="1" grpOpFlag="2" /> 
+            </grpSpeOpList>
