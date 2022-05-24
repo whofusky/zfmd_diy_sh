@@ -990,9 +990,9 @@ function F_setXmlNodeVal()
     fi
 
     if [ -z "${tLinNo}" ];then
-        sed -i "s/<\s*${tKey}\s*>[^>]*<\s*\/\s*${tKey}\s*>/<${tKey}>${tVal}<\/${tKey}>/" ${tFile} 
+        sed -i "s/<\s*${tNodName}\s*>[^>]*<\s*\/\s*${tNodName}\s*>/<${tNodName}>${tVal}<\/${tNodName}>/" ${tFile} 
     else
-        sed -i "${tLinNo}{s/<\s*${tKey}\s*>[^>]*<\s*\/\s*${tKey}\s*>/<${tKey}>${tVal}<\/${tKey}>/}" ${tFile} 
+        sed -i "${tLinNo}{s/<\s*${tNodName}\s*>[^>]*<\s*\/\s*${tNodName}\s*>/<${tNodName}>${tVal}<\/${tNodName}>/}" ${tFile} 
     fi
 
     return 0
