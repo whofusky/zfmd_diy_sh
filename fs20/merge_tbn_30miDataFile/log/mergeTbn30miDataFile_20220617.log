@@ -1,0 +1,16 @@
+22-06-17_13:18:07.120281654 F_doTurb:g_1mi_src_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result],g_dst_result_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/result]
+22-06-17_13:18:07.136347028 F_doTurb:curDoFiles=[genwnd_1_20220617_12[345][0-9].cime],curDoRltFileName=[JIMENHE_HT_20220617_1230.DJ]
+22-06-17_13:18:07.147731273 F_doTurb:g_1mi_basicCondition_num=[30],need_perEC_items=[30]
+22-06-17_13:18:07.164979673 ERROR:F_doTurb:/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result/genwnd_1_20220617_12[345][0-9].cime files 0 less than 30,g_supp_miss_file=[1]!
+22-06-17_13:18:52.463679522 F_doTurb:g_1mi_src_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result],g_dst_result_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/result]
+22-06-17_13:18:52.476106681 F_doTurb:curDoFiles=[genwnd_1_20220617_12[345][0-9].cime],curDoRltFileName=[JIMENHE_HT_20220617_1230.DJ]
+22-06-17_13:18:52.488726599 F_doTurb:g_1mi_basicCondition_num=[30],need_perEC_items=[30]
+22-06-17_13:18:52.511525556 ERROR:F_doTurb:/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result/genwnd_1_20220617_12[345][0-9].cime files 0 less than 30,g_supp_miss_file=[1]!
+22-06-17_13:21:08.993654812 F_doTurb:g_1mi_src_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result],g_dst_result_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/result]
+22-06-17_13:21:09.005683850 F_doTurb:curDoFiles=[genwnd_1_20220617_12[345][0-9].cime],curDoRltFileName=[JIMENHE_HT_20220617_1230.DJ]
+22-06-17_13:21:09.017492605 F_doTurb:g_1mi_basicCondition_num=[30],need_perEC_items=[30]
+22-06-17_13:21:09.034936944 ERROR:F_doTurb:/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result/genwnd_1_20220617_12[345][0-9].cime files 0 less than 30,g_supp_miss_file=[1]!
+22-06-17_13:23:02.806666163 F_doTurb:g_1mi_src_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result],g_dst_result_dir=[/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/result]
+22-06-17_13:23:02.819272993 F_doTurb:curDoFiles=[genwnd_1_20220617_12[345][0-9].cime],curDoRltFileName=[JIMENHE_HT_20220617_1230.DJ]
+22-06-17_13:23:02.833044642 F_doTurb:g_1mi_basicCondition_num=[30],need_perEC_items=[30]
+22-06-17_13:23:02.851048091 ERROR:F_doTurb:/home/fusky/panwfarm/newtask/merge_tbn_30miDataFile/gen_tmp_srcfile/result/genwnd_1_20220617_12[345][0-9].cime files 0 less than 30,g_supp_miss_file=[1]!

@@ -68,11 +68,11 @@ fileHour="$2"
 halfeFlag="$3" #0 生成0-29 30分钟数据; 1 生成30-59 30分钟数据
 
 begineEC=0  #开始风机Ec 号
-endEc=45    #结束风机Ec 号
+endEc=51    #结束风机Ec 号
 
 fileHeadStr="<风机数据::江西.高龙山 时间='2021-03-15 09:12:00'>"
 fileEndStr="</风机数据::江西.高龙山>"
-itemStr="@  EC  PPAVG   PQ_AVG  WS_AVG  SF_TBN_OGN  FAULT"
+itemStr="@  EC  PP_AVG   PQ_AVG  WS_AVG  SF_TBN_OGN  FAULT"
 
 fileNamePre="genwnd_1_${fileDate}_${fileHour}"
 fileNamePos=".cime"
