@@ -1,0 +1,307 @@
+#!/bin/bash
+
+########################################################################
+#
+# @file    manageCron_monitErr
+#
+# @brief   自动配置monitErr.sh脚本的crontab
+#
+# @details 针对脚本monitErr.sh脚本进行crontab设置
+#          (1) 安装monitErr.sh脚本到cron
+#          (2) 卸载monitErr.sh脚本的cron中的设置
+#          (3) 暂停monitErr.sh脚本的cron中的设置
+#          (4) 重新启用monitErr.sh脚本的cron中的设置
+#
+# @author  fu.sky
+#
+# @date    2022-04-07
+#
+# @version V20.01.000
+#
+# @usage like
+#          ./manageCron_monitErr
+#
+########################################################################
+
+
+trap "" 1 2 3 9 11 13 15
+
+thisShName="$0"
+onlyShName=${thisShName##*/}
+onlyShPre=${onlyShName%.*}
+exePre="${thisShName%/*}"
+
+
+##############################################
+#Load system enviroment variable configuration
+##############################################
+[ -f /etc/profile ] && . /etc/profile >/dev/null 2>&1
+[ -f ${HOME}/.bash_profile ] && . ${HOME}/.bash_profile >/dev/null 2>&1
+[ -f ${HOME}/.profile ] && . ${HOME}/.profile >/dev/null 2>&1
+
+
+##################################################
+#Define the files and paths required by the script
+##################################################
+runDir="$(dirname ${thisShName})"
+
+baseDir="$(pwd)"
+opTmpFile="${baseDir}/tmpfile$$"
+#opTmpFile="${baseDir}/tmpfile"
+
+releaseShPre="monitErr"
+relaseShellF="${baseDir}/${releaseShPre}.sh"
+#relLogDir="${baseDir}/log"
+logPdir="$(dirname ${baseDir})"
+relLogDir="${logPdir}/log"
+
+
+###############################################
+#Define some global varables used by the script
+###############################################
+tS0Num=0
+tS0NumCom=0
+
+cronCycle=5
+#tS0Add="*/${cronCycle} * * * * sleep 34 && ${relaseShellF} >>${baseDir}/log/${releaseShPre}_sh.log 2>&1"
+tS0Add="* * * * * sleep 34 && ${relaseShellF} >>${relLogDir}/${releaseShPre}_sh.log 2>&1"
+
+
+
+
+################shell function #########################################
+
+function F_rmExistFile() #Delete file if file exists
+{
+    local tInParNum=1
+    local thisFName="${FUNCNAME}"
+    if [ ${tInParNum} -gt  $# ];then
+        echo -e "\n\tline[${LINENO}]:\e[1;31mERROR:\e[0m functon ${thisFName} input parameter num less than  [${tInParNum}]!\n"
+        return 1
+    fi
+
+    local tFile="$1"
+    while [ $# -gt 0 ]
+    do
+        tFile="$1"
+        if [ -e "${tFile}" ];then
+            #echo "rm -rf \"${tFile}\""
+            rm -rf "${tFile}"
+        fi
+        shift
+    done
+    return 0
+}
+
+
+function F_check()
+{
+    if [ "x${exePre}" != "x." ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m Input format error!"
+        echo -e "\tThe correct input method is: \e[1;31m./${onlyShName}\e[0m\n"
+        exit 1
+    fi
+    if [ ! -e ${relaseShellF} ];then
+        echo -e "\n\tERROR: File [ ${relaseShellF} ] does not exist!!\n"
+        exit 1
+    fi
+
+    [ ! -d ${relLogDir} ] && mkdir -p ${relLogDir}
+    [ ! -x ${relaseShellF} ] && chmod u+x ${relaseShellF}
+
+    crontab -l 2>/dev/null >${opTmpFile}
+    tS0Num=$(sed -n "/^[^#].*${releaseShPre}.sh/p" ${opTmpFile}|wc -l)
+    tS0NumCom=$(sed -n "/^#\+.*${releaseShPre}.sh/p" ${opTmpFile}|wc -l)
+    [ -z "${tS0Num}" ] && tS0Num=0
+    [ -z "${tS0NumCom}" ] && tS0NumCom=0
+
+    return 0
+}
+
+function F_saveCronModify()
+{
+    cat "${opTmpFile}"|crontab -
+    return 0
+}
+
+function F_showResult()
+{
+    echo -e "\n操作后的cron配置项为:"
+    grep "${releaseShPre}.sh" "${opTmpFile}"
+    echo -e "\n"
+    return 0
+}
+
+function F_addComToCron()
+{
+    if [[ ${tS0Num} -eq 0 &&  ${tS0NumCom} -eq 0 ]];then
+        echo -e "\n\n脚本[${relaseShellF}]\e[1;31m还未安装\e[0m\n"
+        return 0
+    fi
+
+    if [ ${tS0NumCom} -gt 0 ];then
+        echo -e "\n\n脚本[${relaseShellF}]\e[1;31m已经是暂停状态\e[0m\n"
+        echo -e "原cron配置项为:"
+        grep "${releaseShPre}.sh" "${opTmpFile}"
+        echo ""
+        return 0
+    fi
+
+    sed -n "/^[^#].*${releaseShPre}.sh/=" ${opTmpFile}|while read tnaa
+    do
+        sed -i "${tnaa}s/^/#/g" ${opTmpFile}
+    done
+
+    F_saveCronModify
+    
+    F_showResult
+
+    return 0
+}
+
+function F_delComToCron()
+{
+    if [ ${tS0Num} -eq 0 ];then
+        if [ ${tS0NumCom} -eq 0 ];then
+            echo -e "\n\n脚本[${relaseShellF}]\e[1;31m还未安装\e[0m\n"
+            return 0
+        fi
+    fi
+
+    if [ ${tS0NumCom} -eq 0 ];then
+        echo -e "\n\n脚本[${relaseShellF}]\e[1;31m已经是生效状态\e[0m\n"
+        echo -e "原cron配置项为:"
+        grep "${releaseShPre}.sh" "${opTmpFile}"
+        echo ""
+        return 0
+    fi
+
+    sed -n "/^#\+.*${releaseShPre}.sh/=" ${opTmpFile}|while read tnaa
+    do
+        sed -i "${tnaa}s/^#\+//g" ${opTmpFile}
+    done
+    F_saveCronModify
+    F_showResult
+    return 0
+}
+
+
+function F_delItemToCron()
+{
+    if [[ ${tS0NumCom} -eq 0 && ${tS0Num} -eq 0 ]];then
+        echo -e "\n\n脚本[${relaseShellF}]\e[1;31m未安装,不需卸载\e[0m\n"
+        return 0
+    fi
+
+    if [[ ${tS0NumCom} -gt 0 ]];then
+        sed -n "/^#\+.*${releaseShPre}.sh/=" ${opTmpFile}|while read tnaa
+        do
+            #echo "---$tnaa----"
+            sed -i "${tnaa} d" ${opTmpFile}
+        done
+    fi
+    if [[ ${tS0Num} -gt 0 ]];then
+        sed -n "/^[^#].*${releaseShPre}.sh/=" ${opTmpFile}|while read tnaa
+        do
+            #echo "---$tnaa----"
+            sed -i "${tnaa} d" ${opTmpFile}
+        done
+    fi
+    F_saveCronModify
+    echo -e "\n操作之后cron剩下的配置为:["
+    cat "${opTmpFile}"
+    echo -e "]\n"
+    return 0
+}
+
+function F_addItemToCron()
+{
+    if [ ${tS0Num} -gt 0 ];then
+        echo -e "\n\n\t脚本[ ${relaseShellF} ] \e[1;31m已经有cron配置,不需要再安装\e[0m,原设置如下:\n"
+        grep "${releaseShPre}.sh" "${opTmpFile}"
+        echo -e "\n"
+        return 0
+    fi
+    if [ ${tS0NumCom} -gt 0 ];then
+        F_delComToCron
+        F_saveCronModify
+        F_showResult
+        return 0
+    fi
+
+    echo "${tS0Add}" >> ${opTmpFile}
+    F_saveCronModify
+    F_showResult
+    return 0
+}
+
+function F_showCurUserCron()
+{
+    echo -e "\n所有配置项如下["
+    cat "${opTmpFile}"
+    echo -e "]\n"
+    return 0
+}
+
+
+trap "F_rmExistFile ${opTmpFile} ;exit" 0 1 2 3 9 11 13 15
+###################Main funciton logic##################################
+main()
+{
+    F_check
+
+    prompct1="       
+           [提示]:如果发现当前用户下已经有当前脚本的配置
+                  但路径或定时频率不符合要求,需要先选择[2]
+                  进行卸载然后再进行其他操作
+
+           请输入如下数字，选择相应的操作：
+                    [0].查看当前用户[$(whoami)]所有cron设置
+                    [1].安装脚本的cron设置
+                    [2].卸载脚本的cron设置
+                    [3].暂停脚本的cron设置
+                    [4].重新启用脚本的cron设置
+                    [5].退出，什么都不做
+          你的选择是: "
+
+
+    #echo "---${prompct1}---"
+
+
+    while ((1))
+    do
+
+        read -n 1 -p "${prompct1}" opType
+
+        if [[ "x${opType}" != "x0" && "x${opType}" != "x1" && "x${opType}" != "x2" && "x${opType}" != "x3" && "x${opType}" != "x4" && "x${opType}" != "x5" ]];then
+        echo ""
+        echo " -----------ERROR---------------------:Input errors,please re-enter!"
+            continue
+        fi
+
+        break
+
+    done
+
+    [ ${opType} -eq 5 ] && echo "" && exit 0
+
+    if [ ${opType} -eq 0 ];then
+        F_showCurUserCron
+    elif [ ${opType} -eq 1 ];then
+        F_addItemToCron
+    elif [ ${opType} -eq 2 ];then
+        F_delItemToCron
+    elif [ ${opType} -eq 3 ];then
+        F_addComToCron
+    elif [ ${opType} -eq 4 ];then
+        F_delComToCron
+    else
+        echo -e "\n\t ERROR:logic error!!!!\n"
+    fi
+
+    return 0
+}
+
+main
+exit 0
+
