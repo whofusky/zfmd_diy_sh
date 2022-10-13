@@ -18,6 +18,8 @@ OUT_LOG_LEVEL=${DEBUG}  #定义日志输出等级,大的等级包含小的等级
 logDir="/home/fusky/mygit/zfmd_diy_sh/wk_tmp/log"
 logFile="${logDir}/t.log"
 
+thishSh="$0"
+inpar1="$1"
 
 
 
@@ -105,99 +107,30 @@ function F_writeLog()
 }
 
 
-#call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
-function F_reduceFileSize()
+function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
 {
-    if [ $# -ne 2 ];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|imput parameters not eq 2!\n"
-        return 1
-    fi
+    [ $# -lt 1 ] && return 0
 
-    local backFlag=0 #是否备份越大文件并把原文件清空: 0 不备份,不缩减原文件; 1备份
-
-    local tfile="$1"
-    local tsizem="$2"
-    local tonecedelete=100
-    local tfileback="${tfile}"
-    [ ${backFlag} -eq 1 ] && tfileback="${tfile}.clr.bak"
-
-
-    local tbegineseconds=$(date +%s)
-
-    if [ ! -f "${tfile}" ];then
-        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|The file [${tfile}] not exist,so it does not need to be processed!"
-        return 0
-    fi
-    if [ ! -w "${tfile}" ];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|user [$(whoami)] 对文件[${tfile}]没有写权限,因此不能对文件进行缩小操作!"
-        return 1
-    fi
-
-    #The unit is MB
-    local cursizem=$(echo "scale=3;$(stat -c %s ${tfile})/(1024*1024)"|bc)
-    local initsizem="${cursizem}"
-
-
-    [ $(echo "${tsizem} <= 0"|bc) -eq 1 ] && tsizem="0.001"
-
-    local judgesize=$(echo "${tsizem} - 0.1"|bc)
-    [ $(echo "(${tsizem} -1) > 0"|bc) -eq 0 ] && judgesize="${tsizem}"
-
-    local needDoFlag=$(echo "${cursizem} > ${judgesize}"|bc)
-    local initFlag="${needDoFlag}"
-
-    local ret;
-
-    if [ ${needDoFlag} -eq 1 -a ${backFlag} -eq 1 ];then
-        cp -a "${tfile}" "${tfileback}"
-        ret=$?
-        if [ ${ret} -eq 0 ];then
-            >"${tfile}"
-            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|[ cp -a ${tfile} ${tfileback} ] and [ >${tfile} ] sucess!"
-        else
-            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[ cp -a ${tfile} ${tfileback} ] return error!"
-            return 2
-        fi
-    fi
-
-    F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|file[${tfileback}] cur_size_m=[${cursizem}M],tsizem=[${tsizem}M],judgesize=[${judgesize}M],needDoFlag=[${needDoFlag}]!"
-
-    local curcolnums
-    local startonedel="${tonecedelete}"
-    local i=0
-    while [ ${needDoFlag} -eq 1 ]
+    while [ $# -gt 0 ]
     do
-        if [ ${i} -eq 0 ];then
-            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|in while loop file[${tfileback}],init_size_m=[${initsizem}M],tsizem=[${tsizem}M],judgesize=[${judgesize}M],needDoFlag=[${needDoFlag}]!"
-            i=1
-        fi
-        curcolnums=$(wc -l "${tfileback}" 2>/dev/null |awk '{print $1}' 2>/dev/null)
-        [ -z "${curcolnums}" ] && curcolnums=0
-        tonecedelete=$(echo "scale=3;((${cursizem} - ${judgesize})/${cursizem}) * ${curcolnums}"|bc|sed 's/\.[0-9]*$//g')
-        [ -z "${tonecedelete}" ] && tonecedelete=0
-
-        [ ${tonecedelete} -lt ${startonedel} ] && tonecedelete=${startonedel}
-
-        sed -i "1,${tonecedelete} d" "${tfileback}"
-        ret=$?
-        if [ ${ret} -ne 0 ];then
-            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[ sed -i 1,${tonecedelete} d ${tfileback} ] return  error!"
-            return 1
-        fi
-
-        cursizem=$(echo "scale=3;$(stat -c %s ${tfileback})/(1024*1024)"|bc)
-        needDoFlag=$(echo "${cursizem} > ${judgesize}"|bc)
-        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|in while loop file[${tfileback}],init_size_m=[${initsizem}M],cur_size_m=[${cursizem}M],needDoFlag=[${needDoFlag}]!"
+        [ -e "$1" ] && rm -rf "$1"
+        shift
     done
-
-    if [ ${initFlag} -eq 1 ];then
-        local tendseconds=$(date +%s)
-        local runseconds=$(echo "${tendseconds} - ${tbegineseconds}"|bc)
-        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|delete file [ ${tfileback} ] init_size_m=[${initsizem}M],cur_size_m=[${cursizem}M] elapsed time [ ${runseconds} ] seconds!\n\n"
-    fi
 
     return 0
 }
+
+function F_isDigital() # return 1: digital; 0: not a digital
+{
+    [ $# -ne 1 ] && echo "0" && return 0
+
+    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
+        echo "1" && return 1
+    fi
+
+    echo "0" && return 0
+}
+
 
 
 function F_test()
@@ -212,7 +145,11 @@ function F_test()
     #F_writeLog "${ERROR}"   "haha"
     #F_writeLog "-2"   "11haha"
 
-    F_reduceFileSize "/home/fusky/tmp/t/out_test.csv" "4"
+    #F_rmFile "/home/fusky/tmp/t/out_test.csv" "/home/fusky/tmp/t/out_test.1" "/home/fusky/tmp/t/out_test.csv.clr.bak"
+
+
+
+
 
     return 0
 }

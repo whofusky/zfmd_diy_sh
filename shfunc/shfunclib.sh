@@ -95,6 +95,53 @@ function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some 
 
 
 
+
+function F_mkpDir() #call eg: F_mkpDir "tdir1" "tdir2" ... "tdirn"
+{
+    [ $# -lt 1 ] && return 0
+    local tdir
+    while [ $# -gt 0 ]
+    do
+        tdir=$(echo "$1"|sed 's/\(^\s\+\)\|\(\s\+$\)//g')
+        [ ! -z "${tdir}" -a ! -d "${tdir}" ] && mkdir -p "${tdir}"
+        shift
+    done
+    return 0
+}
+
+
+function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
+{
+    [ $# -lt 1 ] && return 0
+
+    while [ $# -gt 0 ]
+    do
+        [ -e "$1" ] && rm -rf "$1"
+        shift
+    done
+
+    return 0
+}
+
+function F_getFileName() #get the file name in the path string
+{
+    [ $# -ne 1 ] && return 0
+    [  -z "$1" ] && return 0
+    echo "${1##*/}" && return 0
+}
+
+function F_getPathName() #get the path value in the path string(the path does not have / at the end)
+{
+    [ $# -ne 1 ] && return 0
+    [  -z "$1" ] && return 0
+
+    local tpath="${1%/*}"
+    [ "${tpath}" = "$1" ] && tpath="."
+    echo "${tpath}" && return 0
+}
+
+
+
 function F_reduceFileSize() #call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
 {
     if [ $# -ne 2 ];then
@@ -188,4 +235,104 @@ function F_reduceFileSize() #call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
     return 0
 }
 
+
+function F_isDigital() # return 1: digital; 0: not a digital
+{
+    [ $# -ne 1 ] && echo "0" && return 0
+
+    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
+        echo "1" && return 1
+    fi
+
+    echo "0" && return 0
+}
+
+
+function F_shHaveRunThenExit()  #Exit if a script is already running
+{
+    if [ $# -lt 1 ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|Function input arguments are less than 1!\n"
+        exit 1
+    fi
+    
+    local pname="$1"
+    local tmpShPid; 
+    local tmpShPNum
+
+    tmpShPid=$(pidof -x ${pname})
+    tmpShPNum=$(echo ${tmpShPid}|awk 'BEGIN {tNum=0;} { if(NF>0){tNum=NF;}} END{print tNum}')
+    if [ ${tmpShPNum} -gt 1 ]; then
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|script [${pname}] has been running this startup exit,pidNum=[$tmpShPNum],pid=[${tmpShPid}]!\n"
+        exit 0
+    fi
+
+    return 0
+}
+
+function F_rmExpiredFile() #call eg: F_rmExpiredFile "path" "days" OR F_rmExpiredFile "path" "days" "files"
+{
+    [ $# -ne 2 ] && [ $# -ne 3 ] && return 1
+    [ ! -d "${tpath}" ] && return 2
+
+    local tpath="$1" ; local tdays="$2"
+
+    [ $(F_isDigital "${tdays}") = "0" ] && tdays=1
+
+    local tname="*"
+    [ $# -eq 3 ] && tname="$3"
+
+    local tnum=0
+    tnum=$(find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print 2>/dev/null|wc -l)
+    [ ${tnum} -eq 0 ] && return 0
+
+    find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print0 2>/dev/null|xargs -0 rm -rf
+
+    return 0
+}
+
+function F_checkSysCmd() #call eg: F_checkSysCmd "cmd1" "cmd2" ... "cmdn"
+{
+    [ $# -lt 1 ] && return 0
+
+    local errFlag=0
+    while [ $# -gt 0 ]
+    do
+        which $1 >/dev/null 2>&1
+        if [ $? -ne 0 ];then 
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|The system command \"$1\" does not exist in the current environment!"
+            errFlag=1
+        fi
+        shift
+    done
+
+    [ ${errFlag} -eq 1 ] && exit 1
+
+    return 0
+}
+
+
+function F_convertVLineToSpace() #Convert vertical lines to spaces
+{
+    [ $# -lt 1 ] && echo "" && return 0
+    echo $(echo "$1"|tr -d "[\040\t\r\n]"|tr -s "|" "\040") && return 0
+}
+
+function F_judgeFileOlderXSec() # return 0:false; 1:ture
+{
+    [ $# -lt 2 ] && echo "0" && return 0
+    [ ! -f "$1" ] && echo "0" && return 0
+    [ $(F_isDigital "$2") = "0" ] && echo "0" && return  0
+
+    local tFile="$1" ; local tScds="$2"
+
+    local tFscds=0; local trueFlag=0; local curScds=0;
+
+    tFscds=$(stat -c %Y ${tFile})
+    curScds=$(date +%s)
+    trueFlag=$(echo "( ${curScds} - ${tFscds} ) >= ${tScds}"|bc)
+
+    [ ${trueFlag} -eq 1 ] && echo "1" && return 1
+
+    echo "0" && return 0
+}
 

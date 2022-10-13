@@ -1,0 +1,375 @@
+#!/bin/bash
+
+########################################################################
+#
+# @file    managecron
+#
+# @brief   自动配置 [cronExe] (需要修改脚本此变量)的crontab
+#
+# @details 针对脚本 [cronExe] 脚本进行crontab设置
+#          (1) 安装 [cronExe] 脚本到cron
+#          (2) 卸载 [cronExe] 脚本的cron中的设置
+#          (3) 暂停 [cronExe] 脚本的cron中的设置
+#          (4) 重新启用 [cronExe] 脚本的cron中的设置
+#
+# @author  fu.sky
+#
+# @date    2022-10-13_13:54:50
+#
+# @version V20.01.000
+#
+# @usage like
+#          ./managecron
+#
+########################################################################
+
+
+trap "" 1 2 3 9 11 13 15
+
+thisShName="$0"
+onlyShName=${thisShName##*/}
+onlyShPre=${onlyShName%.*}
+exePre="${thisShName%/*}"
+
+
+##############################################
+#Load system enviroment variable configuration
+##############################################
+[ -f /etc/profile ] && . /etc/profile >/dev/null 2>&1
+[ -f ${HOME}/.bash_profile ] && . ${HOME}/.bash_profile >/dev/null 2>&1
+[ -f ${HOME}/.profile ] && . ${HOME}/.profile >/dev/null 2>&1
+
+
+##################################################
+#Define the files and paths required by the script
+##################################################
+#runDir="$(dirname ${thisShName})"
+
+baseDir="$(pwd)"
+
+
+cronExeDir="${baseDir}"       # [常修改值] 可执行脚本或脚本的路径
+cronExe="k.sh"         # [常修改值] 需要设置在crontab中的文件名(不带路径)
+cronLogDir="${baseDir}/log"   # [常修改值] 可执行脚本日志输出目录
+
+cronExeFull="${cronExeDir}/${cronExe}" # crontab 中可执行文件
+cronExePre="${cronExe%.*}"
+ttOpFile="${baseDir}/tmpfile$$"        #临时处理文件
+
+
+###############################################
+#Define some global varables used by the script
+###############################################
+g_noCmtNum=0  #crontab中正常配置且未注释的行数
+g_cmtNum=0    #crontab中正常配置且注释的行数
+
+cronCycle=5
+
+##############################
+# [常修改值] crontab中的新增条目
+##############################
+#tS0Add="*/${cronCycle} * * * * sleep 34 && ${cronExeFull} >>${baseDir}/log/${cronExePre}_cron.log 2>&1"
+tS0Add="* * * * *  ${cronExeFull} >>${cronLogDir}/${cronExePre}_cron.log 2>&1"
+
+
+
+
+################shell function #########################################
+
+
+function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
+{
+    [ $# -lt 1 ] && return 0
+
+    while [ $# -gt 0 ]
+    do
+        [ -e "$1" ] && rm -rf "$1"
+        shift
+    done
+
+    return 0
+}
+
+function F_check()
+{
+    if [ $# -lt 3 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 3 !"
+        exit 1
+    fi
+    local tCronLogDir="$1"
+    local tCronExeFulName="$2"
+    local tOutFile="$3"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+
+    if [ "x${exePre}" != "x." ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m Input format error!"
+        echo -e "\tThe correct input method is: \e[1;31m./${onlyShName}\e[0m\n"
+        exit 1
+    fi
+    if [ ! -e ${tCronExeFulName} ];then
+        echo -e "\n\tERROR: File [ ${tCronExeFulName} ] does not exist!!\n"
+        exit 1
+    fi
+
+    [ ! -d ${tCronLogDir} ] && mkdir -p ${tCronLogDir}
+    [ ! -x ${tCronExeFulName} ] && chmod u+x ${tCronExeFulName}
+
+
+    crontab -l 2>/dev/null >${tOutFile}
+    g_noCmtNum=$(sed -n "/^[^#].*${tcronExeName}/p" ${tOutFile}|wc -l)
+    g_cmtNum=$(sed -n "/^#\+.*${tcronExeName}/p" ${tOutFile}|wc -l)
+    [ -z "${g_noCmtNum}" ] && g_noCmtNum=0
+    [ -z "${g_cmtNum}" ] && g_cmtNum=0
+
+    return 0
+}
+
+function F_saveCronModify()
+{
+    if [ $# -lt 1 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 1 !"
+        exit 1
+    fi
+    local tCronOutFile="$1"
+    cat "${tCronOutFile}"|crontab -
+    return 0
+}
+
+function F_showResult()
+{
+    if [ $# -lt 2 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 2 !"
+        exit 1
+    fi
+    local tCronExeFulName="$1"
+    local tOutFile="$2"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+    echo -e "\n操作后的cron配置项为:"
+    grep "${tcronExeName}" "${tOutFile}"
+    echo -e "\n"
+    return 0
+}
+
+function F_addComToCron()
+{
+    if [ $# -lt 4 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 4 !"
+        exit 1
+    fi
+    local tCronExeFulName="$1"
+    local tOutFile="$2"
+    local tNoCmtNum="$3"
+    local tCmtNum="$4"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+    if [[ ${tNoCmtNum} -eq 0 &&  ${tCmtNum} -eq 0 ]];then
+        echo -e "\n\n脚本[${tCronExeFulName}]\e[1;31m还未安装\e[0m\n"
+        return 0
+    fi
+
+    if [ ${tCmtNum} -gt 0 ];then
+        echo -e "\n\n脚本[${tCronExeFulName}]\e[1;31m已经是暂停状态\e[0m\n"
+        echo -e "原cron配置项为:"
+        grep "${tcronExeName}" "${tOutFile}"
+        echo ""
+        return 0
+    fi
+
+    local tnaa
+    sed -n "/^[^#].*${tcronExeName}/=" ${tOutFile}|while read tnaa
+    do
+        sed -i "${tnaa}s/^/#/g" ${tOutFile}
+    done
+
+    F_saveCronModify "${tOutFile}"
+    
+    F_showResult "${tCronExeFulName}" "${tOutFile}"
+
+    return 0
+}
+
+function F_delComToCron()
+{
+    if [ $# -lt 4 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 4 !"
+        exit 1
+    fi
+    local tCronExeFulName="$1"
+    local tOutFile="$2"
+    local tNoCmtNum="$3"
+    local tCmtNum="$4"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+    if [ ${tNoCmtNum} -eq 0 ];then
+        if [ ${tCmtNum} -eq 0 ];then
+            echo -e "\n\n脚本[${tCronExeFulName}]\e[1;31m还未安装\e[0m\n"
+            return 0
+        fi
+    fi
+
+    if [ ${tCmtNum} -eq 0 ];then
+        echo -e "\n\n脚本[${tCronExeFulName}]\e[1;31m已经是生效状态\e[0m\n"
+        echo -e "原cron配置项为:"
+        grep "${tcronExeName}" "${tOutFile}"
+        echo ""
+        return 0
+    fi
+
+    local tnaa
+    sed -n "/^#\+.*${tcronExeName}/=" ${tOutFile}|while read tnaa
+    do
+        sed -i "${tnaa}s/^#\+//g" ${tOutFile}
+    done
+    F_saveCronModify "${tOutFile}"
+    F_showResult  "${tCronExeFulName}" "${tOutFile}"
+    return 0
+}
+
+
+function F_delItemToCron()
+{
+    if [ $# -lt 4 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 4 !"
+        exit 1
+    fi
+    local tCronExeFulName="$1"
+    local tOutFile="$2"
+    local tNoCmtNum="$3"
+    local tCmtNum="$4"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+    if [[ ${tNoCmtNum} -eq 0 && ${tCmtNum} -eq 0 ]];then
+        echo -e "\n\n脚本[${tCronExeFulName}]\e[1;31m未安装,不需卸载\e[0m\n"
+        return 0
+    fi
+
+    if [[ ${tCmtNum} -gt 0 ]];then
+        sed -n "/^#\+.*${tcronExeName}/=" ${tOutFile}|while read tnaa
+        do
+            #echo "---$tnaa----"
+            sed -i "${tnaa} d" ${tOutFile}
+        done
+    fi
+    if [[ ${tNoCmtNum} -gt 0 ]];then
+        sed -n "/^[^#].*${tcronExeName}/=" ${tOutFile}|while read tnaa
+        do
+            #echo "---$tnaa----"
+            sed -i "${tnaa} d" ${tOutFile}
+        done
+    fi
+    F_saveCronModify "${tOutFile}"
+    echo -e "\n操作之后cron剩下的配置为:["
+    cat "${tOutFile}"
+    echo -e "]\n"
+    return 0
+}
+
+function F_addItemToCron()
+{
+    if [ $# -lt 5 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 5 !"
+        exit 1
+    fi
+    local tCronExeFulName="$1"
+    local tOutFile="$2"
+    local tAddCnt="$3"
+    local tNoCmtNum="$4"
+    local tCmtNum="$5"
+    local tcronExeName="${tCronExeFulName##*/}"
+
+    if [ ${tNoCmtNum} -gt 0 ];then
+        echo -e "\n\n\t脚本[ ${tCronExeFulName} ] \e[1;31m已经有cron配置,不需要再安装\e[0m,原设置如下:\n"
+        grep "${tcronExeName}" "${tOutFile}"
+        echo -e "\n"
+        return 0
+    fi
+    if [ ${tCmtNum} -gt 0 ];then
+        F_delComToCron "${tCronExeFulName}" "${tOutFile}" "${tNoCmtNum}" "${tCmtNum}"
+        F_saveCronModify "${tOutFile}"
+        F_showResult  "${tCronExeFulName}" "${tOutFile}"
+        return 0
+    fi
+
+    echo "${tAddCnt}" >> ${tOutFile}
+    F_saveCronModify "${tOutFile}"
+    F_showResult  "${tCronExeFulName}" "${tOutFile}"
+    return 0
+}
+
+function F_showCurUserCron()
+{
+    if [ $# -lt 1 ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m|${LINENO}|${FUNCNAME}| Input parameter num less than 1 !"
+        exit 1
+    fi
+    local tOutFile="$1"
+    echo -e "\n所有配置项如下["
+    cat "${tOutFile}"
+    echo -e "]\n"
+    return 0
+}
+
+
+trap "F_rmFile ${ttOpFile} ;exit" 0 1 2 3 9 11 13 15
+###################Main funciton logic##################################
+main()
+{
+    F_check "${cronLogDir}" "${cronExeFull}" "${ttOpFile}"
+
+    prompct1="       
+           [提示]:如果发现当前用户下已经有当前脚本的配置
+                  但路径或定时频率不符合要求,需要先选择[2]
+                  进行卸载然后再进行其他操作
+
+           请输入如下数字，选择相应的操作：
+                    [0].查看当前用户[$(whoami)]所有cron设置
+                    [1].安装脚本的cron设置
+                    [2].卸载脚本的cron设置
+                    [3].暂停脚本的cron设置
+                    [4].重新启用脚本的cron设置
+                    [5].退出，什么都不做
+          你的选择是: "
+
+
+    #echo "---${prompct1}---"
+
+
+    while ((1))
+    do
+
+        read -n 1 -p "${prompct1}" opType
+
+        if [[ "x${opType}" != "x0" && "x${opType}" != "x1" && "x${opType}" != "x2" && "x${opType}" != "x3" && "x${opType}" != "x4" && "x${opType}" != "x5" ]];then
+        echo ""
+        echo " -----------ERROR---------------------:Input errors,please re-enter!"
+            continue
+        fi
+
+        break
+
+    done
+
+    [ ${opType} -eq 5 ] && echo "" && exit 0
+
+    if [ ${opType} -eq 0 ];then
+        F_showCurUserCron "${ttOpFile}"
+    elif [ ${opType} -eq 1 ];then
+        F_addItemToCron "${cronExeFull}" "${ttOpFile}" "${tS0Add}" "${g_noCmtNum}" "${g_cmtNum}"
+    elif [ ${opType} -eq 2 ];then
+        F_delItemToCron "${cronExeFull}" "${ttOpFile}" "${g_noCmtNum}" "${g_cmtNum}"
+    elif [ ${opType} -eq 3 ];then
+        F_addComToCron "${cronExeFull}" "${ttOpFile}" "${g_noCmtNum}" "${g_cmtNum}"
+    elif [ ${opType} -eq 4 ];then
+        F_delComToCron "${cronExeFull}" "${ttOpFile}" "${g_noCmtNum}" "${g_cmtNum}"
+    else
+        echo -e "\n\t ERROR:logic error!!!!\n"
+    fi
+
+    return 0
+}
+
+main
+exit 0
+

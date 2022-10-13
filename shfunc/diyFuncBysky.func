@@ -11,56 +11,6 @@
 #############################################################################
 
 
-
-function getFnameOnPath() #get the file name in the path string
-{
-    if [ $# -ne 1 ];then
-        echo "  Error: function getFnameOnPath input parameters not eq 1!"
-        return 1
-    fi
-
-    allName="$1"
-    if [ -z "${allName}" ];then
-        echo "  Error: function getFnameOnPath input parameters is null!"
-        return 2;
-    fi
-
-    slashNum=$(echo ${allName}|grep "/"|wc -l)
-    if [ ${slashNum} -eq 0 ];then
-        echo ${allName}
-        return 0 
-    fi
-
-    fName=$(echo ${allName}|awk -F'/' '{print $NF}')
-    echo ${fName}
-
-    return 0
-}
-
-
-function getPathOnFname() #get the path value in the path string(the path does not have / at the end)
-{
-
-    if [ $# -ne 1 ];then
-        echo "  Error: function getPathOnFname input parameters not eq 1!"
-        return 1
-    fi
-
-    if [  -z "$1" ];then
-        echo "  Error: function getPathOnFname input parameters is null!"
-        return 2
-    fi
-    
-    dirStr=$(echo "$1"|awk -F'/' '{for(i=1;i<NF;i++){printf "%s/",$i}}'|sed 's/\/$//g')
-    if [ -z "${dirStr}" ];then
-        dirStr="."
-    fi
-
-    echo "${dirStr}"
-    return 0
-}
-
-
 function chgUandGzfmd() #chown -R $1:$2 $3 if there is a user $1 user group $2,file or directory $3
 {
     if [ $# -ne 3 ];then
@@ -168,19 +118,6 @@ function setPermission() #chown -R $2 $1 if the file or directory $1 exists and 
     if [[ "$perDZT" != "${perVal}" ]];then
         echo "chmod -R ${perVal} ${edFD}"
         chmod -R ${perVal} ${edFD}
-    fi
-}
-
-function mkpDir() #create and echo directory if there is no $1 directory
-{
-    if [ $# -ne 1 ];then
-        return 1
-    fi
-    
-    edFD=$1
-    if [[ ! -d ${edFD}  ]];then
-        mkdir -p ${edFD}
-        echo "mkdir -p ${edFD}"
     fi
 }
 
