@@ -1,0 +1,118 @@
+2023-02-10_16:28:53.686386786|INFO|167|F_loadDiyFun|load ./myDiyShFunction.sh
+2023-02-10_16:28:53.780297391|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb ./tmp
+2023-02-10_16:28:53.790500411|INFO|311|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:28:53.795924065|INFO|317|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_16:28:53.801179673|INFO|311|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:28:53.806736264|INFO|317|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/2/yn_72wind_20230211.rb
+2023-02-10_16:28:53.811740483|INFO|311|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:28:53.817378895|INFO|317|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/3/yn_72wind_20230211.rb
+2023-02-10_16:28:53.823397442|INFO|325|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/4/yn_72wind_20230211.rb
+2023-02-10_16:28:53.859998198|INFO|336|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+
+
+2023-02-10_16:31:49.980016979|INFO|150|F_myExit|[cpFileToDir.sh] Exit normally after receiving the signal!
+
+
+2023-02-10_16:39:54.463487502|INFO|167|F_loadDiyFun|load ./myDiyShFunction.sh
+2023-02-10_16:39:54.567812451|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb ./tmp
+
+
+2023-02-10_16:39:54.579613387|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] begine...
+2023-02-10_16:39:54.585890499|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:39:54.591868095|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_16:39:54.597187107|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:39:54.603072738|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/2/yn_72wind_20230211.rb
+2023-02-10_16:39:54.612807249|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:39:54.617892688|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/3/yn_72wind_20230211.rb
+2023-02-10_16:39:54.623424619|INFO|329|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/4/yn_72wind_20230211.rb
+2023-02-10_16:39:54.632843815|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+2023-02-10_16:39:54.638151189|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] end!
+
+
+2023-02-10_16:42:30.803475741|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021016.rb ./tmp
+
+
+2023-02-10_16:42:30.814746582|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021016.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] begine...
+2023-02-10_16:42:30.821347678|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_4Cwind_2023021016.rb ./tmp/yn_4Cwind_2023021016.rb.tt
+2023-02-10_16:42:30.827562472|INFO|321|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021016.rb.tt /home/fusky/tmp/t/1/yn_4Cwind_2023021016.rb
+2023-02-10_16:42:30.833505701|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_4Cwind_2023021016.rb ./tmp/yn_4Cwind_2023021016.rb.tt
+2023-02-10_16:42:30.840122546|INFO|321|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021016.rb.tt /home/fusky/tmp/t/2/yn_4Cwind_2023021016.rb
+2023-02-10_16:42:30.846089799|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_4Cwind_2023021016.rb ./tmp/yn_4Cwind_2023021016.rb.tt
+2023-02-10_16:42:30.851934330|INFO|321|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021016.rb.tt /home/fusky/tmp/t/3/yn_4Cwind_2023021016.rb
+2023-02-10_16:42:30.856971912|INFO|329|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021016.rb /home/fusky/tmp/t/4/yn_4Cwind_2023021016.rb
+2023-02-10_16:42:30.861759490|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_4Cwind_2023021016.rb
+2023-02-10_16:42:30.866179294|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021016.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] end!
+
+
+2023-02-10_16:45:23.200280425|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021015.rb ./tmp
+
+
+2023-02-10_16:45:23.211629368|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021015.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3] begine...
+2023-02-10_16:45:23.220416162|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_4Cwind_2023021015.rb ./tmp/yn_4Cwind_2023021015.rb.tt
+2023-02-10_16:45:23.226533763|INFO|321|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021015.rb.tt /home/fusky/tmp/t/1/yn_4Cwind_2023021015.rb
+2023-02-10_16:45:23.235257913|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_4Cwind_2023021015.rb ./tmp/yn_4Cwind_2023021015.rb.tt
+2023-02-10_16:45:23.240689923|INFO|321|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021015.rb.tt /home/fusky/tmp/t/2/yn_4Cwind_2023021015.rb
+2023-02-10_16:45:23.247052461|INFO|329|F_doCpOneDir|mv ./tmp/yn_4Cwind_2023021015.rb /home/fusky/tmp/t/3/yn_4Cwind_2023021015.rb
+2023-02-10_16:45:23.252256707|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_4Cwind_2023021015.rb
+2023-02-10_16:45:23.256321862|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/CDQ/yn_4Cwind_2023021015.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3] end!
+
+
+2023-02-10_16:48:17.934956299|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb ./tmp
+
+
+2023-02-10_16:48:17.953524873|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] begine...
+2023-02-10_16:48:17.962899629|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:48:17.974339097|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_16:48:17.983583109|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:48:17.992040197|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/2/yn_72wind_20230211.rb
+2023-02-10_16:48:18.001517555|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:48:18.010394986|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/3/yn_72wind_20230211.rb
+2023-02-10_16:48:18.018715539|INFO|329|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/4/yn_72wind_20230211.rb
+2023-02-10_16:48:18.026939322|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+2023-02-10_16:48:18.033613265|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] end!
+
+
+2023-02-10_16:52:52.498622494|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb ./tmp
+
+
+2023-02-10_16:52:52.509243448|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] begine...
+2023-02-10_16:52:52.514730174|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:52:52.521224017|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_16:52:52.526330064|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:52:52.532711993|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/2/yn_72wind_20230211.rb
+2023-02-10_16:52:52.539015881|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:52:52.544718141|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/3/yn_72wind_20230211.rb
+2023-02-10_16:52:52.549953475|INFO|329|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/4/yn_72wind_20230211.rb
+2023-02-10_16:52:52.554552679|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+2023-02-10_16:52:52.559192871|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] end!
+
+
+2023-02-10_16:58:21.371825951|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb ./tmp
+
+
+2023-02-10_16:58:21.382318421|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] begine...
+2023-02-10_16:58:21.388182001|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:58:21.394612915|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_16:58:21.400192689|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:58:21.406855532|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/2/yn_72wind_20230211.rb
+2023-02-10_16:58:21.413194198|INFO|315|F_doCpOneDir|cp -a ./tmp/yn_72wind_20230211.rb ./tmp/yn_72wind_20230211.rb.tt
+2023-02-10_16:58:21.418269325|INFO|321|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb.tt /home/fusky/tmp/t/3/yn_72wind_20230211.rb
+2023-02-10_16:58:21.423626759|INFO|329|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/4/yn_72wind_20230211.rb
+2023-02-10_16:58:21.428571300|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+2023-02-10_16:58:21.433500652|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1|/home/fusky/tmp/t/2|/home/fusky/tmp/t/3|/home/fusky/tmp/t/4] end!
+
+
+2023-02-10_17:00:08.440739278|INFO|284|F_doCpOneDir|cp -a /home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/hand_DQ/yn_72wind_20230211.rb ./tmp
+
+
+2023-02-10_17:00:08.451469845|INFO|296|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/hand_DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1] begine...
+2023-02-10_17:00:08.458242875|INFO|329|F_doCpOneDir|mv ./tmp/yn_72wind_20230211.rb /home/fusky/tmp/t/1/yn_72wind_20230211.rb
+2023-02-10_17:00:08.463764729|INFO|340|F_doCpOneDir|touch ./tmp/back/yn_72wind_20230211.rb
+2023-02-10_17:00:08.467793683|INFO|342|F_doCpOneDir| cp [/home/fusky/Upload_general_V2_YN/build-Upload_JX_102-Desktop-Release/2023/02/10/hand_DQ/yn_72wind_20230211.rb] --> [/home/fusky/tmp/t/1] end!
+
+
+
+
+2023-02-10_17:01:43.476120116|INFO|150|F_myExit|[cpFileToDir.sh] Exit normally after receiving the signal!
+
+

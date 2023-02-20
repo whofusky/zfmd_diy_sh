@@ -41,7 +41,7 @@ function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some 
     [ $# -lt 2 ] && return 1
 
     #特殊调试时用
-    local print_to_stdin_flag=1  # 0:可能输出到日志文件; 1: 输出到屏幕
+    local print_to_stdin_flag=2  # 0:可能输出到日志文件; 1: 输出到屏幕; 2可能同时输出到屏幕和日志文件
 
     #input log level
     local i="$1"   
@@ -84,15 +84,22 @@ function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some 
     fi
 
     if [ ${tflag} -gt 0 ];then
-        echo -e "${puttxt}" >> "${logFile}"
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${puttxt}"|tee -a  "${logFile}"
+        else
+            echo -e "${puttxt}" >> "${logFile}"
+        fi
     else
-        echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" |tee -a "${logFile}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        fi
     fi
 
 
     return 0
 }
-
 
 
 

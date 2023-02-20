@@ -595,6 +595,11 @@ function F_doTurb() #处理所有风机的数据
     
     echo "${resultTailStr}">>"${tRFile}"
 
+    #把下面的命令放开后 文件中 "1#FJ" 就会变成 "01#FJ"
+    #  #1 1#FJ HT01 08:00 20.4 2.1 1.23 1 '(16)(17)'
+    #->#1 01#FJ HT01 08:00 20.4 2.1 1.23 1 '(16)(17)'
+    sed -i 's/\(^#[0-9]\+\)\(\s\+\)\([0-9]#\)/\1\20\3/g' "${tRFile}"
+
     if [ -e "${tRFileR}" ];then
         rm -rf "${tRFileR}"
     fi

@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+########################################################################
+# @file    : functions
+# @brief   : iptables firewall shell script custom function
+# @author  : fushikai
+# @date    : 2019-05-14
+# @version : v20.01.010
+#
+# Revision History:
+#
+#   v20.01.010 2021-11-26：Support systemd type system
+#   v20.01.000 2019-09-23: modify v0.0.0.1 version to V20.01.000
+#   v0.0.0.1   2019-05-14: creation
+#
+########################################################################
+
+#echo "$PWD"
+
+
+#echo "111111111111111111111"
+#echo "g_logName=[${g_logName}],g_DiyService=[${g_DiyService}]"
+
+#Prevent duplicate loading flag
+[ ! -z "${Already_loadedFunc_Flag}" ] && return 0
+Already_loadedFunc_Flag=1
+
+
+#Define the configuration file path
+[ -z "${g_funcDir}" ] && g_funcDir="$(dirname $0)/basesh"
+[ -z "${g_cfgFile}" ] && g_cfgFile="${g_funcDir}/../cfg/network.conf"
+
+
+#Define the log file path
+[ -z "${g_logDir}" ] && g_logDir="${g_funcDir}/../log"
+[ -z "${g_logName}" ] && g_logName="${g_logDir}/$(date +%Y%m%d).log"
+[ ! -d "${g_logDir}" ] && mkdir -p "${g_logDir}"
+
+
+
+
+#Exit abnormally if the configuration file does not exist
+if [ ! -e ${g_cfgFile} ];then
+    echo -e "\n\t$(date +%Y-%m-%d_%H:%M:%S.%N) \e[1;31mError:in [$0]\e[0m File [ ${g_cfgFile} ] does not exist!!\n" | tee -a "${g_logName}"
+    exit 1
+fi
+
+
+
+
+
+
+#echo -e "\n$(date +%Y-%m-%d_%H:%M:%S.%N) TIPS:PWD=[$PWD],g_MY_SysTVal=[${g_MY_SysTVal}],g_EXE_Sh=[${g_EXE_Sh}],g_MY_SYSTYPE=[${g_MY_SYSTYPE}]" | tee -a "${g_logName}"
+#echo -e "\n$(date +%Y-%m-%d_%H:%M:%S.%N) TIPS:PWD=[$PWD],\n     g_MY_SysTVal=[${g_MY_SysTVal}],\n     g_EXE_Sh=[${g_EXE_Sh}],\n     g_MY_SYSTYPE=[${g_MY_SYSTYPE}]" | tee -a "${g_logName}"
+
+echo -e "\n\t$(date +%Y-%m-%d_%H:%M:%S.%N) TIPS:PWD=[$PWD]" | tee -a "${g_logName}"
+

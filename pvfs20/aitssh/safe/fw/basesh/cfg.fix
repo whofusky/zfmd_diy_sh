@@ -1,0 +1,57 @@
+
+
+
+###############################################################
+#
+#       【各参数控制开关区域】  
+#           
+#   需要修改的参数是 debugFlag, 其他参数如不明白具体指代的什么建
+#   议不要修改
+#
+#   注: debugFlag=0时才能让配置生效
+#  
+###############################################################
+
+#debugFlag=1 只输出将要配置的信息不实际写入系统；其他值则执行系统配置
+debugFlag=1
+
+#enablePing=1 开启ping功能,0关闭ping功能
+enablePing=1
+
+#enInterSsh=1 开启内网的ssh端口
+enInterSsh=1
+
+#bindNICByIP=1 根据配置的ip自动找对应的网卡号并进行绑定;0则不绑定
+bindNICByIP=1
+
+
+
+
+
+###############################################################
+#
+#       【规则功能定义区】  
+#           
+#【注】此区域一定不要修改
+#  
+###############################################################
+
+#outPrtFlag:产生规则的标识       0:OUTPUT,INPUT; 1:OUTPUT; 2:INPUT                 
+prtAll=0
+prtIn=2
+prtOut=1
+
+#server_opFlag:在连接状中是作为client还是server   0:client; 1:server; 2:client,server; 3:stat null
+srvOp_client=0
+srvOp_server=1
+srvOp_all=2
+srvOp_null=3
+srvop_null=3
+
+#op_protocol:所用协议标识        tcp,upd,all
+op_tcp="tcp"
+op_udp="udp"
+op_all="all"
+
+
+

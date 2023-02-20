@@ -1,0 +1,10 @@
+2022-12-19_17:02:41.872182301|ERROR|file [/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh/is/initsys/./shfunclib.sh1] does not exist!
+2022-12-19_17:03:27.721093146|ERROR|file [/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh/is/initsys/./localfunc.sh1] does not exist!
+2022-12-20_09:02:04.943828198|ERROR|directory [k] does not exist!
+2022-12-20_09:19:56.299001249|ERROR|
+	Error:[1;31m Please execute as root![0m the current user is fusky
+
+2022-12-20_09:21:17.872658967|ERROR|Please execute as root! the current user is fusky
+
+2022-12-20_13:45:43.733632875|ERROR|The current function only supports system centos78,redhat67,unikylin33
+2022-12-20_16:16:22.377739965|ERROR|The current function only supports system centos78,redhat67,unikylin33

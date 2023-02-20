@@ -1,127 +1,74 @@
-#!/bin/bash
+
+################################################################################
 #
-##############################################################################
+#author: fushikai
+#
+#date  : 2022-10-24_16:28:02
+#
+#desc  :方便文件同级目录的脚本而写的一此shell函数
 #
 #
-#
-#
-##############################################################################
+################################################################################
 #
 
-
-
-
-function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some message!\n"
+function F_isDigital() # return 1: digital; 0: not a digital
 {
+    [ $# -ne 1 ] && echo "0" && return 0
 
-    #NOOUT=0 ; levelName[0]="NOOUT";
-    #ERROR=1 ; levelName[1]="ERROR";
-    #INFO=2  ; levelName[2]="INFO" ;
-    #DEBUG=3 ; levelName[3]="DEBUG";
-    #
-    #OUT_LOG_LEVEL=${DEBUG}
-    #
-    #logDir="/home/fusky/mygit/zfmd_diy_sh/wk_tmp/log"
-    #logFile="${logDir}/t.log"
-
-
-    #    [ -z "${NOOUT}" ] && NOOUT=0               
-    #    [ -z "${ERROR}" ] && ERROR=1               
-    #    [ -z "${INFO}" ]  && INFO=2               
-    #    [ -z "${DEBUG}" ] && DEBUG=3               
-    #    [ -z "${levelName[0]}" ] && levelName[0]="NOOUT"               
-    #    [ -z "${levelName[1]}" ] && levelName[1]="ERROR"               
-    #    [ -z "${levelName[2]}" ] && levelName[2]="INFO"               
-    #    [ -z "${levelName[3]}" ] && levelName[3]="DEBUG"               
-    #
-    #    [ -z "${OUT_LOG_LEVEL}" ] && OUT_LOG_LEVEL=${DEBUG}
-
-
-
-    [ $# -lt 2 ] && return 1
-
-    #特殊调试时用
-    local print_to_stdin_flag=1  # 0:可能输出到日志文件; 1: 输出到屏幕
-
-    #input log level
-    local i="$1"   
-    
-
-    ##debug to open this
-    #[ $(echo "${i}"|sed -n '/^[0-9]*$/p' |wc -l) -eq 0 ] && i=${DEBUG}
-    #[ $(echo "${NOOUT}<=${i} && ${i}<=${DEBUG}"|bc) -eq 0 ] && i=${DEBUG}
-
-
-    [ ${i} -gt ${OUT_LOG_LEVEL} ] && return 0
-
-    local puttxt="$2"
-
-    # 1.换行符;2.空; 3.多个-;
-    # 以上作一情况 则直接输出而不在输出内容之前添加日期等内容
-    local tflag=$(echo "${puttxt}"|sed -n '/^\s*\(\(\\n\)\+\)*$\|^\s*-\+$/p'|wc -l)
-
-    #没有设置日志文件时默认也是输出到屏幕
-    [ -z "${logFile}" ] && print_to_stdin_flag=1
-
-    local timestring
-    [ ${tflag} -eq 0 ] && timestring="$(date +%F_%T.%N)"
-
-    if [ ${print_to_stdin_flag} -eq 1 ];then
-        if [ ${tflag} -gt 0 ];then
-            echo -e "${puttxt}"
-        else
-            echo -e "${timestring}|${levelName[$i]}|${puttxt}"
-        fi
-        return 0
+    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
+        echo "1" && return 1
     fi
 
+    echo "0" && return 0
+}
 
-    [ -z "${logDir}" ] &&  logDir="${logFile%/*}"
-    if [ "${logDir}" = "${logFile}" ];then
-        logDir="./"
-    elif [ ! -d "${logDir}" ];then
-        mkdir -p "${logDir}"
-    fi
+function F_convertVLineToSpace() #Convert vertical lines to spaces
+{
+    [ $# -lt 1 ] && echo "" && return 0
+    echo $(echo "$1"|tr -d "[\040\t\r\n]"|tr -s "|" "\040") && return 0
+}
 
-    if [ ${tflag} -gt 0 ];then
-        echo -e "${puttxt}" >> "${logFile}"
-    else
-        echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
-    fi
+function F_judgeFileOlderXSec() # return 0:false; 1:ture
+{
+    [ $# -lt 2 ] && echo "0" && return 0
+    [ ! -f "$1" ] && echo "0" && return 0
+    [ $(F_isDigital "$2") = "0" ] && echo "0" && return  0
 
+    local tFile="$1" ; local tScds="$2"
+
+    local tFscds=0; local trueFlag=0; local curScds=0;
+
+    tFscds=$(stat -c %Y ${tFile})
+    curScds=$(date +%s)
+    trueFlag=$(echo "( ${curScds} - ${tFscds} ) >= ${tScds}"|bc)
+
+    [ ${trueFlag} -eq 1 ] && echo "1" && return 1
+
+    echo "0" && return 0
+}
+
+
+function F_rmExpiredFile() #call eg: F_rmExpiredFile "path" "days" OR F_rmExpiredFile "path" "days" "files"
+{
+    [ $# -ne 2 ] && [ $# -ne 3 ] && return 1
+
+    local tpath="$1" ; local tdays="$2"
+    [ ! -d "${tpath}" ] && return 2
+
+    [ $(F_isDigital "${tdays}") = "0" ] && tdays=1
+
+    local tname="*"
+    [ $# -eq 3 ] && tname="$3"
+
+    local tnum=0
+    tnum=$(find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print 2>/dev/null|wc -l)
+    [ ${tnum} -eq 0 ] && return 0
+
+    find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print0 2>/dev/null|xargs -0 rm -rf
 
     return 0
 }
 
-
-
-
-function F_mkpDir() #call eg: F_mkpDir "tdir1" "tdir2" ... "tdirn"
-{
-    [ $# -lt 1 ] && return 0
-    local tdir
-    while [ $# -gt 0 ]
-    do
-        tdir=$(echo "$1"|sed 's/\(^\s\+\)\|\(\s\+$\)//g')
-        [ ! -z "${tdir}" -a ! -d "${tdir}" ] && mkdir -p "${tdir}"
-        shift
-    done
-    return 0
-}
-
-
-function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
-{
-    [ $# -lt 1 ] && return 0
-
-    while [ $# -gt 0 ]
-    do
-        [ -e "$1" ] && rm -rf "$1"
-        shift
-    done
-
-    return 0
-}
 
 function F_getFileName() #get the file name in the path string
 {
@@ -139,7 +86,6 @@ function F_getPathName() #get the path value in the path string(the path does no
     [ "${tpath}" = "$1" ] && tpath="."
     echo "${tpath}" && return 0
 }
-
 
 
 function F_reduceFileSize() #call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
@@ -236,18 +182,6 @@ function F_reduceFileSize() #call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
 }
 
 
-function F_isDigital() # return 1: digital; 0: not a digital
-{
-    [ $# -ne 1 ] && echo "0" && return 0
-
-    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
-        echo "1" && return 1
-    fi
-
-    echo "0" && return 0
-}
-
-
 function F_shHaveRunThenExit()  #Exit if a script is already running
 {
     if [ $# -lt 1 ];then
@@ -269,26 +203,49 @@ function F_shHaveRunThenExit()  #Exit if a script is already running
     return 0
 }
 
-function F_rmExpiredFile() #call eg: F_rmExpiredFile "path" "days" OR F_rmExpiredFile "path" "days" "files"
+
+function F_cfgFileCheck()
 {
-    [ $# -ne 2 ] && [ $# -ne 3 ] && return 1
-    [ ! -d "${tpath}" ] && return 2
 
-    local tpath="$1" ; local tdays="$2"
+    if [ ! -e "${cfgFile}" ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not exist!!\n"
+        exit 1
+    fi
 
-    [ $(F_isDigital "${tdays}") = "0" ] && tdays=1
+    local tCfgSec=0;
+    tCfgSec=$(stat -c %Y ${cfgFile})
 
-    local tname="*"
-    [ $# -eq 3 ] && tname="$3"
+    #load cfg file
+    . ${cfgFile}
 
-    local tnum=0
-    tnum=$(find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print 2>/dev/null|wc -l)
-    [ ${tnum} -eq 0 ] && return 0
+    #if [ "${tCfgSec}" != "${v_CfgSec}" ];then
+    #    echo "$(date +%Y/%m/%d-%H:%M:%S.%N):load ${cfgFile}"
+    #    v_CfgSec="${tCfgSec}"
+    #    . ${cfgFile}
+    #else
+    #    return 0
+    #fi
 
-    find "${tpath}" -name "${tname}" -type f -mtime +${tdays} -print0 2>/dev/null|xargs -0 rm -rf
+    if [ -z "${g_do_nums}" ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set g_do_nums\n"
+        exit 1
+    fi
+
+    local tsrcNum=${#g_src_dir[*]}
+    local tdstNum=${#g_dst_dir[*]}
+    local tfilNum=${#g_file_name[*]}
+    local tbscNum=${#g_basicCondition_sec[*]}
+
+    if [[ ${tsrcNum} -ne ${tdstNum} || ${tsrcNum} -ne ${tfilNum} || ${tsrcNum} -ne ${tbscNum} ]];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_src_dir[x],g_dst_dir[x],g_file_name[x],g_basicCondition_sec[x] 's number not eq !\n"
+
+        exit 1
+    fi
+    g_do_nums=${tsrcNum}
 
     return 0
 }
+
 
 function F_checkSysCmd() #call eg: F_checkSysCmd "cmd1" "cmd2" ... "cmdn"
 {
@@ -311,28 +268,12 @@ function F_checkSysCmd() #call eg: F_checkSysCmd "cmd1" "cmd2" ... "cmdn"
 }
 
 
-function F_convertVLineToSpace() #Convert vertical lines to spaces
+
+
+function F_fuskytest()
 {
-    [ $# -lt 1 ] && echo "" && return 0
-    echo $(echo "$1"|tr -d "[\040\t\r\n]"|tr -s "|" "\040") && return 0
+    echo "$(date +%Y/%m/%d-%H:%M:%S.%N):${FUNCNAME}:test 11111"
+    return 0
 }
 
-function F_judgeFileOlderXSec() # return 0:false; 1:ture
-{
-    [ $# -lt 2 ] && echo "0" && return 0
-    [ ! -f "$1" ] && echo "0" && return 0
-    [ $(F_isDigital "$2") = "0" ] && echo "0" && return  0
-
-    local tFile="$1" ; local tScds="$2"
-
-    local tFscds=0; local trueFlag=0; local curScds=0;
-
-    tFscds=$(stat -c %Y ${tFile})
-    curScds=$(date +%s)
-    trueFlag=$(echo "( ${curScds} - ${tFscds} ) >= ${tScds}"|bc)
-
-    [ ${trueFlag} -eq 1 ] && echo "1" && return 1
-
-    echo "0" && return 0
-}
 

@@ -1,0 +1,25 @@
+language: c
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - gcc
+
+env:
+   - verbose=t
+
+before_install:
+
+script: cd t && make
+
+script:
+   - ./autogen.sh
+   - cd t
+   - make check
+   - cat test-suite.log
+
+notifications:
+  email:
+    - albertofanjul@gmail.com

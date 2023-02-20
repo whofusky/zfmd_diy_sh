@@ -1,0 +1,1638 @@
+#!/bin/bash
+#
+########################################################################
+#author        :    fushikai
+#creation date :    2022-12-09
+#linux_version :    Red Hat / UniKylin
+#dsc           :
+#       Manage the software firewall (iptables) in the current 
+#       operating system
+#    
+#revision history:
+#
+#   v20.000.001 2022-12-09: pvfs20 basic
+#
+########################################################################
+
+
+
+thisObj="$0"; inOpType="$1"; inFile="$2"
+inNumbs="$#"
+
+#inOpType: 0 应用界面防火墙规则
+#          1 永久打开防火墙
+#          2 永久停用防火墙
+#          3 临时开启防火墙
+#          4 临时停用防火墙
+#          5 查看生效的防火墙规则
+#inFile: 界面生成的的配置文件路径
+
+shName="${thisObj##*/}"
+
+
+
+
+baseDirM=$(dirname $0)
+
+
+NOOUT=0 ; levelName[0]="NOOUT";
+ERROR=1 ; levelName[1]="ERROR";
+INFO=2  ; levelName[2]="INFO" ;
+DEBUG=3 ; levelName[3]="DEBUG";
+all_levelName=$(declare -p levelName)
+OUT_LOG_LEVEL=${DEBUG}
+
+basicDir="${baseDirM}"
+#if [ "x${baseDirM}" == "x." ];then
+if [ $(echo "${baseDirM}"|sed -n '/^\s*\//p'|wc -l) -eq 0 ];then
+    basicDir="${PWD}/${baseDirM}"
+fi
+
+logDir="${basicDir}/log"
+[ ! -d "${logDir}" ] && mkdir -p "${logDir}"
+logFile="${logDir}/${shName}.log"
+
+
+
+
+
+#test
+#inOpType=0
+#inFile="${basicDir}/../pv_fw_item_config.ini"
+
+
+
+function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some message!\n"
+{
+
+    [ $# -lt 2 ] && return 1
+
+    #特殊调试时用
+    local print_to_stdin_flag=2  # 0:可能输出到日志文件; 1: 输出到屏幕; 2可能同时输出到屏幕和日志文件
+
+    #input log level
+    local i="$1"   
+    
+
+    ##debug to open this
+    #[ $(echo "${i}"|sed -n '/^[0-9]*$/p' |wc -l) -eq 0 ] && i=${DEBUG}
+    #[ $(echo "${NOOUT}<=${i} && ${i}<=${DEBUG}"|bc) -eq 0 ] && i=${DEBUG}
+
+
+    [ ${i} -gt ${OUT_LOG_LEVEL} ] && return 0
+
+    local puttxt="$2"
+
+    # 1.换行符;2.空; 3.多个-;
+    # 以上作一情况 则直接输出而不在输出内容之前添加日期等内容
+    local tflag=$(echo "${puttxt}"|sed -n '/^\s*\(\(\\n\)\+\)*$\|^\s*-\+$/p'|wc -l)
+
+    #没有设置日志文件时默认也是输出到屏幕
+    [ -z "${logFile}" ] && print_to_stdin_flag=1
+
+    local timestring
+    local timeSt
+    if [ ${tflag} -eq 0 ];then
+        timestring="$(date +%F_%T.%N)"
+        timeSt="$(date +%T.%N)"
+    fi
+        
+
+    if [ ${print_to_stdin_flag} -eq 1 ];then
+        if [ ${tflag} -gt 0 ];then
+            echo -e "${puttxt}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}"
+        fi
+        return 0
+    fi
+
+    [ -z "${logDir}" ] &&  logDir="${logFile%/*}"
+    if [ "${logDir}" = "${logFile}" ];then
+        logDir="./"
+    elif [ ! -d "${logDir}" ];then
+        mkdir -p "${logDir}"
+    fi
+
+    if [ ${tflag} -gt 0 ];then
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${puttxt}"|tee -a  "${logFile}"
+        else
+            echo -e "${puttxt}" >> "${logFile}"
+        fi
+    else
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${timeSt}|${levelName[$i]}|${puttxt}"
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >>"${logFile}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        fi
+    fi
+
+
+    return 0
+}
+
+
+
+
+function F_shHaveRunThenExit()  #Exit if a script is already running
+{
+    if [ $# -lt 1 ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|Function input arguments are less than 1!\n"
+        exit 1
+    fi
+    
+    local pname="$1"
+    local tmpShPid; 
+    local tmpShPNum
+
+    tmpShPid=$(pidof -x ${pname})
+    tmpShPNum=$(echo ${tmpShPid}|awk 'BEGIN {tNum=0;} { if(NF>0){tNum=NF;}} END{print tNum}')
+    if [ ${tmpShPNum} -gt 1 ]; then
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|script [${pname}] has been running this startup exit,pidNum=[$tmpShPNum],pid=[${tmpShPid}]!\n"
+        exit 0
+    fi
+
+    return 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function F_checkSysCmd() #call eg: F_checkSysCmd "cmd1" "cmd2" ... "cmdn"
+{
+    [ $# -lt 1 ] && return 0
+
+    local errFlag=0
+    while [ $# -gt 0 ]
+    do
+        which $1 >/dev/null 2>&1
+        if [ $? -ne 0 ];then 
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|The system command \"$1\" does not exist in the current environment!"
+            errFlag=1
+        fi
+        shift
+    done
+
+    [ ${errFlag} -eq 1 ] && exit 1
+
+    return 0
+}
+
+
+
+
+function F_isDigital() # return 1: digital; 0: not a digital
+{
+    [ $# -ne 1 ] && echo "0" && return 0
+
+    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
+        echo "1" && return 1
+    fi
+
+    echo "0" && return 0
+}
+
+
+
+
+function F_convertVLineToSpace() #Convert vertical lines to spaces
+{
+    [ $# -lt 1 ] && echo "" && return 0
+    echo $(echo "$1"|tr -d "[\040\t\r\n]"|tr -s "|" "\040") && return 0
+}
+
+
+
+
+#F_rmExistFile
+function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
+{
+    [ $# -lt 1 ] && return 0
+
+    while [ $# -gt 0 ]
+    do
+        [ -e "$1" ] && rm -rf "$1"
+        shift
+    done
+
+    return 0
+}
+
+
+
+
+function F_getPathName() #get the path value in the path string(the path does not have / at the end)
+{
+    [ $# -ne 1 ] && return 0
+    [  -z "$1" ] && return 0
+
+    local tpath="${1%/*}"
+    [ "${tpath}" = "$1" ] && tpath="."
+    echo "${tpath}" && return 0
+}
+
+
+function F_getFileName() #get the file name in the path string
+{
+    [ $# -ne 1 ] && return 0
+    [  -z "$1" ] && return 0
+    echo "${1##*/}" && return 0
+}
+
+
+
+
+function F_setKeyValInFile() #use: F_setKeyValInFile <file> "key=val"
+{
+    if [ $# -lt 2 ];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}|input parameters number less than 2 !"
+        return 1
+    fi
+
+    local tFile="$1"
+    local tKeyVal=$(echo "$2"|sed 's/\s\+=/=/g;s/=\s\+/=/g')
+    local tKey=$(echo "${tKeyVal}"|awk -F'=' '{print $1}'|sed 's/^\s\+//g;s/\s\+$//g')
+    if [ -z "${tKey}" ];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}|input parameters 2 format error!"
+        return 1
+    fi
+
+    if [ ! -f "${tFile}" ];then
+        local tdir=$(F_getPathName "${tFile}")
+        if [ ! -d "${tdir}" ];then 
+            F_writeLog $ERROR "${LINENO}|${FUNCNAME}|file[ ${tFile} ] not exist!"
+            return 1
+        fi
+        echo "${tKeyVal}">>"${tFile}"
+        return 0
+    fi
+
+    local tnum=$(sed -n "/^\s*${tKey}\b/=" "${tFile}")
+    if [ ! -z "${tnum}" ];then
+        local tVal=$(echo "${tKeyVal}"|awk -F'=' '{print $2}'|sed 's/^\s\+//g;s/\s\+$//g')
+        local tno=$(echo "${tnum}"|head -1)
+        if [ $(echo "${tnum}"|wc -l) -gt 1 ];then
+            local ttno=$(echo "${tno} + 1"|bc)
+            sed -i "${ttno},$ {/^\s*${tKey}\b/ d}" "${tFile}"
+        fi
+        #sed -i "/^\s*${tKey}\b/ d" "${tFile}"
+        tVal=$(echo "${tVal}"|sed 's/\//\\\//g')
+        sed -i "${tno} s/^\s*${tKey}\b\s*=[^=]*/${tKey}=${tVal}/g" "${tFile}"
+    else
+        echo "${tKeyVal}">>"${tFile}"
+    fi
+
+    return 0
+}
+
+
+
+
+function F_getKeyValInFile() #use: F_getKeyValInFile <file> "key"
+{
+    if [ $# -lt 2 ];then
+        #F_writeLog $ERROR "${LINENO}|${FUNCNAME}|input parameters number less than 2 !"
+        echo ""
+        return 1
+    fi
+
+    local tFile="$1"
+    local tKey=$(echo "$2"|sed 's/^\s\+//g;s/\s\+$//g')
+
+    if [ ! -f "${tFile}" ];then
+        #F_writeLog $ERROR "${LINENO}|${FUNCNAME}|file[ ${tFile} ] not exist!"
+        echo ""
+        return 1
+    fi
+
+    if [ -z "${tKey}" ];then
+        #F_writeLog $ERROR "${LINENO}|${FUNCNAME}|input parameters 2 format error!"
+        echo ""
+        return 1
+    fi
+    local tVal=$(sed -n "/^\s*${tKey}\s*=/p" "${tFile}"|tail -1|awk -F'=' '{print $2}'|sed 's/^\s*"//g;s/"\s*$//g')
+    echo "${tVal}"
+
+    return 0
+}
+
+
+
+function F_reduceFileSize() #call eg: F_reduceFileSize "/zfmd/out_test.csv" "4"
+{
+    if [ $# -ne 2 ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|imput parameters not eq 2!\n"
+        return 1
+    fi
+
+    local backFlag=0 #是否备份越大文件并把原文件清空: 0 不备份,不缩减原文件; 1备份
+
+    local tfile="$1"
+    local tsizem="$2"
+    local tonecedelete=100
+    local tfileback="${tfile}"
+    [ ${backFlag} -eq 1 ] && tfileback="${tfile}.clr.bak"
+
+
+    local tbegineseconds=$(date +%s)
+
+    if [ ! -f "${tfile}" ];then
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|The file [${tfile}] not exist,so it does not need to be processed!"
+        return 0
+    fi
+    if [ ! -w "${tfile}" ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|user [$(whoami)] 对文件[${tfile}]没有写权限,因此不能对文件进行缩小操作!"
+        return 1
+    fi
+
+    #The unit is MB
+    local cursizem=$(echo "scale=3;$(stat -c %s ${tfile})/(1024*1024)"|bc)
+    local initsizem="${cursizem}"
+
+
+    [ $(echo "${tsizem} <= 0"|bc) -eq 1 ] && tsizem="0.001"
+
+    local judgesize=$(echo "${tsizem} - 0.1"|bc)
+    [ $(echo "(${tsizem} -1) > 0"|bc) -eq 0 ] && judgesize="${tsizem}"
+
+    local needDoFlag=$(echo "${cursizem} > ${judgesize}"|bc)
+    local initFlag="${needDoFlag}"
+
+    local ret;
+
+    if [ ${needDoFlag} -eq 1 -a ${backFlag} -eq 1 ];then
+        cp -a "${tfile}" "${tfileback}"
+        ret=$?
+        if [ ${ret} -eq 0 ];then
+            >"${tfile}"
+            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|[ cp -a ${tfile} ${tfileback} ] and [ >${tfile} ] sucess!"
+        else
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[ cp -a ${tfile} ${tfileback} ] return error!"
+            return 2
+        fi
+    fi
+
+    #F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|file[${tfileback}] cur_size_m=[${cursizem}M],tsizem=[${tsizem}M],judgesize=[${judgesize}M],needDoFlag=[${needDoFlag}]!"
+
+    local curcolnums
+    local startonedel="${tonecedelete}"
+    local i=0
+    while [ ${needDoFlag} -eq 1 ]
+    do
+        if [ ${i} -eq 0 ];then
+            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|in while loop file[${tfileback}],init_size_m=[${initsizem}M],tsizem=[${tsizem}M],judgesize=[${judgesize}M],needDoFlag=[${needDoFlag}]!"
+            i=1
+        fi
+        curcolnums=$(wc -l "${tfileback}" 2>/dev/null |awk '{print $1}' 2>/dev/null)
+        [ -z "${curcolnums}" ] && curcolnums=0
+        tonecedelete=$(echo "scale=3;((${cursizem} - ${judgesize})/${cursizem}) * ${curcolnums}"|bc|sed 's/\.[0-9]*$//g')
+        [ -z "${tonecedelete}" ] && tonecedelete=0
+
+        [ ${tonecedelete} -lt ${startonedel} ] && tonecedelete=${startonedel}
+
+        sed -i "1,${tonecedelete} d" "${tfileback}"
+        ret=$?
+        if [ ${ret} -ne 0 ];then
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[ sed -i 1,${tonecedelete} d ${tfileback} ] return  error!"
+            return 1
+        fi
+
+        cursizem=$(echo "scale=3;$(stat -c %s ${tfileback})/(1024*1024)"|bc)
+        needDoFlag=$(echo "${cursizem} > ${judgesize}"|bc)
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|in while loop file[${tfileback}],init_size_m=[${initsizem}M],cur_size_m=[${cursizem}M],needDoFlag=[${needDoFlag}]!"
+    done
+
+    if [ ${initFlag} -eq 1 ];then
+        local tendseconds=$(date +%s)
+        local runseconds=$(echo "${tendseconds} - ${tbegineseconds}"|bc)
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|delete file [ ${tfileback} ] init_size_m=[${initsizem}M],cur_size_m=[${cursizem}M] elapsed time [ ${runseconds} ] seconds!\n\n"
+    fi
+
+    return 0
+}
+
+
+
+
+
+
+
+
+
+
+function F_genPath()
+{
+
+    #Basic script for start,stop and save iptables for systemd type systems
+    g_sysOpIpN="sysd_iptb_serv.sh"
+
+    #Encapsulation of sysd_iptb_serv.sh: easy to generate logs
+    g_callExeShName="call_sysd_iptb_serv.sh"
+
+    g_cfgFix="cfg.fix"
+
+
+    #function directory
+    g_funcDir="${basicDir}/basesh"
+
+    #The iptables configuration file used by the script itself
+    g_cfgDir="${basicDir}/cfg"
+    g_cfgName="network.conf"
+    g_cfgFile="${g_cfgDir}/${g_cfgName}"
+    g_cfgFixFile="${g_funcDir}/${g_cfgFix}"
+
+
+    #Temporary Files
+    g_tmpDir="${basicDir}/tmp"
+    [ ! -d "${g_tmpDir}" ] && mkdir -p "${g_tmpDir}"
+    g_tmpFile="${g_tmpDir}/.ttmp.txt"
+    #>"${g_tmpFile}"
+
+    g_DiyService="${g_funcDir}/${g_sysOpIpN}"
+    g_callAllName="${g_funcDir}/${g_callExeShName}"
+    g_srcUnitFile="${g_funcDir}/iptables.service"
+
+    #The original file of the system (such as the ubuntu system)
+    g_iptb_unit_f="/lib/systemd/system/iptables.service"
+    g_haveIptbU_flag=0  #1:系统已经有iptables.service unit文件
+
+    return 0
+}
+
+
+
+
+
+#生成call_sysd_iptb_serv.sh脚本的内容
+function F_genCallExeShCnt()
+{
+    local tFileHead="#!/bin/bash
+#
+########################################################################
+#author       :    fushikai
+#date         :    $(date +%Y%m%d)
+#dsc          :
+#   Call the script ${g_sysOpIpN} and write the log 
+#
+########################################################################
+#
+
+
+    "
+
+    local tCronLog="${logDir}/systemdOpIptables.log"
+    local addExeStr="${g_DiyService} \$@ >>${tCronLog} 2>&1"
+    local tWtLogStr="echo \"\$(date +%F_%T.%N) retStat=\${retStat}\">>${tCronLog} 2>&1"
+
+    echo "${tFileHead}" >"${g_callAllName}"
+
+    echo "[ ! -d \"${logDir}\" ] && mkdir -p \"${logDir}\"">>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "echo \"\$(date +%F_%T.%N) ${g_DiyService} \$@\" >>\"${tCronLog}\"">>"${g_callAllName}" 
+    echo "">>"${g_callAllName}"
+
+    echo "${addExeStr}" >>"${g_callAllName}"
+    echo "retStat=\$?" >>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "${tWtLogStr}" >>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "exit \${retStat}">>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    [ ! -x "${g_callAllName}" ] && chmod +x "${g_callAllName}"
+
+    return 0
+}
+
+
+
+
+function F_findNICbyIP()
+{
+    if [ $# -ne 1 ];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}|input parameters number not eq 1 !"
+        return 1
+    fi
+
+    local tIp="$1"
+    local tfname=$(ip route|grep -w "${tIp}"|awk '{print $3}')
+    if [ ! -z "${tfname}" ];then
+        echo "${tfname}"
+        return 0
+    fi
+
+    local tIpbb=$(echo "${tIp}"|sed 's/\./\\./g')
+    tfname=$(ip addr show|egrep -B 2 "^\s+inet\s+${tIpbb}/"|head -1|awk -F':' '{print $2}'|sed 's/^\s\+//g;s/\s\+$//g')
+    if [ ! -z "${tfname}" ];then
+        echo "${tfname}"
+        return 0
+    fi
+
+    local tdDir="/etc/sysconfig/network-scripts"
+    if [ ! -d "${tdDir}" ];then
+        echo "${tfname}"
+        return 0
+    fi
+
+
+    local tnum=$(find ${tdDir} -name "ifcfg-*" -print|wc -l)
+    if [ ${tnum} -lt 1 ];then
+        echo ""
+        return 0
+    fi
+
+    for tnaa in $(find ${tdDir} -name "ifcfg-*" -print)
+    do
+        tnum=$(egrep "^IPADDR[0-9]*\s*=\s*${tIp}\s*$" ${tnaa}|wc -l)
+        if [ ${tnum} -gt 0 ];then
+            tfname=$(echo "${tnaa}"|awk -F'/' '{print $NF}')
+            tfname=${tfname#*-}
+            break
+        fi
+    done
+    
+    echo "${tfname}"
+    return 0
+}
+
+
+
+
+function F_ECHO_DO()
+{
+    local cmd="$*"
+    F_writeLog $INFO "$USER@$HOSTNAME@${debugFlag}| ${cmd}"
+    if [[ -z "${debugFlag}" || ${debugFlag} -ne 1 ]];then
+        ${cmd} 2>&1|tee -a "${logFile}"
+    fi
+    return 0
+}
+
+
+
+
+##############################################################################
+#0: cp                iptables.service
+#1: modify            iptables.service
+#2: systemctl enable  iptables.service
+##############################################################################
+#
+function F_sysdEnableIptb()
+{
+    #0:init   1:systemd
+    [ ${g_MY_SysTVal} -ne 1 ] && return 0
+
+    local tnum=0
+    tnum=$(egrep  "=\s*${g_callAllName}\s+"  "${g_srcUnitFile}" 2>/dev/null|wc -l)
+
+    #Correct the values of ExecStart and ExecStop in the iptables.service file 
+    # in the function directory
+    if [ ${tnum} -ne 2 ];then
+        F_writeLog $INFO "sed -i \"s+^\(ExecStart=\).*+\1${g_callAllName} start+g\"  \"${g_srcUnitFile}\""
+        F_writeLog $INFO "sed -i \"s+^\(ExecStop=\).*+\1${g_callAllName} stop+g\"  \"${g_srcUnitFile}\""
+
+        if [[ -z "${debugFlag}" || ${debugFlag} -ne 1 ]];then
+            sed -i "s+^\(ExecStart=\).*+\1${g_callAllName} start+g"  "${g_srcUnitFile}"
+            sed -i "s+^\(ExecStop=\).*+\1${g_callAllName} stop+g"  "${g_srcUnitFile}"
+        fi
+    fi
+
+    if [[ ! -f "${g_iptb_unit_f}" ]];then
+        F_ECHO_DO cp "${g_srcUnitFile}"  "${g_iptb_unit_f}"
+        F_ECHO_DO systemctl  daemon-reload
+        F_ECHO_DO systemctl enable  iptables.service
+    else
+        tnum=$(grep "${g_callExeShName}"  "${g_iptb_unit_f}"|wc -l)
+        if [ ${tnum} -gt 0 ];then
+            tnum=$(grep "${g_callAllName}"  "${g_iptb_unit_f}"|wc -l)
+            if [ ${tnum} -eq 0 ];then
+
+                #Correct the values of ExecStart and ExecStop in the 
+                # iptables.service file in the function directory
+
+                F_writeLog $INFO "sed -i \"s+^\(ExecStart=\).*+\1${g_callAllName} start+g\"  \"${g_iptb_unit_f}\""
+                F_writeLog $INFO "sed -i \"s+^\(ExecStop=\).*+\1${g_callAllName} stop+g\"  \"${g_iptb_unit_f}\""
+                if [[ -z "${debugFlag}" || ${debugFlag} -ne 1 ]];then
+                    sed -i "s+^\(ExecStart=\).*+\1${g_callAllName} start+g"  "${g_iptb_unit_f}"
+                    sed -i "s+^\(ExecStop=\).*+\1${g_callAllName} stop+g"  "${g_iptb_unit_f}"
+                fi
+                F_ECHO_DO systemctl  daemon-reload
+                F_ECHO_DO systemctl enable  iptables.service
+            else
+                F_ECHO_DO systemctl enable  iptables.service
+                return 0
+            fi
+        else
+            #echo -e "\n\t\e[1;31mTIPS:你需要手动将当前的iptables规则持久化! \e[0m\n" | tee -a "${g_logName}"
+
+            #The existing iptables.service in the current system is not 
+            #compatible with this script, and the rules need to be manually 
+            #persisted to the configuration file
+            
+            g_haveIptbU_flag=1
+
+            F_setKeyValInFile "${g_tmpFile}" "g_haveIptbU_flag=${g_haveIptbU_flag}"
+
+            F_ECHO_DO systemctl enable  iptables.service
+
+            return 1
+        fi
+    fi
+
+    return 0
+}
+
+
+
+
+function F_haveIptbUPrompt()
+{
+    g_haveIptbU_flag=$(F_getKeyValInFile "${g_tmpFile}" "g_haveIptbU_flag")
+    if [ ${g_haveIptbU_flag} -eq 1 ];then
+        F_writeLog $ERROR "TIPS:你需要手动将当前的iptables规则持久化! "
+    fi
+    return 0
+}
+
+
+
+
+#systemctl disable  iptables.service
+function F_sysdDisableIptb()
+{
+    [ ${g_MY_SysTVal} -ne 1 ] && return 0
+    F_ECHO_DO systemctl disable  iptables.service
+    return 0
+}
+
+
+
+#systemctl  disable firewalld.service
+#systemctl  stop    firewalld.service
+function F_disableFirewalld()
+{
+    [ ${g_MY_SysTVal} -ne 1 ] && return 0
+    F_ECHO_DO systemctl  disable firewalld.service  
+    F_ECHO_DO systemctl  stop firewalld.service
+    return 0
+}
+
+
+
+
+#start and  enable
+function F_fw_start()
+{
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        F_ECHO_DO ${g_EXE_Sh} start
+        F_sysdEnableIptb
+    else
+        F_ECHO_DO service iptables start
+        F_ECHO_DO chkconfig iptables on
+    fi
+    return 0
+}
+
+
+#start 
+function F_fw_tmpstart()
+{
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        F_ECHO_DO ${g_EXE_Sh} start
+    else
+        F_ECHO_DO service iptables start
+    fi
+    return 0
+}
+
+
+
+#stop and disable
+function F_fw_stop()
+{
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        F_ECHO_DO ${g_EXE_Sh} stop
+        F_sysdDisableIptb
+    else
+        F_ECHO_DO service iptables stop
+        F_ECHO_DO chkconfig iptables off
+    fi
+    return 0
+}
+
+
+
+
+#stop
+function F_fw_tmpStop()
+{
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        F_ECHO_DO ${g_EXE_Sh} stop
+    else
+        F_ECHO_DO service iptables stop
+    fi
+    return 0
+}
+
+
+
+
+#save and restart
+function F_fw_save()
+{
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        if [ ${g_haveIptbU_flag} -ne 1 ];then
+            F_ECHO_DO ${g_EXE_Sh} save
+            F_ECHO_DO ${g_EXE_Sh} restart
+        fi
+    else
+        F_ECHO_DO /etc/rc.d/init.d/iptables save
+        F_ECHO_DO /etc/rc.d/init.d/iptables restart
+    fi
+    return 0
+}
+
+
+
+
+#iptables -L -n -v --line-numbers
+function F_fw_view()
+{
+    #F_ECHO_DO iptables -L -n -v
+    F_ECHO_DO iptables -L -n -v --line-numbers 
+    return 0
+}
+
+
+
+
+# -F -X -Z filter,nat,mangle,security
+function F_flushTable()
+{
+    F_ECHO_DO iptables -t filter -F
+    F_ECHO_DO iptables -t filter -X
+    F_ECHO_DO iptables -t filter -Z
+    F_ECHO_DO iptables -t nat -F
+    F_ECHO_DO iptables -t nat -X
+    F_ECHO_DO iptables -t nat -Z
+    F_ECHO_DO iptables -t mangle -F
+    F_ECHO_DO iptables -t mangle -X
+    F_ECHO_DO iptables -t mangle -Z
+    F_ECHO_DO iptables -t raw -F
+    F_ECHO_DO iptables -t raw -X
+    F_ECHO_DO iptables -t raw -Z
+    if [ ${g_MY_SysTVal} -eq 1 ];then
+        F_ECHO_DO iptables -t security -F
+        F_ECHO_DO iptables -t security -X
+        F_ECHO_DO iptables -t security -Z
+    fi
+
+    return 0
+}
+
+
+
+
+# -F -X -Z filter,nat,mangle,security
+# -P INPUT,OUTPUT DROP
+# -P FORWARD      ACCEPT
+function F_fw_clear()
+{
+    F_flushTable
+
+    F_ECHO_DO iptables -P INPUT DROP
+    F_ECHO_DO iptables -P OUTPUT DROP
+    F_ECHO_DO iptables -P FORWARD ACCEPT
+    return 0
+}
+
+
+
+
+# -F -X -Z filter,nat,mangle,security
+# -P INPUT,OUTPUT,FORWARD ACCEPT
+function F_fw_default()
+{
+    F_flushTable
+
+    F_ECHO_DO iptables -P INPUT ACCEPT
+    F_ECHO_DO iptables -P OUTPUT ACCEPT
+    F_ECHO_DO iptables -P FORWARD ACCEPT
+    return 0
+}
+
+
+
+
+# lo ACCEPT
+function F_fw_openlo()
+{
+    F_ECHO_DO iptables -A INPUT -i lo -p all -j ACCEPT
+    F_ECHO_DO iptables -A OUTPUT -o lo -p all -j ACCEPT
+    return 0
+}
+
+
+
+
+#ping accept
+function F_fw_openping()
+{
+    F_ECHO_DO iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+    F_ECHO_DO iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+    F_ECHO_DO iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+    F_ECHO_DO iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+    return 0
+}
+
+
+
+
+# start and  enable
+# -F -X -Z filter,nat,mangle,security
+# -P INPUT,OUTPUT DROP
+# -P FORWARD      ACCEPT
+# lo ACCEPT
+# ping accept
+function F_fw_init()
+{
+    F_fw_start
+    F_fw_clear
+    F_fw_openlo
+    if [[ -z "${enablePing}" || ${enablePing} -eq 1 ]];then
+        F_fw_openping
+    fi
+    return 0
+}
+
+
+
+
+
+
+
+
+#--------------------------------------------------------------------------------
+# F_new_fw_onerule_op( outPrtFlag, server_opFlag, op_protocol, NIC_name, local_ip:port, remote_ip:port )
+#----------------------------------------------------------------------
+# input:
+#-------
+#   outPrtFlag:        0:OUTPUT,INPUT; 1:OUTPUT; 2:INPUT 
+#   server_opFlag      0:client; 1:server; 2:client,server; 3:stat null
+#   op_protocol        tcp,upd,all
+#   NIC_name           Network card name
+#   local_Addr         local_ip:loca_port
+#   remote_addr        remote_ip:remote_port
+#----------------------------------------------------------------------
+# output:
+#-------
+#   error msg OR null
+#----------------------------------------------------------------------
+# return:
+#-------
+#          0:      success
+#      other:      error
+# 
+#--------------------------------------------------------------------------------
+
+
+function F_new_fw_onerule_op()
+{
+
+    local cfgInPutNums=6
+    if [[ $# -ne ${cfgInPutNums} ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| input parameter number not eq ${cfgInPutNums}!"
+        return 1
+    fi 
+
+    #0:OUTPUT INPUT;1:OUTPUT;2:INPUT
+    local outPrtFlag="$1" 
+
+    [ $(F_isDigital "${outPrtFlag}") = "0" ] && outPrtFlag=0
+
+    shift
+
+    #1:server,0:client,2:other
+    local server_opFlag="$1"  
+
+    #tcp or udp or all
+    local op_protocol="$2"    
+
+    local tNICname="$3"
+
+    [ $(F_isDigital "${server_opFlag}") = "0" ] && server_opFlag=0
+
+    if [[ ${op_protocol} != "udp" && ${op_protocol} != "all" ]];then
+        op_protocol="tcp"
+    fi  
+
+
+    local localAddr;  local remoteAddr; local local_ip;
+    local local_port; local remote_ip;  local remote_port;
+
+    localAddr="$4"
+    remoteAddr="$5"
+    
+    #Parsing localAddr
+    if [ ! -z "${localAddr}" ];then
+        local_ip=$(echo "${localAddr}"|awk -F':' '{print $1}')
+        local_port=$(echo "${localAddr}"|awk -F':' '{print $2}')
+        if [ ! -z "${local_port}" ];then
+            local_port=$(echo ${local_port}|tr '-' ':')
+        fi
+    fi
+
+    #Parsing remoteAddr
+    if [ ! -z "${remoteAddr}" ];then
+        remote_ip=$(echo "${remoteAddr}"|awk -F':' '{print $1}')
+        remote_port=$(echo "${remoteAddr}"|awk -F':' '{print $2}')
+        if [ ! -z "${remote_port}" ];then
+            remote_port=$(echo ${remote_port}|tr '-' ':')
+        fi
+    fi
+
+    #Function entry limit
+    if [[ -z "${local_ip}" && -z "${remote_ip}" && -z "${local_port}" && -z "${remote_port}" &&  -z "${tNICname}" ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| local_ip,remote_ip,local_port,remote_port, tNICname all null!"
+        return 2
+    fi
+
+    #Assembling NIC string 
+    local tNICStrOut; local tNICStrIn;
+    if [ ! -z "${tNICname}" ];then
+        tNICStrOut="-o ${tNICname}"
+        tNICStrIn="-i ${tNICname}"
+    fi
+
+    #Assembling local_ip string 
+    if [ ! -z "${local_ip}" ];then
+        local tLocalIpStrOut="-s ${local_ip}"
+        local tLocalIpStrIn="-d ${local_ip}"
+        if [[ ! -z "${bindNICByIP}" && ${bindNICByIP} -eq 1 && -z "${tNICname}" ]];then
+            tNICname=$(F_findNICbyIP "${local_ip}")
+            [ $? -ne 0 ] && tNICname=""
+            if [ ! -z "${tNICname}" ];then
+                tNICStrOut="-o ${tNICname}"
+                tNICStrIn="-i ${tNICname}"
+            fi
+        fi
+    fi 
+
+    #Assembling local_port string 
+    if [ ! -z "${local_port}" ];then
+        local tLocalPtStrOut="--sport ${local_port}"
+        local tLocalPtStrIn="--dport ${local_port}"
+    fi
+
+    #Assembling remote_ip string 
+    if [ ! -z "${remote_ip}" ];then
+        local tRemoteIpStrOut="-d ${remote_ip}"
+        local tRemoteIpStrIn="-s ${remote_ip}"
+    fi 
+    #Assembling remote_port string 
+    if [ ! -z "${remote_port}" ];then
+        local tRemotePtStrOut="--dport ${remote_port}"
+        local tRemotePtStrIn="--sport ${remote_port}"
+    fi
+
+
+    #Assembling state string 
+    if [ ${server_opFlag} -eq 1 ];then
+        #server
+        local tOutState="-m state --state ESTABLISHED"
+        local tInState="-m state --state NEW,ESTABLISHED"
+    elif [ ${server_opFlag} -eq 2 ];then
+        #other
+        local tOutState="-m state --state NEW,ESTABLISHED"
+        local tInState="-m state --state NEW,ESTABLISHED"
+    elif [ ${server_opFlag} -eq 3 ];then
+        #other
+        local tOutState=""
+        local tInState=""
+    else
+        #client
+        local tOutState="-m state --state NEW,ESTABLISHED"
+        local tInState="-m state --state ESTABLISHED"
+    fi
+
+    local tCommaFlagR=$(echo "${tRemotePtStrOut}"|sed -n '/,/p'|wc -l)
+    local tCommaFlagL=$(echo "${tRemotePtStrIn}"|sed -n '/,/p'|wc -l)
+    local tCommaFlagR1=$(echo "${tLocalPtStrOut}"|sed -n '/,/p'|wc -l)
+    local tCommaFlagL1=$(echo "${tLocalPtStrIn}"|sed -n '/,/p'|wc -l)
+    if [[ ${tCommaFlagR} -gt 0 || ${tCommaFlagL} -gt 0 || ${tCommaFlagR1} -gt 0 || ${tCommaFlagL1} -gt 0 ]];then
+        local tStrMpt="-m multiport"
+    fi
+
+    local tOUTPUT="iptables -A OUTPUT ${tRemoteIpStrOut} ${tLocalIpStrOut} ${tNICStrOut} -p ${op_protocol} ${tStrMpt} ${tRemotePtStrOut} ${tLocalPtStrOut} ${tOutState} -j ACCEPT"
+    local tINPUT="iptables -A INPUT ${tRemoteIpStrIn} ${tLocalIpStrIn} ${tNICStrIn} -p ${op_protocol} ${tStrMpt} ${tRemotePtStrIn} ${tLocalPtStrIn} ${tInState} -j ACCEPT"
+    
+    #Assembling OUTPUT INPUT
+    if [ ${outPrtFlag} -eq 1 ];then
+        F_ECHO_DO "${tOUTPUT}"
+    elif [ ${outPrtFlag} -eq 2 ];then
+        F_ECHO_DO "${tINPUT}"
+    else
+        F_ECHO_DO "${tOUTPUT}"
+        F_ECHO_DO "${tINPUT}"
+    fi
+
+    return 0
+}
+
+
+
+
+function F_fwcm_echoCfgFlag() #Print the flag value in the configuration file
+{
+    F_writeLog $INFO "\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m"
+    F_writeLog $INFO "\t\e[1;31menablePing=[${enablePing}]\e[0m"
+    F_writeLog $INFO "\t\e[1;31menInterSsh=[${enInterSsh}]\e[0m"
+    F_writeLog $INFO "\t\e[1;31mbindNICByIP=[${bindNICByIP}]\e[0m"
+
+    return 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function F_fwcm_doIptbItem() #Process the rules in cfg_iptb_items
+{
+
+    if [[ ! -z "${fwcm_curRule_iptb}" ]];then
+
+        local cfg_iptb_items; local titem; local tnaa;
+
+        echo "${fwcm_curRule_iptb}"|while read tnaa
+        do
+            titem=$(echo "${tnaa}"|sed 's/^\s\+//g;s/\s\+$//g')
+            [ -z "${titem}" ] && continue
+            F_ECHO_DO "${titem}"
+        done
+    fi
+
+    return 0
+}
+
+
+
+function F_fwcm_doSshItem() #Process the rules in fwcm_curSsh_item
+{
+
+    if [[ ! -z "${enInterSsh}" && ${enInterSsh} -eq 1 ]];then
+
+        if [[ ! -z "${fwcm_curSsh_item}" ]];then
+
+            local cfg_ssh_items; local titem; local tfiledNum;
+            cfg_ssh_items=$(F_convertVLineToSpace "${fwcm_curSsh_item}") 
+            for titem in ${cfg_ssh_items}
+            do
+                tfiledNum=$(echo "${titem}"|awk -F'/' '{print NF}')
+                if [ ${tfiledNum} -ne 6 ];then
+                    F_writeLog $ERROR "${LINENO}|${FUNCNAME}| [${titem}] format error"
+                    continue
+                fi
+                tPrtFlag=$(echo "${titem}"|cut -d '/' -f 1)
+                tSrvOp=$(echo "${titem}"|cut -d '/' -f 2)
+                tprotocol=$(echo "${titem}"|cut -d '/' -f 3)
+                tNICname=$(echo "${titem}"|cut -d '/' -f 4)
+                tLocalAddr=$(echo "${titem}"|cut -d '/' -f 5)
+                tRemoteAddr=$(echo "${titem}"|cut -d '/' -f 6)
+                F_new_fw_onerule_op "${tPrtFlag}" "${tSrvOp}" "${tprotocol}" "${tNICname}" "${tLocalAddr}" "${tRemoteAddr}"
+            done
+
+        fi
+
+    fi
+
+    return 0
+}
+
+
+
+
+function F_fwcm_doCmItem() #Process the rules in fwcm_curRule_item
+{
+    cfg_rule_items=$(F_convertVLineToSpace "${fwcm_curRule_item}") 
+    for titem in ${cfg_rule_items}
+    do
+        tfiledNum=$(echo "${titem}"|awk -F'/' '{print NF}')
+        if [ ${tfiledNum} -ne 6 ];then
+            F_writeLog $ERROR "${LINENO}|${FUNCNAME}| [${titem}] format error"
+            continue
+        fi
+        tPrtFlag=$(echo "${titem}"|cut -d '/' -f 1)
+        tSrvOp=$(echo "${titem}"|cut -d '/' -f 2)
+        tprotocol=$(echo "${titem}"|cut -d '/' -f 3)
+        tNICname=$(echo "${titem}"|cut -d '/' -f 4)
+        tLocalAddr=$(echo "${titem}"|cut -d '/' -f 5)
+        tRemoteAddr=$(echo "${titem}"|cut -d '/' -f 6)
+        F_new_fw_onerule_op "${tPrtFlag}" "${tSrvOp}" "${tprotocol}" "${tNICname}" "${tLocalAddr}" "${tRemoteAddr}"
+    done
+
+    return 0
+}
+
+
+
+
+function F_addfw_DoAppRules()
+{
+    # Initiate Server.
+    F_fw_init
+
+    #F_fwcm_doSshItem
+
+    F_fwcm_doCmItem
+
+    #F_fwcm_doIptbItem
+
+    # Save it.
+    F_fw_save
+
+    # View it.
+    F_fw_view
+
+    #echo -e "\n" | tee -a "${g_logName}"
+
+
+    return 0
+}
+
+
+
+#备份脚本自己的配置文件(10个备份文件滚动备份)
+function F_backupCfgFile()
+{
+    local backNum=10 #10个历史备份文件按修改时间排序滚动复制旧的文件
+    local bakFile
+    local tmpStr="$(ls -lrt ${g_cfgDir}/${g_cfgName}.[0-9] 2>/dev/null|awk '{print $NF}')"
+
+    if [ -z "${tmpStr}" ];then
+        bakFile="${g_cfgFile}.0"
+    else
+        local tnum=$(echo "${tmpStr}"|wc -l)
+        if [ ${tnum} -eq ${backNum} ];then
+            bakFile=$(echo "${tmpStr}"|head -1)
+        else
+            bakFile="${g_cfgFile}.${tnum}"
+        fi
+    fi
+
+    #F_ECHO_DO "cp -a ${g_cfgFile} ${bakFile}"
+    F_writeLog $INFO "cp -a ${g_cfgFile} ${bakFile}"
+    cp -a ${g_cfgFile} ${bakFile}
+
+    return 0
+}
+
+
+
+
+#判断界面配置的文件是否与之前的一样，如果一样同不需要重新解析，直接用脚本原来
+# 的配置文件即可
+# return: 0 不是新的; 1 是新的
+function F_judgeNewCfg()
+{
+    local bakName=$(F_getFileName "${inFile}")
+    g_guibakFile="${g_tmpDir}/${bakName}"
+    if [[ ! -d "${g_tmpDir}" || ! -f "${g_guibakFile}" ]];then
+        mkdir -p "${g_tmpDir}"
+        #cp -a "${inFile}" "${g_guibakFile}"
+        return 1
+    fi 
+
+    local sSum=$(md5sum "${inFile}"|awk '{print $1}')
+    local dSum=$(md5sum "${g_guibakFile}"|awk '{print $1}')
+    if [ "x${sSum}" != "x${dSum}" ];then
+        #cp -a "${inFile}" "${g_guibakFile}"
+        return 1
+    fi
+
+    return 0
+}
+
+
+
+
+#配置配置界面生成的配置规则文件生成脚本自己认识的配置文件
+function F_genCfgByInfile()
+{
+    [ "x${inOpType}" != "x0" ] && return 0
+    if [ ! -f "${inFile}" ];then
+        F_writeLog $ERROR "file [ ${inFile} ] not exist!"
+        exit 1
+    fi
+
+    local retStat
+    F_judgeNewCfg
+    retStat=$?
+    if [ ${retStat} -eq 0 ];then
+        #echo "fusktest:  not new not new"
+        return 0
+    fi
+
+    local detail_iptable_rules=0;
+    local only_band_network_interface=0;
+    local sys_info=0;
+    local fwcm_curRule_item=""
+    local tnaa; local tnum=0; local key; local value;
+    local tdm1; local tdm2; local tdm3;
+    local tdm4; 
+    local domain1; local domain2; local domain3;
+    local domain4; local domain5; local domain6;
+    local host_name; local cur_stat=0;
+
+    domain1='${prtAll}'
+
+    local tmpStr;
+
+    #tmpStr="${domain1}/${domain2}/${domain3}/${domain4}/${domain5}/${domain6}"
+    #Domain1/Domain2/Domain3/Domain4/Domain5/Domain6 
+    # Domain1 可用的值为:${prtAll}、${prtIn}、${prtOut},不确定用什么值时建议用${prtAll}
+    # Domain2 可用的值为:${srvOp_client}、${srvOp_server}、${srvOp_null},不确定用什么值时建议用${srvOp_null}
+    # Domain3 可用的值为:${op_tcp}、${op_udp}、${op_all},不确定用什么值时建议用${op_all}
+    # Domain4 此处需要填入网号,在Domain5有值时此处可不填写(为空即可) 
+    # Domain5 此处填写当前服务器本地的网络地址
+    # Domain6 此处填写与Domain5通停的对端网络地址
+
+
+    while read tnaa
+    do
+        tnaa=$(echo "${tnaa}"|sed -e 's/\s\+//g;s/"//g')
+        [ -z "${tnaa}" ] && continue
+
+        if [ "${tnaa}" = "[detail_iptable_rules]" ];then
+            detail_iptable_rules=1
+            only_band_network_interface=0
+            sys_info=0
+            continue
+        elif [ "${tnaa}" = "[only_band_network_interface]" ];then
+            detail_iptable_rules=0
+            only_band_network_interface=1
+            sys_info=0
+            continue
+        elif [ "${tnaa}" = "[sys_info]" ];then
+            detail_iptable_rules=0
+            only_band_network_interface=0
+            sys_info=1
+            continue
+        fi
+
+        tnum=$(echo "${tnaa}"|sed -n '/=/p'|wc -l)
+        [ ${tnum} -eq 0 ] && continue
+
+        key=$(echo "${tnaa}"|awk -F'=' '{print $1}')
+        value=$(echo "${tnaa}"|awk -F'=' '{print $2}')
+
+        domain4=""
+
+        if [ ${detail_iptable_rules} -eq 1 ];then
+
+            #1/TCP/123.123.123.123:321-232/223.234.234.232
+
+            tdm1=$(echo "${value}"|cut -d '/' -f 1)
+            tdm2=$(echo "${value}"|cut -d '/' -f 2)
+            tdm3=$(echo "${value}"|cut -d '/' -f 3)
+            tdm4=$(echo "${value}"|cut -d '/' -f 4)
+
+            if [[ "x${tdm1}" != "x0" && "x${tdm1}" != "x1" && "x${tdm1}" != "x2" ]];then
+                tdm1=0
+            fi
+            domain2="${g_commType[$tdm1]}"
+            if [[ "x${tdm2}" = "xTCP" || "x${tdm2}" = "xtcp" ]];then
+                domain3='${op_tcp}'
+            elif [[ "x${tdm2}" = "xUDP" || "x${tdm2}" = "xudp" ]];then
+                domain3='${op_udp}'
+            else
+                domain3='${op_all}'
+            fi
+            domain5="${tdm3}"
+            domain6="${tdm4}"
+            tmpStr="${domain1}/${domain2}/${domain3}/${domain4}/${domain5}/${domain6}"
+
+            #echo "[${value}]:[${tmpStr}]"
+
+            if [ -z "${fwcm_curRule_item}" ];then
+                fwcm_curRule_item="fwcm_curRule_item=\"
+                ${tmpStr}"
+            else
+                fwcm_curRule_item="${fwcm_curRule_item}
+                | ${tmpStr}"
+            fi
+
+            continue
+        elif [ ${only_band_network_interface} -eq 1 ];then
+            #TCP/lo
+
+            tdm1=$(echo "${value}"|cut -d '/' -f 1)
+            tdm2=$(echo "${value}"|cut -d '/' -f 2)
+            domain2='${srvOp_null}'
+            if [[ "x${tdm1}" = "xTCP" || "x${tdm1}" = "xtcp" ]];then
+                domain3='${op_tcp}'
+            elif [[ "x${tdm1}" = "xUDP" || "x${tdm1}" = "xudp" ]];then
+                domain3='${op_udp}'
+            else
+                domain3='${op_all}'
+            fi
+            domain4="${tdm2}"
+            domain5=""
+            domain6=""
+            tmpStr="${domain1}/${domain2}/${domain3}/${domain4}/${domain5}/${domain6}"
+
+            #echo "[${value}]:[${tmpStr}]"
+
+            if [ -z "${fwcm_curRule_item}" ];then
+                fwcm_curRule_item="fwcm_curRule_item=\"
+                ${tmpStr}"
+            else
+                fwcm_curRule_item="${fwcm_curRule_item}
+                | ${tmpStr}"
+            fi
+
+            continue
+        elif [ ${sys_info} -eq 1 ];then
+            #echo "[sys_info]:[${tnaa}][$key][$value]"
+
+            #host_name=PVF-P1
+            #cur_stat=0
+            if [ "x${key}" = "xhost_name" ];then
+                host_name="${value}"
+            elif [ "x${key}" = "xcur_stat" ];then
+                cur_stat="${value}"
+            fi
+
+            continue
+        fi
+
+    
+    done<"${inFile}"
+
+    if [ ! -z "${fwcm_curRule_item}" ];then
+
+        F_backupCfgFile
+
+        fwcm_curRule_item="${fwcm_curRule_item}
+        \"";
+        sed -i '/\(^\s*fwcm_curRule_item\s*=\s*\)\|\(^\s*\${\)\|\(^\s*|\s*\)\|\(^\s*"\s*$\)/d' "${g_cfgFile}"
+        echo "${fwcm_curRule_item}">>"${g_cfgFile}"
+        F_setKeyValInFile "${g_cfgFile}" "fw_hostname=\"${host_name}\""
+        F_setKeyValInFile "${g_cfgFile}" "fw_cfg_modify_time=\"$(date +%F_%T.%N)\""
+        F_setKeyValInFile "${g_tmpFile}" "gui_in_cfg_file=${inFile}"
+
+        #backup gui cfg file
+        cp -a "${inFile}" "${g_guibakFile}"
+
+        return 0
+    fi
+
+    F_writeLog $ERROR "file [${inFile}] does not have a suitable format"
+
+    #echo "host_name[${host_name}],cur_stat[${cur_stat}]"
+    #echo "fwcm_curRule_item=[${fwcm_curRule_item}]"
+
+    exit 0
+}
+
+
+#将当前防火墙的操作状态写入界面界面文件的cur_stat
+function F_setGuiCfgStat()
+{
+    [ $# -lt 1 ] && return 0
+
+    local statVal="$1"
+
+    [ ! -f "${g_tmpFile}" ] && return 0
+
+    local tinfile=$(F_getKeyValInFile "${g_tmpFile}" "gui_in_cfg_file")
+    [ -z "${tinfile}" ] && return 0
+    [ ! -f "${tinfile}" ] && return 0
+    F_setKeyValInFile "${tinfile}" "cur_stat=${statVal}"
+    
+    return 0
+}
+
+
+
+function F_Tips()
+{
+    local tmpStr="
+    input ERROR:
+    please input like:
+        ${thisObj} 0   <infile> #应用界面防火墙规则
+        ${thisObj} 1            #永久打开防火墙
+        ${thisObj} 2            #永久停用防火墙
+        ${thisObj} 3            #临时开启防火墙
+        ${thisObj} 4            #临时停用防火墙
+        ${thisObj} 5            #查看生效的防火墙规则
+        "
+    F_writeLog $INFO "${tmpStr}"
+    return 0
+}
+
+
+
+
+function F_checkAndLoadCfg()
+{
+    #User restrictions: only the root user can operate
+    #fusktest 注释
+    #tUID=$(id -u)
+    #if [[ -z "${tUID}" || ${tUID} -ne 0 ]];then
+    #    F_writeLog ${ERROR} "\n\tError:\e[1;31m Please execute as root!\e[0m the current user is ${USER}\n"
+    #    exit 1
+    #fi
+
+    F_shHaveRunThenExit "${thisObj}"
+
+    F_checkSysCmd "bc" "md5sum"
+
+    if [ ${inNumbs} -lt 1 ];then
+        F_Tips
+        exit 1
+    fi
+    if [[ "${inOpType}x" != "0x" && "${inOpType}x" != "1x" && "${inOpType}x" != "2x" && "${inOpType}x" != "3x" && "${inOpType}x" != "4x" && "${inOpType}x" != "5x" ]];then
+        F_Tips
+        exit 1
+    fi
+
+    if [[ "${inOpType}" = "0" && ${inNumbs} -lt 2 ]];then
+        F_Tips
+        exit 1
+    fi
+
+    if [[ "${inOpType}" = "0" && ! -f "${inFile}" ]];then
+        F_writeLog $ERROR "file [ ${inFile} ] not exist!"
+        exit 1
+    fi
+
+    if [ ! -d "${g_funcDir}" ];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| dir[${g_funcDir}] not exist!"
+        exit 1
+    fi
+
+
+    if [ ! -e ${g_cfgFile} ];then
+        F_writeLog ${ERROR} "\n\tError: File [${g_cfgFile}] does not exist!!\n"
+        exit 1
+    fi
+
+    if [ ! -e ${g_cfgFixFile} ];then
+        F_writeLog ${ERROR} "\n\tError: File [${g_cfgFixFile}] does not exist!!\n"
+        exit 1
+    fi
+
+    if [[ -z "${g_iptb_unit_f}" ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| g_iptb_unit_f is null !"
+        return 1
+    fi
+
+    #Linux system boot system type identification
+    #
+    #1.Get the name of the process number 1 of the linux system
+    g_MY_SYSTYPE=$(ps -p 1|tail -1|awk '{print $NF}')
+    if [[ "x${g_MY_SYSTYPE}" != "xinit" && "x${g_MY_SYSTYPE}" != "xsystemd" ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| The startup type of the system is [${g_MY_SYSTYPE}], currently only supports \"init\" or \"systemd\"!"
+        exit 1
+    fi
+
+    #
+    #2.Judge the system startup type based on the process name
+    g_MY_SysTVal=0  #default  system type is init
+    if [[ "x${g_MY_SYSTYPE}" = "xsystemd" ]];then
+        g_MY_SysTVal=1
+        g_EXE_Sh="${g_funcDir}/${g_sysOpIpN}"
+        if [ ! -e ${g_EXE_Sh} ];then
+            F_writeLog $ERROR "${LINENO}|${FUNCNAME}|File [ ${g_EXE_Sh} ] does not exist!"
+            exit 1
+        fi
+        [ ! -x "${g_EXE_Sh}" ] && chmod u+x "${g_EXE_Sh}"
+    fi
+
+    local i;
+    for i in $(find ${g_funcDir} ! -perm  -100 -type f 2>/dev/null)
+    do
+        F_ECHO_DO "chmod u+x $i"
+    done
+
+    if [ ! -f "${g_DiyService}" ];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| File [${g_DiyService}] does not exist!"
+        exit 1
+    fi
+
+    if [[ -z "${g_srcUnitFile}" ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| g_srcUnitFile is null !"
+        return 1
+    fi
+    if [[ ! -f "${g_srcUnitFile}" ]];then
+        F_writeLog $ERROR "${LINENO}|${FUNCNAME}| file[${g_srcUnitFile}] not exist !"
+        return 1
+    fi
+
+    #Load configuration file
+    . ${g_cfgFixFile}
+    . ${g_cfgFile}
+
+    F_setKeyValInFile "${g_tmpFile}" "g_haveIptbU_flag=0"
+
+    g_commType[0]='${srvOp_null}'
+    g_commType[1]='${srvOp_server}'
+    g_commType[2]='${srvOp_client}'
+
+    F_reduceFileSize "${logFile}" 5
+
+    F_fwcm_echoCfgFlag
+
+    #exit 1
+
+    return 0
+}
+
+
+
+
+function F_doIt()
+{
+
+    case ${inOpType} in
+        #[0].按照界面配置文件的内容生成脚本自己配置文件，并应用防火墙规则
+        0)
+            F_genCfgByInfile
+            F_genCallExeShCnt
+            F_disableFirewalld
+            F_addfw_DoAppRules
+            F_haveIptbUPrompt
+            ;;
+        #[1].在本机永久打开防火墙
+        1)
+            F_genCallExeShCnt
+            F_disableFirewalld
+            F_fw_start
+            ;;
+        #[2].在本机永久停用防火墙
+        2)
+            F_fw_stop
+            ;;
+        #[3].临时开启防火墙
+        3)
+            F_fw_tmpstart
+            ;;
+        #[4].临时停用防火墙
+        4)
+            F_fw_tmpStop
+            ;;
+        #[5].查看生效的防火墙规则
+        5)
+            F_fw_view
+            ;;
+        *)
+            exit 5
+            ;;
+    esac
+
+    F_setGuiCfgStat "${inOpType}"
+
+    return 0
+}
+
+
+main()
+{
+    F_genPath
+
+    F_checkAndLoadCfg
+
+    F_doIt
+
+    return 0
+}
+
+
+main
+
+exit 0
+

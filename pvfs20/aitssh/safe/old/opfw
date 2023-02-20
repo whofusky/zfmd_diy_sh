@@ -1,0 +1,283 @@
+#!/bin/bash
+#
+########################################################################
+#author        :    fushikai
+#creation date :    2019-05-19
+#linux_version :    Red Hat / UniKylin
+#dsc           :
+#       Manage the software firewall (iptables) in the current 
+#       operating system
+#    
+#revision history:
+#
+#   v20.01.010 2021-11-26：Support systemd type system
+#   v20.01.000 2019-09-23: modify v0.0.0.1 version to V20.01.000
+#   v0.0.0.1   2019-05-19: creation
+#
+########################################################################
+
+
+baseDirM=$(dirname $0)
+
+
+function F_genPath()
+{
+    export g_callExeShName="call_sysd_iptb_serv.sh"
+    export g_sysOpIpN="sysd_iptb_serv.sh"
+
+    basicDir="${PWD}"
+    if [ "x${baseDirM}" != "x." ];then
+        basicDir="${PWD}/${baseDirM}"
+    fi
+    export g_funcDir="${basicDir}/basesh"
+    export g_funcFile="${g_funcDir}/functions"
+    toAddShFile="${g_funcDir}/addfw"
+
+    export g_cfgFile="${basicDir}/cfg/network.conf"
+
+    export g_logDir="${basicDir}/log"
+    [ ! -d "${g_logDir}" ] && mkdir -p "${g_logDir}"
+
+    export g_logName="${g_logDir}/$(date +%Y%m%d).log"
+    export g_tmpFile="${g_logDir}/.ttmp.txt"
+    >"${g_tmpFile}"
+
+    export g_DiyService="${g_funcDir}/${g_sysOpIpN}"
+    export g_callAllName="${g_funcDir}/${g_callExeShName}"
+    export g_srcUnitFile="${g_funcDir}/iptables.service"
+
+    export g_iptb_unit_f="/lib/systemd/system/iptables.service"
+    export g_haveIptbU_flag=0  #1:系统已经有iptables.service unit文件
+
+    #echo "g_logName=[${g_logName}],g_DiyService=[${g_DiyService}],g_srcUnitFile=[${g_srcUnitFile}]"
+    #exit 0
+
+    return 0
+}
+
+
+function F_genCallExeShCnt()
+{
+    #check 
+    if [ ! -f "${g_callAllName}" ];then
+        echo -e "\n\tError: File [${g_callAllName}] does not exist!!\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+    local tFileHead="#!/bin/bash
+#
+########################################################################
+#author       :    fushikai
+#date         :    $(date +%Y%m%d)
+#dsc          :
+#   Call the script ${g_sysOpIpN} and write the log 
+#
+########################################################################
+#
+
+
+    "
+
+    local tCronLog="${g_logDir}/systemdOpIptables.log"
+    local addExeStr="${g_DiyService} \$@ >>${tCronLog} 2>&1"
+    local tWtLogStr="echo \"\$(date +%F_%T.%N) retStat=\${retStat}\">>${tCronLog} 2>&1"
+
+    echo "${tFileHead}" >"${g_callAllName}"
+
+    echo "[ ! -d \"${g_logDir}\" ] && mkdir -p \"${g_logDir}\"">>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "echo \"\$(date +%F_%T.%N) ${g_DiyService} \$@\" >>\"${tCronLog}\"">>"${g_callAllName}" 
+    echo "">>"${g_callAllName}"
+
+    echo "${addExeStr}" >>"${g_callAllName}"
+    echo "retStat=\$?" >>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "${tWtLogStr}" >>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    echo "exit \${retStat}">>"${g_callAllName}"
+    echo "">>"${g_callAllName}"
+
+    [ ! -x "${g_callAllName}" ] && chmod +x "${g_callAllName}"
+
+    return 0
+}
+
+
+function F_checkAndLoadCfg()
+{
+    tUID=$(id -u)
+    if [[ -z "${tUID}" || ${tUID} -ne 0 ]];then
+
+        echo -e "\n\tError:\e[1;31m Please execute as root!\e[0m the current user is ${USER}\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+
+    if [ ! -e ${g_cfgFile} ];then
+        echo -e "\n\tError: File [${g_cfgFile}] does not exist!!\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+    if [ ! -e ${g_funcFile} ];then
+        echo -e "\n\tError: File [${g_funcFile}] does not exist!!\n" | tee -a "${g_logName}"
+        exit 1
+    fi
+
+    . ${g_funcFile}
+
+    F_setKeyValInFile "${g_tmpFile}" "g_haveIptbU_flag=0"
+
+    return 0
+}
+
+
+function F_assigPromVar()
+{
+    prompct1="
+    请输入下面选项前的数字，选择相应的操作:
+
+        [0].按照配置文件的内容，设置系统防火墙
+
+        [1].在本机永久打开防火墙
+
+        [2].在本机永久停用防火墙
+
+        [3].清空现有防火墙的规则
+
+        [4].查看系统中防火墙的配置
+
+        [5].退出
+
+    你的选择是: "
+    #echo "${prompct1}" | tee -a "${g_logName}"
+
+    prompct2="
+    请确认配置文件已经先配置完成:
+
+        [Y/y].确认已经配置完成
+
+        [N/n].还未配置完成
+
+    请确认: "
+
+    return 0
+}
+
+
+function F_doIt()
+{
+    while ((1))
+    do
+
+
+        read -n 1 -p "${prompct1}" opType
+
+        tcheck=$(echo "${opType}"|sed -n '/^[0-9]$/p'|wc -l)
+
+        echo -e "$(date +%Y-%m-%d_%H:%M:%S.%N) \n${prompct1}${opType}">>"${g_logName}"
+
+        if [[ ${tcheck} -eq 0 || ${opType} -ne 0 && ${opType} -ne 1 && ${opType} -ne 2 && ${opType} -ne 3 && ${opType} -ne 4 && ${opType} -ne 5 ]];then
+            echo "" | tee -a "${g_logName}"
+            echo -e "\n -----------\e[1;31mERROR\e[0m---------------------:\e[1;31m输入错误，请按提示要求重新输入!\e[0m" | tee -a "${g_logName}"
+            continue
+        fi
+
+        break
+
+    done
+    [ ${opType} -eq 5 ] && echo "" && exit 0
+
+    if [ ${opType} -eq 0 ];then
+
+        while ((1))
+        do
+
+            echo -e "\n" | tee -a "${g_logName}"
+            read -n 1 -p "${prompct2}" opYes
+
+            echo -e "$(date +%Y-%m-%d_%H:%M:%S.%N) \n${prompct2}${opYes}">>"${g_logName}"
+
+            if [[ ${opYes} != "Y" && ${opYes} != "y" && ${opYes} != "N" && ${opYes} != "n" ]];then
+                echo "" | tee -a "${g_logName}"
+                echo -e "\n -----------\e[1;31mERROR\e[0m---------------------:\e[1;31m输入错误，请按提示要求重新输入!\e[0m" | tee -a "${g_logName}"
+                continue
+            fi
+
+            break
+
+        done
+
+
+    fi
+
+    echo -e "\n" | tee -a "${g_logName}"
+
+    if [[ ${opYes} == "N" || ${opYes} == "n" ]];then
+        exit 0
+    fi 
+
+
+    case ${opType} in
+        0)
+            if [ ! -e "${toAddShFile}" ];then
+                echo -e "\n\t\e[1;31mError:The script [${toAddShFile}] to be executed does not exist \e[0m\n" | tee -a "${g_logName}"
+                exit 6
+            fi
+            F_genCallExeShCnt
+            [ ! -x "${toAddShFile}" ] && chmod u+x ${toAddShFile}
+            F_disableFirewalld
+            ${toAddShFile}
+            F_haveIptbUPrompt
+            ;;
+        1)
+            echo -e "\n\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m\n" | tee -a "${g_logName}"
+            F_genCallExeShCnt
+            F_disableFirewalld
+            FW_START
+            ;;
+        2)
+            echo -e "\n\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m\n" | tee -a "${g_logName}"
+            FW_STOP
+            ;;
+        3)
+            echo -e "\n\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m\n" | tee -a "${g_logName}"
+            #FW_CLEAR
+            FW_TO_DEFAULT
+            ;;
+        4)
+            echo -e "\n\t\e[1;31mdebugFlag=[${debugFlag}]\e[0m\n" | tee -a "${g_logName}"
+            F_disableFirewalld
+            FW_VIEW
+            ;;
+        *)
+            echo -e "\n\t\e[1;31mERROR:系统逻辑错误!\e[0m\n" | tee -a "${g_logName}"
+            exit 5
+            ;;
+    esac
+
+    echo -e "\n" | tee -a "${g_logName}"
+
+    return 0
+}
+
+
+
+
+main()
+{
+    F_genPath
+
+    F_checkAndLoadCfg
+
+    F_assigPromVar
+
+    F_doIt
+
+    return 0
+}
+
+
+main
+
+exit 0
+

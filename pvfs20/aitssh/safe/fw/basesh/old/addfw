@@ -1,0 +1,80 @@
+#!/bin/bash
+#
+########################################################################
+#author        :    fushikai
+#creation date :    2019-05-19
+#linux_version :    Red Hat / UniKylin
+#dsc           :
+#    According to the hostname to execute the corresponding configuration 
+#    firewall script
+#    
+#revision history:
+#
+#   v20.01.010 2021-11-26：Support systemd type system
+#   v20.01.000 2019-09-23: modify v0.0.0.1 version to V20.01.000
+#   v0.0.0.1   2019-05-19: creation
+#
+########################################################################
+
+
+addfw_baseDir=$(dirname $0)
+
+
+
+
+
+
+
+
+
+
+
+    #--------------------------------------------------------------------------------
+    # F_new_fw_onerule_op( outPrtFlag, server_opFlag, op_protocol, NIC_name, local_ip:port, remote_ip:port )
+    #----------------------------------------------------------------------
+    # input:
+    #-------
+    #   outPrtFlag:        0:OUTPUT,INPUT; 1:OUTPUT; 2:INPUT 
+    #   server_opFlag      0:client; 1:server; 2:client,server; 3:stat null
+    #   op_protocol        tcp,upd,all
+    #   NIC_name           Network card name
+    #   local_Addr         local_ip:loca_port
+    #   remote_addr        remote_ip:remote_port
+    #----------------------------------------------------------------------
+    # output:
+    #-------
+    #   error msg OR null
+    #----------------------------------------------------------------------
+    # return:
+    #-------
+    #          0:      success
+    #      other:      error
+    # 
+    #--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+F_addfw_main()
+{
+    #F_fwcm_checkAndLoad
+
+    #F_fwcm_echoCfgFlag
+
+    #F_genDefaultCfgHost
+
+    #F_getCurHostName
+
+    #F_getCurRuleItem
+
+    #F_addfw_DoAppRules
+
+    return 0
+}
+
+F_addfw_main
+exit 0
+

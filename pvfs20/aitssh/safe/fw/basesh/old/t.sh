@@ -1,30 +1,31 @@
 #!/bin/bash
-#
-##############################################################################
-#
-#
-#
-#
-##############################################################################
-#
 
-NOOUT=0 ; levelName[0]="NOOUT";
-ERROR=1 ; levelName[1]="ERROR";
-INFO=2  ; levelName[2]="INFO" ;
-DEBUG=3 ; levelName[3]="DEBUG";
 
-OUT_LOG_LEVEL=${DEBUG}  #定义日志输出等级,大的等级包含小的等级日志输出
+export NOOUT=0 ; levelName[0]="NOOUT";
+export ERROR=1 ; levelName[1]="ERROR";
+export INFO=2  ; levelName[2]="INFO" ;
+export DEBUG=3 ; levelName[3]="DEBUG";
 
-logDir="/home/fusky/mygit/zfmd_diy_sh/wk_tmp/log"
+#export levelName
+export all_levelName=$(declare -p levelName)
+
+
+export OUT_LOG_LEVEL=${DEBUG}
+
+#logDir="/home/fusky/mygit/zfmd_diy_sh/wk_tmp/log"
+logDir="$(dirname $0)"
 logFile="${logDir}/t.log"
 
-thishSh="$0"
-inpar1="$1"
+export logDir
+export logFile
+
+#echo "logFile[${logFile}]"
+#exit 0
 
 
 
-#call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some message!\n"
-function F_writeLog()
+
+function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some message!\n"
 {
 
     #NOOUT=0 ; levelName[0]="NOOUT";
@@ -54,7 +55,7 @@ function F_writeLog()
     [ $# -lt 2 ] && return 1
 
     #特殊调试时用
-    local print_to_stdin_flag=1  # 0:可能输出到日志文件; 1: 输出到屏幕
+    local print_to_stdin_flag=2  # 0:可能输出到日志文件; 1: 输出到屏幕; 2可能同时输出到屏幕和日志文件
 
     #input log level
     local i="$1"   
@@ -71,7 +72,7 @@ function F_writeLog()
 
     # 1.换行符;2.空; 3.多个-;
     # 以上作一情况 则直接输出而不在输出内容之前添加日期等内容
-    local tflag=$(echo "${puttxt}"|sed -n '/^\s*\(\(\\n\)\+\)*$\|^\s*-\+/p'|wc -l)
+    local tflag=$(echo "${puttxt}"|sed -n '/^\s*\(\(\\n\)\+\)*$\|^\s*-\+$/p'|wc -l)
 
     #没有设置日志文件时默认也是输出到屏幕
     [ -z "${logFile}" ] && print_to_stdin_flag=1
@@ -97,80 +98,40 @@ function F_writeLog()
     fi
 
     if [ ${tflag} -gt 0 ];then
-        echo -e "${puttxt}" >> "${logFile}"
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${puttxt}"|tee -a  "${logFile}"
+        else
+            echo -e "${puttxt}" >> "${logFile}"
+        fi
     else
-        echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" |tee -a "${logFile}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        fi
     fi
 
 
     return 0
 }
 
-
-function F_rmFile() #call eg: F_rmFile "file1" "file2" ... "$filen"
-{
-    [ $# -lt 1 ] && return 0
-
-    while [ $# -gt 0 ]
-    do
-        [ -e "$1" ] && rm -rf "$1"
-        shift
-    done
-
-    return 0
-}
-
-function F_isDigital() # return 1: digital; 0: not a digital
-{
-    [ $# -ne 1 ] && echo "0" && return 0
-
-    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
-        echo "1" && return 1
-    fi
-
-    echo "0" && return 0
-}
-
-function F_ttstatu()
-{
-    if [ "$1" -eq 1 ];then
-        return 1
-    else
-        return 0
-    fi
-}
+export -f F_writeLog
 
 function F_test()
 {
-    #F_writeLog "$DEBUG"   "------------------------------"
-    #F_writeLog "$DEBUG"   "\n\n"
-    #F_writeLog "$INFO"   "haha"
-    #F_writeLog "$INFO"   ""
-    #F_writeLog "$DEBUG"   "------------------------------"
+    F_writeLog "$DEBUG" "hahaha"
+    F_writeLog "$DEBUG" "\n\tError:\e[1;31m Please execute as root!\e[0m the current user is ${USER}\n"
 
-    #F_writeLog "aa"   "11haha"
-    #F_writeLog "${ERROR}"   "haha"
-    #F_writeLog "-2"   "11haha"
-
-    #F_rmFile "/home/fusky/tmp/t/out_test.csv" "/home/fusky/tmp/t/out_test.1" "/home/fusky/tmp/t/out_test.csv.clr.bak"
-
-    local logLevel=2
-    F_ttstatu 0
-    [ $? -eq 0 ] && { logLevel=$DEBUG; } || logLevel=$ERROR
-
-    F_writeLog "${logLevel}" "${LINENO}|${FUNCNAME}|logLevel=[${logLevel}]!\n"
-
-
-
+    ./k.sh
     return 0
 }
-
 
 main()
 {
     F_test
     return 0
 }
+
 main
 
 

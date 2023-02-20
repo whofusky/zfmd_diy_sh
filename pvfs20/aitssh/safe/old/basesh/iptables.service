@@ -1,0 +1,17 @@
+[Unit]
+Description=netfilter persistent configuration
+DefaultDependencies=no
+Wants=network-pre.target systemd-modules-load.service local-fs.target
+Before=network-pre.target shutdown.target
+After=systemd-modules-load.service local-fs.target
+Conflicts=shutdown.target
+Documentation=man:iptables (8)
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/root/apptest/wpfs20.fw.V20.01.000/fw/basesh/call_sysd_iptb_serv.sh start
+ExecStop=/root/apptest/wpfs20.fw.V20.01.000/fw/basesh/call_sysd_iptb_serv.sh stop
+
+[Install]
+WantedBy=multi-user.target

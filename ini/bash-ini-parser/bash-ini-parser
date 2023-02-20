@@ -1,0 +1,333 @@
+#
+# based on http://theoldschooldevops.com/2008/02/09/bash-ini-parser/
+#
+
+PREFIX="cfg_section_"
+
+function debug {
+   if ! [ "x$BASH_INI_PARSER_DEBUG" == "x" ]
+   then
+      echo
+      echo --start-- $*
+      echo "${ini[*]}"
+      echo --end--
+      echo
+   fi
+}
+
+function cfg_parser {
+   shopt -p extglob &> /dev/null
+   CHANGE_EXTGLOB=$?
+   if [ $CHANGE_EXTGLOB = 1 ]
+   then
+      shopt -s extglob
+   fi
+   ini="$(<$1)"                 # read the file
+   ini=${ini//$'\r'/}           # remove linefeed i.e dos2unix
+
+   ini="${ini//[/\\[}"
+   #fusk20221230commentout debug "escaped ["
+   ini="${ini//]/\\]}"
+   #fusk20221230commentout debug "escaped ]"
+
+   local OLDIFS="$IFS"
+   IFS=$'\n' && ini=( ${ini} )  # convert to line-array
+
+   ini=( ${ini[*]/#*([[:space:]]);*/} )
+   ini=( ${ini[*]/%+([[:space:]]);*/} )   #fu.sky add@2022-12-30 : removed ending ; comments
+   #fusk20221230commentout debug "removed ; comments"
+   ini=( ${ini[*]/#*([[:space:]])\#*/} )
+   ini=( ${ini[*]/%+([[:space:]])\#*/} )  #fu.sky add@2022-12-30 : removed ending # comments
+   #fusk20221230commentout debug "removed # comments"
+
+   ini=( ${ini[*]/#+([[:space:]])/} ) # remove init whitespace
+   #fusk20221230commentout debug "removed initial whitespace"
+   ini=( ${ini[*]/%+([[:space:]])/} ) # remove ending whitespace
+   #fusk20221230commentout debug "removed ending whitespace"
+
+   ini=( ${ini[*]/%+([[:space:]])\\]/\\]} ) # remove non meaningful whitespace after sections
+   #fusk20221230commentout debug "removed whitespace after section name"
+
+   if [ $BASH_VERSINFO == 3 ]
+   then
+      ini=( ${ini[*]/+([[:space:]])=/=} ) # remove whitespace before =
+      ini=( ${ini[*]/=+([[:space:]])/=} ) # remove whitespace after =
+      ini=( ${ini[*]/+([[:space:]])=+([[:space:]])/=} ) # remove whitespace around =
+   else
+      ini=( ${ini[*]/*([[:space:]])=*([[:space:]])/=} ) # remove whitespace around =
+   fi
+   #fusk20221230commentout debug "removed space around ="
+
+   ini=( ${ini[*]/#\\[/\}$'\n'"$PREFIX"} ) # set section prefix
+   #fusk20221230commentout debug "set section prefix"
+
+   local i
+   for ((i=0; i < "${#ini[@]}"; i++))
+   do
+      line="${ini[i]}"
+      if [[ "$line" =~ $PREFIX.+ ]]
+      then
+         ini[$i]=${line// /_}
+      elif [[ "$line" =~ =[^\"] ]]     #fu.sky add@2022-12-30 i.g key=1|2|3
+      then
+         line=${line/=/=\"}
+         ini[$i]=${line/%/\"}
+        #echo "----------------------------:$line"
+      fi
+   done
+   #fusk20221230commentout debug "subsections"
+
+   ini=( ${ini[*]/%\\]/ \(} )   # convert text2function (1)
+   #fusk20221230commentout debug "convert text2function (1)"
+
+   ini=( ${ini[*]/=/=\( } )     # convert item to array
+   #fusk20221230commentout debug "convert item to array"
+   ini=( ${ini[*]/%/ \)} )      # close array parenthesis
+   #fusk20221230commentout debug "close array parenthesis"
+
+   ini=( ${ini[*]/%\\ \)/ \\} ) # the multiline trick
+   #fusk20221230commentout debug "the multiline trick"
+
+   ini=( ${ini[*]/%\( \)/\(\) \{} ) # convert text2function (2)
+   #fusk20221230commentout debug "convert text2function (2)"
+
+   ini=( ${ini[*]/%\} \)/\}} )  # remove extra parenthesis
+   #fusk20221230commentout debug "remove extra parenthesis"
+   ini=( ${ini[*]/%\{/\{$'\n''cfg_unset ${FUNCNAME/#'$PREFIX'}'$'\n'} )  # clean previous definition of section 
+   #fusk20221230commentout debug "clean previous definition of section"
+
+   ini[0]=""                    # remove first element
+   [[ ${ini[1]} =~ ^} ]] && ini[1]="" #fu.sky add@2022-12-30  i.g dos format
+   #fusk20221230commentout debug "remove first element"
+
+   ini[${#ini[*]} + 1]='}'      # add the last brace
+   #fusk20221230commentout debug "add the last brace"
+
+
+   eval "$(echo "${ini[*]}")"   # eval the result
+   EVAL_STATUS=$?
+   if [ $CHANGE_EXTGLOB = 1 ]
+   then
+      shopt -u extglob
+   fi
+   IFS="$OLDIFS"
+   return $EVAL_STATUS
+}
+
+
+function cfg_writer {
+   local item fun newvar vars
+   local SECTION f var
+
+   SECTION=$1
+   local OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F |egrep "s*$PREFIX" )"
+   else
+      fun="$(declare -F $PREFIX$SECTION)"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   #echo "fusktest--0----------------fun=[$fun]"
+   for f in $fun; do
+      [ "${f#$PREFIX}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+      #echo "fusktest--0----------------f=[$f],item=[${item}]"
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*$PREFIX\};}" # remove clear section
+      item="${item##*FUNCNAME*$PREFIX\}}" # remove clear section
+      item="${item/FUNCNAME\/#$PREFIX;}" # remove line
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars$newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      vars=$(echo "$vars" | sort -u) # remove duplication
+      eval $f
+      echo "[${f#$PREFIX}]" # output section
+      for var in $vars; do
+         if [[ -z "$var" ]];then
+             continue
+         fi
+         eval 'local length=${#'$var'[*]}' # test if var is an array
+         if [ $length == 1 ]
+         then
+            echo $var=\"${!var}\" #output var
+         else
+            echo ";$var is an array" # add comment denoting var is an array
+            eval 'echo $var=\"${'$var'[*]}\"' # output array var
+         fi
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+function cfg_unset {
+   local item fun newvar vars
+   local SECTION f var OLDIFS
+
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F $PREFIX$SECTION)"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         return
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#$PREFIX}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*$PREFIX\};}" # remove clear section
+      item="${item##*FUNCNAME*$PREFIX\}}" # remove clear section
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars $newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      for var in $vars; do
+         unset $var
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+
+function cfg_clear {
+   local fun f SECTION OLDIFS
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F $PREFIX$SECTION)"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#$PREFIX}" == "${f}" ] && continue
+      unset -f ${f}
+   done
+
+   IFS="$OLDIFS"
+}
+
+function cfg_update {
+
+   if [ $CHANGE_EXTGLOB = 1 ]
+   then
+      shopt -s extglob
+   fi
+
+   local fun SECTION VAR item OLDIFS
+   SECTION=$1
+   VAR=$2
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   fun="$(declare -F $PREFIX$SECTION)"
+   if [ -z "$fun" ]
+   then
+      echo "section $SECTION not found" 1>&2
+      exit 1
+   fi
+   fun="${fun//declare -f/}"
+   item="$(declare -f ${fun})"
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   #item="${item//+([[:space:]])${VAR}=+([[:graph:]])/}" # remove var declaration
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   item="${item/%\}}"  # remove function close
+   item="${item}
+    $VAR=(\"${!VAR}\")
+   "
+   item="${item}
+   }" # close function again
+
+   eval "function $item"
+
+   if [ $CHANGE_EXTGLOB = 1 ]
+   then
+      shopt -u extglob
+   fi
+
+   IFS="$OLDIFS"
+    #declare -f ${fun}
+}
+
+
+function is_section()
+{
+    [ $# -lt 1 ] && return 1
+
+    local fun="$(declare -F ${PREFIX}$1)"
+    [ -z "$fun" ] && return 2
+
+    return 0
+}
+
+
+function is_key()
+{
+    [ $# -lt 1 ] && return 1
+
+    local VAR=$1
+    local tt=${!VAR-x-----null}
+    [ "1${tt}" == "1x-----null" ] && return 3
+
+    return 0
+}
+
+
+#Determine whether the ini file has the corresponding configuration
+function is_ini_cfg()
+{
+    local ret
+    is_section "$1"
+    ret=$?
+    [ ${ret} -ne 0 ] && return ${ret}
+
+    if [ $# -gt 1 ];then
+        is_key "$2"
+        ret=$?
+        [ ${ret} -ne 0 ] && return ${ret}
+    fi
+
+    return 0
+}
+
+# vim: filetype=sh

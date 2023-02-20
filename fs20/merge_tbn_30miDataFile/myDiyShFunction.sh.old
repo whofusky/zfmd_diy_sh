@@ -102,14 +102,7 @@ function F_getFloatScaleResult()
     ret=$(echo "scale=${tscale};${tData}/${divisor}"|bc)
     local tnum=0
     tnum=$(echo "${ret}"|sed -n '/^\./p'|wc -l)
-    if [ ${tnum} -gt 0 ];then 
-        ret="0${ret}"
-    else
-        tnum=$(echo "${ret}"|sed -n '/^-\./p'|wc -l)
-        if [ ${tnum} -gt 0 ];then
-            ret=$(echo "${ret}"|sed 's/^-\./-0./')
-        fi
-    fi
+    [ ${tnum} -gt 0 ] && ret="0${ret}"
 
     if [ "${ret}x" = "0x" ];then
         ret=$(F_genZeroPointPrecision "${tscale}")
