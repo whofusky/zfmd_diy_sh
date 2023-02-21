@@ -72,7 +72,7 @@ endEc=51    #结束风机Ec 号
 
 fileHeadStr="<风机数据::江西.高龙山 时间='2021-03-15 09:12:00'>"
 fileEndStr="</风机数据::江西.高龙山>"
-itemStr="@  EC  PP_AVG   PQ_AVG  WS_AVG  SF_TBN_OGN  FAULT"
+itemStr="@  EC  PP_AVG   PQ_AVG  WS_AVG  SF_OGN  FAULT"
 
 fileNamePre="genwnd_1_${fileDate}_${fileHour}"
 fileNamePos=".cime"

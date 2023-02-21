@@ -1,1 +1,0 @@
-/home/fusky/panwfarm/newtask/gen_tbn_30miDataFile/genTbn30miDataFile.sh: 90: Syntax error: "(" unexpected

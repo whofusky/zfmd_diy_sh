@@ -1,0 +1,142 @@
+
+;正式的授权文件，文件名为: "电场ID.aits"
+
+
+;产品组成描述
+[PROD_COMPO_DESC]
+
+;版权信息
+copyright=兆方美迪风能工程(上海)有限公司
+
+;产品名
+product_name=pvf20
+
+;产品版本号
+product_ver=V20.000.001
+
+;自研软件描述格式:
+; dev_soft_1=软件名-软件版本号-/company/product/ID/id1/安装目录-必安标识
+;     部署路径中的: company,product,ID,id1都是代称,实际部署中得替换成现场的值
+;     company: 软件一级目录代称; product:软件二次目录代称:ID: 一级id; id1:二级id
+; 必安标识: 1 必安; 0 非必安
+;
+;自研究软件1
+dev_soft_1=DPH-v20.000.001-/company/product/ID/id1/DPH-1
+
+;自研究软件2
+dev_soft_2=DPH-v20.000.001-/company/product/ID/id1/UTF-1
+
+
+;第三方软件描述格式:
+; app_1=软件名-软件版本号-安装目录-必安标识
+;     如果安装目录中有: company,product,ID,id1都是代称,实际部署中得替换成现场的值
+;     如果是类似rpm的安装包不能规定安装目录则安装目录处用null字符代替
+; 必安标识: 1 必安; 0 非必安
+;
+;第三方软件1
+app_1=firefox-v45.0-/zfmd/firefox-1
+
+;第三方软件2
+app_2=hgdb-v4.5.8-null-1
+
+
+
+
+
+;一级ID层级信息
+[ID]
+
+;场站主ID
+main_id=gaolongshan
+;电场名称
+main_name=高龙山风电场
+
+
+;压缩包服务器:"协议:ip:端口:被动模式标识"
+;   其中的主被动标识只有ftp协议时才有: 0 主动模式, 1 被动模式
+pkg_server="ftp:192.168.0.14:21:1"
+;压缩包服务器用户名
+pkg_user=zfmd
+;压缩包服务器密码
+pkg_password=zfmd
+
+;场外压缩包下载服务器目录
+pkg_down_dir=/zfmd/pkg/down
+
+;下载压缩包文件名
+pkg_down_file="*.zip"
+
+;场内压缩包上传到场外服务目录
+pkg_up_dir=/zfmd/pkg/up
+
+;上传压缩包文件名
+pkg_up_file="*.zip"
+
+;二级ID的个数
+second_id_num=2
+
+
+
+
+;第1个二级ID层级信息
+[ID_0]
+
+;二级ID
+second_id=01
+
+;二级电场名称
+second_name=高龙山风电场1期
+
+
+;气象或预测文件服务器:"协议:ip:端口:被动模式标识" 多个服务器用|分隔
+;   其中的主被动标识只有ftp协议时才有: 0 主动模式, 1 被动模式
+fcst_server="ftp:42.121.65.50:21:1|ftp:182.254.227.250:21:1"
+
+;气象或预测服务器用户名,多个用|分隔，且用户名与上面的fcst_server位置对应(即第一个用户名对应第一个服务器，第二个用户名对应第二个服务器，以此类推)
+fcst_user="yc1|forcast2"
+
+;气象或预测服务器密码,多个用|分隔，且用户名与上面的fcst_user位置对应(即第一个密码对应第一个用户名，第二个密码对应第二个用户名，以此类推)
+fcst_password="1qaz2wsx|zfmd20130409"
+
+;气象或预测文件在服务器上的目录
+fcst_data_dir=/gaolongshan
+
+;气象文件名多个用|分隔
+mete_file_name=qx0301.txt
+
+;预测文件名多个用|分隔
+fcst_file_name=yc0301.txt
+
+
+
+
+;第2个二级ID层级信息
+[ID_1]
+
+;二级ID
+second_id=02
+
+;二级电场名称
+second_name=高龙山风电场2期
+
+
+;气象或预测文件服务器:"协议:ip:端口:被动模式标识" 多个服务器用|分隔
+;   其中的主被动标识只有ftp协议时才有: 0 主动模式, 1 被动模式
+fcst_server="ftp:42.121.65.50:21:1|ftp:182.254.227.250:21:1"
+
+;气象或预测服务器用户名,多个用|分隔，且用户名与上面的fcst_server位置对应(即第一个用户名对应第一个服务器，第二个用户名对应第二个服务器，以此类推)
+fcst_user="yc1|forcast2"
+
+;气象或预测服务器密码,多个用|分隔，且用户名与上面的fcst_user位置对应(即第一个密码对应第一个用户名，第二个密码对应第二个用户名，以此类推)
+fcst_password="1qaz2wsx|zfmd20130409"
+
+;气象或预测文件在服务器上的目录
+fcst_data_dir=/gaolongshan
+
+;气象文件名多个用|分隔
+mete_file_name=qx0302.txt
+
+;预测文件名多个用|分隔
+fcst_file_name=yc0302.txt
+
+
