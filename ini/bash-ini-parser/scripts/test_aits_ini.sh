@@ -6,6 +6,8 @@ baseDir=$(dirname $0)
 
 parseToolFile="${baseDir}/../bash-ini-parser"
 
+iniIdex=1
+
 
 
 function F_check()
@@ -21,18 +23,19 @@ function F_check()
     source ${parseToolFile}
 
     #parsing ini file
-    cfg_parser "$TEST_FILE"
+    cfg_${iniIdex}_parser "$TEST_FILE"
 
     return 0
 }
 
 function F_print_parse()
 {
+    local t="ini_${iniIdex}[*]"
     echo --parse result-- 
     echo "------------------------------------------------------------------------------"
         OLDIFS="$IFS"
         IFS=$'\n'
-        echo "${ini[*]}"
+        echo "${!t}"
         IFS="$OLDIFS"
     echo "------------------------------------------------------------------------------"
     echo --end--
@@ -41,9 +44,9 @@ function F_print_parse()
 function F_print_write()
 {
     echo -e "\n"
-    echo "cfg_writer print"
+    echo "cfg_${iniIdex}_writer print"
     echo "------------------------------------------------------------------------------"
-    cfg_writer
+    cfg_${iniIdex}_writer
     echo "------------------------------------------------------------------------------"
     echo -e "\n"
 }
@@ -53,16 +56,17 @@ function F_print_write()
 function F_print_key()
 {
     local ret
-    #is_ini_cfg "${1}"
-    is_section "${1}"; ret=$?
+    #is_${iniIdex}_ini_cfg "${1}"
+    is_${iniIdex}_section "${1}"; ret=$?
 
     #echo "${ret}"
     [ ${ret} -ne 0 ] && return ${ret}
 
-    ${PREFIX}${1} 
+    local tpre="PREFIX_${iniIdex}"
+    ${!tpre}${1} 
 
-    #is_ini_cfg "${1}" "${2}"
-    is_key "${2}"; ret=$?
+    #is_${iniIdex}_ini_cfg "${1}" "${2}"
+    is_${iniIdex}_key "${2}"; ret=$?
 
     #echo "${ret}"
     [ ${ret} -ne 0 ] && return ${ret}
@@ -77,6 +81,7 @@ function F_print_key()
 main()
 {
     F_check
+    F_print_parse
     local section="PROD_COMPO_DESC"
 
     F_print_key "${section}" "copyright"
@@ -86,16 +91,16 @@ main()
 
     product_name="wpfs20111"
     fusky=test
-    cfg_update "${section}" "product_name"
-    cfg_update "${section}" "fusky"
+    cfg_${iniIdex}_update "${section}" "product_name"
+    cfg_${iniIdex}_update "${section}" "fusky"
 
     F_print_key "${section}" "product_name"
     #declare -f cfg_section_PROD_COMPO_DESC
 
     second_id="04"
-    cfg_update "ID_1" "second_id"
+    cfg_${iniIdex}_update "ID_1" "second_id"
 
-    #F_print_write
+    F_print_write
     
     return 0
 }
