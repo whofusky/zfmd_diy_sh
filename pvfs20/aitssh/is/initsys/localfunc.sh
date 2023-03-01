@@ -12,6 +12,7 @@
 
 
 
+#判断当前执行用户是否为root用户,不是则退出
 function F_needRootUser()
 {
     #User restrictions: only the root user can operate
@@ -24,11 +25,14 @@ function F_needRootUser()
     return 0
 }
 
+
+#判断当前操作系统类型是否为的要求的类型,不是则退出;
+#    符合要求则赋值g_sys_type 和 g_sys_name
 function F_judgeOsSysType()
 {
     local initS="$(ps -p 1|tail -1|awk '{print $NF}')"
-    g_init_type="init"
-    [ "x${initS}" = "xsystemd" ] && g_init_type="systemd"
+    g_sys_type="init"
+    [ "x${initS}" = "xsystemd" ] && g_sys_type="systemd"
 
 
     g_sys_name="centos78"
@@ -48,9 +52,23 @@ function F_judgeOsSysType()
         exit 1
     fi
 
-    export g_init_type
+    export g_sys_type
     export g_sys_name
 
     #hostnamectl |grep Operating|awk -F'[:(]' '{print $2}'|sed -e 's/^\s\+//g;s/\s\+$//g'
     return 0
 }
+
+########################### centos78 ######################################
+function F_centos78_test()
+{
+    return 0
+}
+
+########################### redhat67 ######################################
+########################### unikylin33 ######################################
+
+
+
+
+

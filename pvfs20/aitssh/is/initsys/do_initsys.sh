@@ -148,8 +148,9 @@ function F_checkAndLoad()
 {
     g_baseFunc="${g_baseicDir}/shfunclib.sh"
     g_localFunc="${g_baseicDir}/localfunc.sh"
+    g_parseFunc="${g_baseicDir}/bash-ini-parser"
 
-    F_notFileExit "${g_baseFunc}" "${g_localFunc}"
+    F_notFileExit "${g_baseFunc}" "${g_localFunc}" "${g_parseFunc}"
 
     source "${g_baseFunc}"
 
@@ -157,13 +158,14 @@ function F_checkAndLoad()
     F_checkSysCmd "uname"
 
     source "${g_localFunc}"
+    source "${g_parseFunc}"
 
     #fusktest 注释
     #F_needRootUser
 
     F_judgeOsSysType
 
-    #echo "g_init_type=[${g_init_type}]"
+    #echo "g_sys_type=[${g_sys_type}]"
     #echo "g_sys_name=[${g_sys_name}]"
 
     return 0
