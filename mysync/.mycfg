@@ -73,9 +73,13 @@ g_do_type[0]="put"
 g_src_dir[0]="/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh"
 g_dst_dir[0]="root@zfmd@22@192.168.1.69:/root/aits_sh"
 
-g_do_type[1]="put"
-g_src_dir[1]="/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh"
-g_dst_dir[1]="root@root@22@192.168.1.222:/root/aits_sh"
+#g_do_type[1]="put"
+#g_src_dir[1]="/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh"
+#g_dst_dir[1]="root@root@22@192.168.1.222:/root/aits_sh"
+#
+#g_do_type[2]="put"
+#g_src_dir[2]="/home/fusky/mygit/zfmd_diy_sh/pvfs20/aitssh"
+#g_dst_dir[2]="root@root@22@192.168.1.223:/root/aits_sh"
 
 
 

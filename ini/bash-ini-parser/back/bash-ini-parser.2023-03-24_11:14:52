@@ -2,33 +2,24 @@
 # based on http://theoldschooldevops.com/2008/02/09/bash-ini-parser/
 #
 
-#Multiple ini files can be processed at the same time, and the 
-#  same ini file is distinguished by the same index number idx
-#
+#Define identifiers that can handle multiple ini files at the same time. 
+#  If there are N, you need to define N PREFIX_, and you need to modify 
+#  the F_right_index function
+PREFIX_0="cfg_0_section_"
+PREFIX_1="cfg_1_section_"
 
-#Determine whether the index is a number
 #return state: 1 wrong; 0 right
-# F_right_index <idx>
 function F_right_index()
 {
     [ $# -ne 1 ] && return 1
-
-    if [ $(echo "$1"|sed -n '/\(^[0-9]$\|^[1-9][0-9]\+$\)/p'|wc -l) -gt 0 ];then 
-        return 0
-    fi
-
-    #[ "x${1}" = "x0" ] && return 0
-    #[ "x${1}" = "x1" ] && return 0
-
+    [ "x${1}" = "x0" ] && return 0
+    [ "x${1}" = "x1" ] && return 0
     return 1
 }
 
-#Output the contents of g_bash_ini_${idx}
+
 # F_ini_debug <idx> [arg]
 function F_ini_debug {
-
-    [ "x${BASH_INI_PARSER_DEBUG}" == "x" ] && return 0
-
     local ret
     F_right_index "$1" ; ret=$?
     [ ${ret} -ne 0 ] && return 0
@@ -36,12 +27,14 @@ function F_ini_debug {
     local tVar="g_bash_ini_${1}[*]"
     shift
 
-    echo
-    echo --start-- $*
-    echo "${!tVar}"
-    echo --end--
-    echo
-
+    if ! [ "x$BASH_INI_PARSER_DEBUG" == "x" ]
+    then
+        echo
+        echo --start-- $*
+        echo "${!tVar}"
+        echo --end--
+        echo
+    fi
 }
 
 
@@ -62,7 +55,7 @@ function F_ini_cfg_parser {
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
@@ -75,11 +68,12 @@ function F_ini_cfg_parser {
         exit 1
     fi
 
+    #定义全局变量名:g_bash_ini_x
+    local varGIni="g_bash_ini_${idx}"
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     shopt -p extglob &> /dev/null
     CHANGE_EXTGLOB=$?
@@ -119,7 +113,7 @@ ${tmp_ini}"
     # 1.将域名的[或]左右空格去掉; [转换成\[ 将域名的]转换成\]; 将域名的空格转换成_
     # 2. 去掉=号左右的空格
     # 3. 等号右边没有引号的加引号
-    # 4. 将\[变成}\ncfg_${idx}_section_
+    # 4. 将\[变成}\n${PREFIX_x} 
     #    将\]变成 () {\n F_ini_inner_unset ${idx} {FUNCNAME/#cfg_x_section_}
     # 5  在末尾加上}
     # 
@@ -134,18 +128,12 @@ ${tmp_ini}"
           $ a\}
           '|sed '1d') )
 
+    #F_ini_debug "result"
     #echo "tmp_ini=[${tmp_ini[*]}]"
 
-    if [ "x${BASH_INI_PARSER_DEBUG}" != "x" ];then
-        #定义全局变量名:g_bash_ini_x
-        local varGIni="g_bash_ini_${idx}"
-
-        #赋值给g_bash_ini_x
-        #g_bash_ini_0=( "${tmp_ini[*]}" )
-        eval "${varGIni}=( \"\${tmp_ini[*]}\" )"
-    fi
-
-    #F_ini_debug "${idx}" "result"
+    #赋值给g_bash_ini_x
+    #g_bash_ini_0=( "${tmp_ini[*]}" )
+    eval "${varGIni}=( \"\${tmp_ini[*]}\" )"
 
     eval "$(echo "${tmp_ini[*]}")"   # eval the result
     EVAL_STATUS=$?
@@ -171,16 +159,15 @@ function F_ini_cfg_writer {
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     local item fun newvar vars
     local SECTION f var
@@ -251,10 +238,9 @@ function F_ini_inner_unset {
     local idx="$1"
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     local item fun newvar vars
     local SECTION f var OLDIFS
@@ -318,16 +304,15 @@ function F_ini_cfg_unset {
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     local item fun newvar vars
     local SECTION f var OLDIFS
@@ -390,16 +375,15 @@ function F_ini_cfg_clear {
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
    local fun f SECTION OLDIFS
    [ ! -z "$1" ] && SECTION="$1"
@@ -443,16 +427,15 @@ function F_ini_cfg_update {
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     if [ $CHANGE_EXTGLOB = 1 ]
     then
@@ -510,16 +493,15 @@ function F_ini_is_section()
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     local fun="$(declare -F ${tPreFix}$1)"
     [ -z "$fun" ] && return 2
@@ -544,16 +526,16 @@ function F_ini_enable_section()
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
     shift
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    local tPreFix="cfg_${idx}_section_"
-    local tfun="${tPreFix}${1}"
+    #取变量PREFIX_x的值
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tfun="${!varPre}${1}"
 
     local fun="$(declare -F ${tfun})"
     [ -z "$fun" ] && return 2
@@ -594,7 +576,7 @@ function F_ini_is_cfg()
     F_right_index "${idx}" ; ret=$?
     if [ ${ret} -ne 0 ];then 
         echo ""
-        echo "ERROR|${FUNCNAME}|The first input parameter of the function (the index number of the ini file) \"${idx}\" is not a number"
+        echo "ERROR|${FUNCNAME}|parmeter 1=[${idx}] not eq 0 nor 1"
         echo ""
         exit 2
     fi
@@ -602,10 +584,9 @@ function F_ini_is_cfg()
 
     local ret
 
-    ##取变量PREFIX_x的值
-    #local varPre="PREFIX_${idx}"
-    #local tPreFix="${!varPre}"
-    local tPreFix="cfg_${idx}_section_"
+    #取变量PREFIX_x的值
+    local varPre="PREFIX_${idx}"
+    local tPreFix="${!varPre}"
 
     local fun="$(declare -F ${tPreFix}$1)"
     [ -z "$fun" ] && return 2

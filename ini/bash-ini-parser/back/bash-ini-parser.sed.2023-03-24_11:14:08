@@ -1,0 +1,627 @@
+#
+# based on http://theoldschooldevops.com/2008/02/09/bash-ini-parser/
+#
+
+############################# 0 ###############################################
+PREFIX_0="cfg_0_section_"
+
+function debug_0 {
+   if ! [ "x$BASH_INI_PARSER_DEBUG" == "x" ]
+   then
+      echo
+      echo --start-- $*
+      echo "${g_bash_ini_0[*]}"
+      echo --end--
+      echo
+   fi
+}
+
+function cfg_0_parser {
+
+    if [ $# -ne 1 ];then
+        echo ""
+        echo "ERROR|${FUNCNAME}|input parameter is not equal to 1"
+        echo ""
+        exit 1
+    fi
+
+    if [ ! -f "$1" ];then
+        echo ""
+        echo "ERROR|${FUNCNAME}|file [ $1 ] does not exist!"
+        echo ""
+        exit 1
+    fi
+
+    shopt -p extglob &> /dev/null
+    CHANGE_EXTGLOB_0=$?
+    [ $CHANGE_EXTGLOB_0 = 1 ] && shopt -s extglob
+
+    #g_bash_ini_0="$(<$1)"                 # read the file
+    #g_bash_ini_0=${g_bash_ini_0//$'\r'/}         # remove linefeed i.e dos2unix
+
+    # read the file and 
+    # 1. remove linefeed i.e dos2unix 
+    # 2. 去掉;或#的行注释  去掉;或#的行尾注释
+    # 3. 去掉空行
+    # 4. 去掉行首和行尾的空格
+    #           s/\r$//g;
+    #           s/^\s*[;#]\+.*//g; s/\s\+[;#]\+[^"'\'']*$//g;
+    #           /^\s*$/d;
+    #           s/^\s\+//g; s/\s\+$//g;
+    g_bash_ini_0="$(sed 's/\r$//g;s/^\s*[;#]\+.*//g; s/\s\+[;#]\+[^"'\'']*$//g;/^\s*$/d;s/^\s\+//g; s/\s\+$//g' "$1")"
+
+    #如果ini配置文件存在没有section的key(没有时只能发生在文件开头)时则自动
+    #添加AUTOADD_ROOT的section
+    local tnum="$(echo "${g_bash_ini_0}"|sed -n '1{/^\[/p;q}'|wc -l)"
+    if [ ${tnum} -eq 0 ];then
+        g_bash_ini_0="[AUTOADD_ROOT]
+${g_bash_ini_0}"
+    fi
+
+    #echo "fusktest:g_bash_ini_0->[${g_bash_ini_0}]"
+
+    local OLDIFS="$IFS"
+    IFS=$'\n' && g_bash_ini_0=( "${g_bash_ini_0}" )  # convert to line-array
+
+    #
+    # 第一个sed:
+    # 1.将域名的[或]左右空格去掉; [转换成\[ 将域名的]转换成\]; 将域名的空格转换成_
+    # 2. 去掉=号左右的空格
+    # 3. 等号右边没有引号的加引号
+    # 4. 将\[变成}\n${PREFIX_0} 
+    #    将\]变成 () {\n cfg_0_unset {FUNCNAME/#cfg_0_section_}
+    # 5  在末尾加上}
+    # 
+    # 第二个sed:
+    # 1 去掉第一行的}
+    #
+    g_bash_ini_0=( $(echo "${g_bash_ini_0[*]}"|sed ' 
+           /^\s*\[/{s+^\s*\[\s*+\\[+g; s+\s*\]\s*$+\\]+g;s/\s\+/_/g}; 
+           s/\s*=\s*/=/g;
+           /^[^\\]/{s/=\([^"'\'']\)\(.*\)/="\1\2"/g;s/\\\[/\[/g;s/\\\]/\]/g};
+           /^\\\[/{s/^\\\[/\}\n'${PREFIX_0}'/g;s/\\\]/ \(\) \{\ncfg_0_unset \$\{FUNCNAME\/#'${PREFIX_0}'\}/g  };
+          $ a\}
+          '|sed '1d') )
+
+    #debug_0 "result"
+
+    eval "$(echo "${g_bash_ini_0[*]}")"   # eval the result
+    EVAL_STATUS=$?
+
+    [ $CHANGE_EXTGLOB_0 = 1 ] && shopt -u extglob
+    IFS="$OLDIFS"
+
+    return $EVAL_STATUS
+}
+
+
+function cfg_0_writer {
+   local item fun newvar vars
+   local SECTION f var
+
+   SECTION=$1
+   local OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F |egrep "s*${PREFIX_0}" )"
+   else
+      fun="$(declare -F ${PREFIX_0}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   #echo "fusktest--0----------------fun=[$fun]"
+   for f in $fun; do
+      [ "${f#${PREFIX_0}}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+      #echo "fusktest--0----------------f=[$f],item=[${item}]"
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*${PREFIX_0}\};}" # remove clear section
+      item="${item##*FUNCNAME*${PREFIX_0}\}}" # remove clear section
+      item="${item/FUNCNAME\/#${PREFIX_0};}" # remove line
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars$newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      vars=$(echo "$vars" | sort -u) # remove duplication
+      eval $f
+      echo "[${f#${PREFIX_0}}]" # output section
+      for var in $vars; do
+         if [[ -z "$var" ]];then
+             continue
+         fi
+         eval 'local length=${#'$var'[*]}' # test if var is an array
+         if [ $length == 1 ]
+         then
+            echo $var=\"${!var}\" #output var
+         else
+            echo ";$var is an array" # add comment denoting var is an array
+            eval 'echo $var=\"${'$var'[*]}\"' # output array var
+         fi
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+function cfg_0_unset {
+   local item fun newvar vars
+   local SECTION f var OLDIFS
+
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F ${PREFIX_0}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         return
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#${PREFIX_0}}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*${PREFIX_0}\};}" # remove clear section
+      item="${item##*FUNCNAME*${PREFIX_0}\}}" # remove clear section
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars $newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      for var in $vars; do
+         unset $var
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+
+function cfg_0_clear {
+   local fun f SECTION OLDIFS
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F ${PREFIX_0}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#${PREFIX_0}}" == "${f}" ] && continue
+      unset -f ${f}
+   done
+
+   IFS="$OLDIFS"
+}
+
+function cfg_0_update {
+
+   if [ $CHANGE_EXTGLOB_0 = 1 ]
+   then
+      shopt -s extglob
+   fi
+
+   local fun SECTION VAR item OLDIFS
+   SECTION=$1
+   VAR=$2
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   fun="$(declare -F ${PREFIX_0}${SECTION})"
+   if [ -z "$fun" ]
+   then
+      echo "section $SECTION not found" 1>&2
+      exit 1
+   fi
+   fun="${fun//declare -f/}"
+   item="$(declare -f ${fun})"
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   #item="${item//+([[:space:]])${VAR}=+([[:graph:]])/}" # remove var declaration
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   item="${item/%\}}"  # remove function close
+   item="${item}
+    $VAR=(\"${!VAR}\")
+   "
+   item="${item}
+   }" # close function again
+
+   eval "function $item"
+
+   if [ $CHANGE_EXTGLOB_0 = 1 ]
+   then
+      shopt -u extglob
+   fi
+
+   IFS="$OLDIFS"
+    #declare -f ${fun}
+}
+
+
+function is_0_section()
+{
+    [ $# -lt 1 ] && return 1
+
+    local fun="$(declare -F ${PREFIX_0}$1)"
+    [ -z "$fun" ] && return 2
+
+    return 0
+}
+
+
+function is_0_key()
+{
+    [ $# -lt 1 ] && return 1
+
+    local VAR=$1
+    local tt=${!VAR-x-----null}
+    [ "1${tt}" == "1x-----null" ] && return 3
+
+    return 0
+}
+
+
+#Determine whether the ini file has the corresponding configuration
+function is_0_ini_cfg()
+{
+    local ret
+    is_0_section "$1"
+    ret=$?
+    [ ${ret} -ne 0 ] && return ${ret}
+
+    if [ $# -gt 1 ];then
+        is_0_key "$2"
+        ret=$?
+        [ ${ret} -ne 0 ] && return ${ret}
+    fi
+
+    return 0
+}
+
+
+############################# 1 ###############################################
+
+
+PREFIX_1="cfg_1_section_"
+
+function debug_1 {
+   if ! [ "x$BASH_INI_PARSER_DEBUG" == "x" ]
+   then
+      echo
+      echo --start-- $*
+      echo "${g_bash_ini_1[*]}"
+      echo --end--
+      echo
+   fi
+}
+
+function cfg_1_parser {
+
+    if [ $# -ne 1 ];then
+        echo ""
+        echo "ERROR|${FUNCNAME}|input parameter is not equal to 1"
+        echo ""
+        exit 1
+    fi
+
+    if [ ! -f "$1" ];then
+        echo ""
+        echo "ERROR|${FUNCNAME}|file [ $1 ] does not exist!"
+        echo ""
+        exit 1
+    fi
+
+    shopt -p extglob &> /dev/null
+    CHANGE_EXTGLOB_1=$?
+    [ $CHANGE_EXTGLOB_1 = 1 ] && shopt -s extglob
+
+    #g_bash_ini_1="$(<$1)"                 # read the file
+    #g_bash_ini_1=${g_bash_ini_1//$'\r'/}  # remove linefeed i.e dos2unix
+
+    # read the file and 
+    # 1. remove linefeed i.e dos2unix 
+    # 2. 去掉;或#的行注释  去掉;或#的行尾注释
+    # 3. 去掉空行
+    # 4. 去掉行首和行尾的空格
+    #           s/\r$//g;
+    #           s/^\s*[;#]\+.*//g; s/\s\+[;#]\+[^"'\'']*$//g;
+    #           /^\s*$/d;
+    #           s/^\s\+//g; s/\s\+$//g;
+    g_bash_ini_1="$(sed 's/\r$//g;s/^\s*[;#]\+.*//g; s/\s\+[;#]\+[^"'\'']*$//g;/^\s*$/d;s/^\s\+//g; s/\s\+$//g' "$1")"
+
+    #如果ini配置文件存在没有section的key(没有时只能发生在文件开头)时则自动
+    #添加AUTOADD_ROOT的section
+    local tnum="$(echo "${g_bash_ini_1}"|sed -n '1{/^\[/p;q}'|wc -l)"
+    if [ ${tnum} -eq 0 ];then
+        g_bash_ini_1="[AUTOADD_ROOT]
+${g_bash_ini_1}"
+    fi
+
+    #echo "fusktest:g_bash_ini_1->[${g_bash_ini_1}]"
+
+    local OLDIFS="$IFS"
+    IFS=$'\n' && g_bash_ini_1=( "${g_bash_ini_1}" )  # convert to line-array
+
+    #
+    # 第一个sed:
+    # 1.将域名的[或]左右空格去掉; [转换成\[ 将域名的]转换成\]; 将域名的空格转换成_
+    # 2. 去掉=号左右的空格
+    # 3. 等号右边没有引号的加引号
+    # 4. 将\[变成}\n${PREFIX_1} 
+    #    将\]变成 () {\n cfg_1_unset {FUNCNAME/#cfg_1_section_}
+    # 5  在末尾加上}
+    # 
+    # 第二个sed:
+    # 1 去掉第一行的}
+    #
+    g_bash_ini_1=( $(echo "${g_bash_ini_1[*]}"|sed ' 
+           /^\s*\[/{s+^\s*\[\s*+\\[+g; s+\s*\]\s*$+\\]+g;s/\s\+/_/g}; 
+           s/\s*=\s*/=/g;
+           /^[^\\]/{s/=\([^"'\'']\)\(.*\)/="\1\2"/g;s/\\\[/\[/g;s/\\\]/\]/g};
+           /^\\\[/{s/^\\\[/\}\n'${PREFIX_1}'/g;s/\\\]/ \(\) \{\ncfg_1_unset \$\{FUNCNAME\/#'${PREFIX_1}'\}/g  };
+          $ a\}
+          '|sed '1d') )
+
+    #debug_1 "result"
+
+    eval "$(echo "${g_bash_ini_1[*]}")"   # eval the result
+    EVAL_STATUS=$?
+
+    [ $CHANGE_EXTGLOB_1 = 1 ] && shopt -u extglob
+    IFS="$OLDIFS"
+
+    return $EVAL_STATUS
+}
+
+
+function cfg_1_writer {
+   local item fun newvar vars
+   local SECTION f var
+
+   SECTION=$1
+   local OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F |egrep "s*${PREFIX_1}" )"
+   else
+      fun="$(declare -F ${PREFIX_1}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   #echo "fusktest--0----------------fun=[$fun]"
+   for f in $fun; do
+      [ "${f#${PREFIX_1}}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+      #echo "fusktest--0----------------f=[$f],item=[${item}]"
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*${PREFIX_1}\};}" # remove clear section
+      item="${item##*FUNCNAME*${PREFIX_1}\}}" # remove clear section
+      item="${item/FUNCNAME\/#${PREFIX_1};}" # remove line
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars$newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      vars=$(echo "$vars" | sort -u) # remove duplication
+      eval $f
+      echo "[${f#${PREFIX_1}}]" # output section
+      for var in $vars; do
+         if [[ -z "$var" ]];then
+             continue
+         fi
+         eval 'local length=${#'$var'[*]}' # test if var is an array
+         if [ $length == 1 ]
+         then
+            echo $var=\"${!var}\" #output var
+         else
+            echo ";$var is an array" # add comment denoting var is an array
+            eval 'echo $var=\"${'$var'[*]}\"' # output array var
+         fi
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+function cfg_1_unset {
+   local item fun newvar vars
+   local SECTION f var OLDIFS
+
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F ${PREFIX_1}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         return
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#${PREFIX_1}}" == "${f}" ] && continue
+      item="$(declare -f ${f})"
+
+      item="${item##*\{}" # remove function definition
+      item="${item##*FUNCNAME*${PREFIX_1}\};}" # remove clear section
+      item="${item##*FUNCNAME*${PREFIX_1}\}}" # remove clear section
+      item="${item/%\}}"  # remove function close
+      item="${item%)*}" # remove everything after parenthesis
+      if [[ "${item}" == $'\n' ]];then
+          continue
+      fi
+      item="${item});" # add close parenthesis
+      vars=""
+      while [ "$item" != "" ]
+      do
+         newvar="${item%%=*}" # get item name
+         vars="$vars $newvar" # add name to collection
+         item="${item#*;}" # remove readed line
+      done
+      for var in $vars; do
+         unset $var
+      done
+   done
+   IFS="$OLDIFS"
+}
+
+
+function cfg_1_clear {
+   local fun f SECTION OLDIFS
+   SECTION=$1
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   if [ -z "$SECTION" ]
+   then
+      fun="$(declare -F)"
+   else
+      fun="$(declare -F ${PREFIX_1}${SECTION})"
+      if [ -z "$fun" ]
+      then
+         echo "section $SECTION not found" 1>&2
+         exit 1
+      fi
+   fi
+   fun="${fun//declare -f/}"
+   for f in $fun; do
+      [ "${f#${PREFIX_1}}" == "${f}" ] && continue
+      unset -f ${f}
+   done
+
+   IFS="$OLDIFS"
+}
+
+function cfg_1_update {
+
+   if [ $CHANGE_EXTGLOB_1 = 1 ]
+   then
+      shopt -s extglob
+   fi
+
+   local fun SECTION VAR item OLDIFS
+   SECTION=$1
+   VAR=$2
+   OLDIFS="$IFS"
+   IFS=' '$'\n'
+   fun="$(declare -F ${PREFIX_1}${SECTION})"
+   if [ -z "$fun" ]
+   then
+      echo "section $SECTION not found" 1>&2
+      exit 1
+   fi
+   fun="${fun//declare -f/}"
+   item="$(declare -f ${fun})"
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   #item="${item//+([[:space:]])${VAR}=+([[:graph:]])/}" # remove var declaration
+   item=$(echo "${item}"|sed "/^\s*${VAR}\s*=.*/d") # remove var declaration
+   item="${item/%\}}"  # remove function close
+   item="${item}
+    $VAR=(\"${!VAR}\")
+   "
+   item="${item}
+   }" # close function again
+
+   eval "function $item"
+
+   if [ $CHANGE_EXTGLOB_1 = 1 ]
+   then
+      shopt -u extglob
+   fi
+
+   IFS="$OLDIFS"
+    #declare -f ${fun}
+}
+
+
+function is_1_section()
+{
+    [ $# -lt 1 ] && return 1
+
+    local fun="$(declare -F ${PREFIX_1}$1)"
+    [ -z "$fun" ] && return 2
+
+    return 0
+}
+
+
+function is_1_key()
+{
+    [ $# -lt 1 ] && return 1
+
+    local VAR=$1
+    local tt=${!VAR-x-----null}
+    [ "1${tt}" == "1x-----null" ] && return 3
+
+    return 0
+}
+
+
+#Determine whether the ini file has the corresponding configuration
+function is_1_ini_cfg()
+{
+    local ret
+    is_1_section "$1"
+    ret=$?
+    [ ${ret} -ne 0 ] && return ${ret}
+
+    if [ $# -gt 1 ];then
+        is_1_key "$2"
+        ret=$?
+        [ ${ret} -ne 0 ] && return ${ret}
+    fi
+
+    return 0
+}
+
+
+
+
+# vim: filetype=sh

@@ -10,7 +10,7 @@ function debug_0 {
    then
       echo
       echo --start-- $*
-      echo "${ini_0[*]}"
+      echo "${g_bash_ini_0[*]}"
       echo --end--
       echo
    fi
@@ -23,89 +23,98 @@ function cfg_0_parser {
    then
       shopt -s extglob
    fi
-   ini_0="$(<$1)"                 # read the file
-   ini_0=${ini_0//$'\r'/}           # remove linefeed i.e dos2unix
+   g_bash_ini_0="$(<$1)"                 # read the file
+   g_bash_ini_0=${g_bash_ini_0//$'\r'/}           # remove linefeed i.e dos2unix
 
-   ini_0="${ini_0//[/\\[}"
+   g_bash_ini_0="${g_bash_ini_0//[/\\[}"
    #fusk20221230commentout debug_0 "escaped ["
-   ini_0="${ini_0//]/\\]}"
+   g_bash_ini_0="${g_bash_ini_0//]/\\]}"
    #fusk20221230commentout debug_0 "escaped ]"
 
    local OLDIFS="$IFS"
-   IFS=$'\n' && ini_0=( ${ini_0} )  # convert to line-array
+   IFS=$'\n' && g_bash_ini_0=( ${g_bash_ini_0} )  # convert to line-array
 
-   ini_0=( ${ini_0[*]/#*([[:space:]]);*/} )
-   ini_0=( ${ini_0[*]/%+([[:space:]]);*/} )   #fu.sky add@2022-12-30 : removed ending ; comments
+   g_bash_ini_0=( ${g_bash_ini_0[*]/#*([[:space:]]);*/} )
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%+([[:space:]]);*/} )   #fu.sky add@2022-12-30 : removed ending ; comments
    #fusk20221230commentout debug_0 "removed ; comments"
-   ini_0=( ${ini_0[*]/#*([[:space:]])\#*/} )
-   ini_0=( ${ini_0[*]/%+([[:space:]])\#*/} )  #fu.sky add@2022-12-30 : removed ending # comments
+   g_bash_ini_0=( ${g_bash_ini_0[*]/#*([[:space:]])\#*/} )
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%+([[:space:]])\#*/} )  #fu.sky add@2022-12-30 : removed ending # comments
    #fusk20221230commentout debug_0 "removed # comments"
 
-   ini_0=( ${ini_0[*]/#+([[:space:]])/} ) # remove init whitespace
+   g_bash_ini_0=( ${g_bash_ini_0[*]/#+([[:space:]])/} ) # remove init whitespace
    #fusk20221230commentout debug_0 "removed initial whitespace"
-   ini_0=( ${ini_0[*]/%+([[:space:]])/} ) # remove ending whitespace
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%+([[:space:]])/} ) # remove ending whitespace
    #fusk20221230commentout debug_0 "removed ending whitespace"
 
-   ini_0=( ${ini_0[*]/%+([[:space:]])\\]/\\]} ) # remove non meaningful whitespace after sections
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%+([[:space:]])\\]/\\]} ) # remove non meaningful whitespace after sections
    #fusk20221230commentout debug_0 "removed whitespace after section name"
 
    if [ $BASH_VERSINFO == 3 ]
    then
-      ini_0=( ${ini_0[*]/+([[:space:]])=/=} ) # remove whitespace before =
-      ini_0=( ${ini_0[*]/=+([[:space:]])/=} ) # remove whitespace after =
-      ini_0=( ${ini_0[*]/+([[:space:]])=+([[:space:]])/=} ) # remove whitespace around =
+      g_bash_ini_0=( ${g_bash_ini_0[*]/+([[:space:]])=/=} ) # remove whitespace before =
+      g_bash_ini_0=( ${g_bash_ini_0[*]/=+([[:space:]])/=} ) # remove whitespace after =
+      g_bash_ini_0=( ${g_bash_ini_0[*]/+([[:space:]])=+([[:space:]])/=} ) # remove whitespace around =
    else
-      ini_0=( ${ini_0[*]/*([[:space:]])=*([[:space:]])/=} ) # remove whitespace around =
+      g_bash_ini_0=( ${g_bash_ini_0[*]/*([[:space:]])=*([[:space:]])/=} ) # remove whitespace around =
    fi
    #fusk20221230commentout debug_0 "removed space around ="
 
-   ini_0=( ${ini_0[*]/#\\[/\}$'\n'"${PREFIX_0}"} ) # set section prefix
+   g_bash_ini_0=( ${g_bash_ini_0[*]/#\\[/\}$'\n'"${PREFIX_0}"} ) # set section prefix
    #fusk20221230commentout debug_0 "set section prefix"
 
-   local i
-   for ((i=0; i < "${#ini_0[@]}"; i++))
+   local i line
+   for ((i=0; i < "${#g_bash_ini_0[@]}"; i++))
    do
-      line="${ini_0[i]}"
+      line="${g_bash_ini_0[i]}"
       if [[ "$line" =~ ${PREFIX_0}.+ ]]
       then
-         ini_0[$i]=${line// /_}
-      elif [[ "$line" =~ =[^\"] ]]     #fu.sky add@2022-12-30 i.g key=1|2|3
+         g_bash_ini_0[$i]=${line// /_}
+      elif [[ "$line" =~ =[^\"\']  ]]     #fu.sky add@2022-12-30 i.g key=1|2|3
       then
-         line=${line/=/=\"}
-         ini_0[$i]=${line/%/\"}
-        #echo "----------------------------:$line"
+         #echo "----------------------------:[$line]"
+         if [[ $(echo "${line}"|grep "\"\s*$"|wc -l) -eq 0 && $(echo "${line}"|grep "'\s*$"|wc -l) -eq 0 ]];then
+             line=${line/=/=\"}
+             g_bash_ini_0[$i]=${line/%/\"}
+         fi
+         #echo "----------------------------:[$line]"
+      fi
+
+      #fu.sky add@2023-03-10 i.g key='[1-9]'
+      if [ $( echo "${g_bash_ini_0[$i]}"|sed  -n '/=/{/\\\[/p;/\\\]/p}'|wc -l) -gt 0 ];then  
+          #echo "--------------fusktest----------------"
+          g_bash_ini_0[$i]=$(echo "${g_bash_ini_0[$i]}"|sed  '/=/{s/\\\[/\[/g;s/\\\]/\]/g}')
       fi
    done
    #fusk20221230commentout debug_0 "subsections"
 
-   ini_0=( ${ini_0[*]/%\\]/ \(} )   # convert text2function (1)
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%\\]/ \(} )   # convert text2function (1)
    #fusk20221230commentout debug_0 "convert text2function (1)"
 
-   ini_0=( ${ini_0[*]/=/=\( } )     # convert item to array
+   g_bash_ini_0=( ${g_bash_ini_0[*]/=/=\( } )     # convert item to array
    #fusk20221230commentout debug_0 "convert item to array"
-   ini_0=( ${ini_0[*]/%/ \)} )      # close array parenthesis
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%/ \)} )      # close array parenthesis
    #fusk20221230commentout debug_0 "close array parenthesis"
 
-   ini_0=( ${ini_0[*]/%\\ \)/ \\} ) # the multiline trick
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%\\ \)/ \\} ) # the multiline trick
    #fusk20221230commentout debug_0 "the multiline trick"
 
-   ini_0=( ${ini_0[*]/%\( \)/\(\) \{} ) # convert text2function (2)
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%\( \)/\(\) \{} ) # convert text2function (2)
    #fusk20221230commentout debug_0 "convert text2function (2)"
 
-   ini_0=( ${ini_0[*]/%\} \)/\}} )  # remove extra parenthesis
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%\} \)/\}} )  # remove extra parenthesis
    #fusk20221230commentout debug_0 "remove extra parenthesis"
-   ini_0=( ${ini_0[*]/%\{/\{$'\n''cfg_0_unset ${FUNCNAME/#'${PREFIX_0}'}'$'\n'} )  # clean previous definition of section 
+   g_bash_ini_0=( ${g_bash_ini_0[*]/%\{/\{$'\n''cfg_0_unset ${FUNCNAME/#'${PREFIX_0}'}'$'\n'} )  # clean previous definition of section 
    #fusk20221230commentout debug_0 "clean previous definition of section"
 
-   ini_0[0]=""                    # remove first element
-   [[ ${ini_0[1]} =~ ^} ]] && ini_0[1]="" #fu.sky add@2022-12-30  i.g dos format
+   g_bash_ini_0[0]=""                    # remove first element
+   [[ ${g_bash_ini_0[1]} =~ ^} ]] && g_bash_ini_0[1]="" #fu.sky add@2022-12-30  i.g dos format
    #fusk20221230commentout debug_0 "remove first element"
 
-   ini_0[${#ini_0[*]} + 1]='}'      # add the last brace
+   g_bash_ini_0[${#g_bash_ini_0[*]} + 1]='}'      # add the last brace
    #fusk20221230commentout debug_0 "add the last brace"
 
 
-   eval "$(echo "${ini_0[*]}")"   # eval the result
+   eval "$(echo "${g_bash_ini_0[*]}")"   # eval the result
    EVAL_STATUS=$?
    if [ $CHANGE_EXTGLOB = 1 ]
    then
@@ -342,7 +351,7 @@ function debug_1 {
    then
       echo
       echo --start-- $*
-      echo "${ini_1[*]}"
+      echo "${g_bash_ini_1[*]}"
       echo --end--
       echo
    fi
@@ -355,89 +364,98 @@ function cfg_1_parser {
    then
       shopt -s extglob
    fi
-   ini_1="$(<$1)"                 # read the file
-   ini_1=${ini_1//$'\r'/}           # remove linefeed i.e dos2unix
+   g_bash_ini_1="$(<$1)"                 # read the file
+   g_bash_ini_1=${g_bash_ini_1//$'\r'/}           # remove linefeed i.e dos2unix
 
-   ini_1="${ini_1//[/\\[}"
+   g_bash_ini_1="${g_bash_ini_1//[/\\[}"
    #fusk20221230commentout debug_1 "escaped ["
-   ini_1="${ini_1//]/\\]}"
+   g_bash_ini_1="${g_bash_ini_1//]/\\]}"
    #fusk20221230commentout debug_1 "escaped ]"
 
    local OLDIFS="$IFS"
-   IFS=$'\n' && ini_1=( ${ini_1} )  # convert to line-array
+   IFS=$'\n' && g_bash_ini_1=( ${g_bash_ini_1} )  # convert to line-array
 
-   ini_1=( ${ini_1[*]/#*([[:space:]]);*/} )
-   ini_1=( ${ini_1[*]/%+([[:space:]]);*/} )   #fu.sky add@2022-12-30 : removed ending ; comments
+   g_bash_ini_1=( ${g_bash_ini_1[*]/#*([[:space:]]);*/} )
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%+([[:space:]]);*/} )   #fu.sky add@2022-12-30 : removed ending ; comments
    #fusk20221230commentout debug_1 "removed ; comments"
-   ini_1=( ${ini_1[*]/#*([[:space:]])\#*/} )
-   ini_1=( ${ini_1[*]/%+([[:space:]])\#*/} )  #fu.sky add@2022-12-30 : removed ending # comments
+   g_bash_ini_1=( ${g_bash_ini_1[*]/#*([[:space:]])\#*/} )
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%+([[:space:]])\#*/} )  #fu.sky add@2022-12-30 : removed ending # comments
    #fusk20221230commentout debug_1 "removed # comments"
 
-   ini_1=( ${ini_1[*]/#+([[:space:]])/} ) # remove init whitespace
+   g_bash_ini_1=( ${g_bash_ini_1[*]/#+([[:space:]])/} ) # remove init whitespace
    #fusk20221230commentout debug_1 "removed initial whitespace"
-   ini_1=( ${ini_1[*]/%+([[:space:]])/} ) # remove ending whitespace
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%+([[:space:]])/} ) # remove ending whitespace
    #fusk20221230commentout debug_1 "removed ending whitespace"
 
-   ini_1=( ${ini_1[*]/%+([[:space:]])\\]/\\]} ) # remove non meaningful whitespace after sections
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%+([[:space:]])\\]/\\]} ) # remove non meaningful whitespace after sections
    #fusk20221230commentout debug_1 "removed whitespace after section name"
 
    if [ $BASH_VERSINFO == 3 ]
    then
-      ini_1=( ${ini_1[*]/+([[:space:]])=/=} ) # remove whitespace before =
-      ini_1=( ${ini_1[*]/=+([[:space:]])/=} ) # remove whitespace after =
-      ini_1=( ${ini_1[*]/+([[:space:]])=+([[:space:]])/=} ) # remove whitespace around =
+      g_bash_ini_1=( ${g_bash_ini_1[*]/+([[:space:]])=/=} ) # remove whitespace before =
+      g_bash_ini_1=( ${g_bash_ini_1[*]/=+([[:space:]])/=} ) # remove whitespace after =
+      g_bash_ini_1=( ${g_bash_ini_1[*]/+([[:space:]])=+([[:space:]])/=} ) # remove whitespace around =
    else
-      ini_1=( ${ini_1[*]/*([[:space:]])=*([[:space:]])/=} ) # remove whitespace around =
+      g_bash_ini_1=( ${g_bash_ini_1[*]/*([[:space:]])=*([[:space:]])/=} ) # remove whitespace around =
    fi
    #fusk20221230commentout debug_1 "removed space around ="
 
-   ini_1=( ${ini_1[*]/#\\[/\}$'\n'"${PREFIX_1}"} ) # set section prefix
+   g_bash_ini_1=( ${g_bash_ini_1[*]/#\\[/\}$'\n'"${PREFIX_1}"} ) # set section prefix
    #fusk20221230commentout debug_1 "set section prefix"
 
-   local i
-   for ((i=0; i < "${#ini_1[@]}"; i++))
+   local i line
+   for ((i=0; i < "${#g_bash_ini_1[@]}"; i++))
    do
-      line="${ini_1[i]}"
+      line="${g_bash_ini_1[i]}"
       if [[ "$line" =~ ${PREFIX_1}.+ ]]
       then
-         ini_1[$i]=${line// /_}
-      elif [[ "$line" =~ =[^\"] ]]     #fu.sky add@2022-12-30 i.g key=1|2|3
+         g_bash_ini_1[$i]=${line// /_}
+      elif [[ "$line" =~ =[^\"\']  ]]     #fu.sky add@2022-12-30 i.g key=1|2|3
       then
-         line=${line/=/=\"}
-         ini_1[$i]=${line/%/\"}
+         if [[ $(echo "${line}"|grep "\"\s*$"|wc -l) -eq 0 && $(echo "${line}"|grep "'\s*$"|wc -l) -eq 0 ]];then
+             line=${line/=/=\"}
+             g_bash_ini_1[$i]=${line/%/\"}
+         fi
         #echo "----------------------------:$line"
       fi
+
+      #fu.sky add@2023-03-10 i.g key='[1-9]'
+      if [ $( echo "${g_bash_ini_1[$i]}"|sed  -n '/=/{/\\\[/p;/\\\]/p}'|wc -l) -gt 0 ];then  
+          #echo "--------------fusktest----------------"
+          g_bash_ini_1[$i]=$(echo "${g_bash_ini_1[$i]}"|sed  '/=/{s/\\\[/\[/g;s/\\\]/\]/g}')
+      fi
+
    done
    #fusk20221230commentout debug_1 "subsections"
 
-   ini_1=( ${ini_1[*]/%\\]/ \(} )   # convert text2function (1)
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%\\]/ \(} )   # convert text2function (1)
    #fusk20221230commentout debug_1 "convert text2function (1)"
 
-   ini_1=( ${ini_1[*]/=/=\( } )     # convert item to array
+   g_bash_ini_1=( ${g_bash_ini_1[*]/=/=\( } )     # convert item to array
    #fusk20221230commentout debug_1 "convert item to array"
-   ini_1=( ${ini_1[*]/%/ \)} )      # close array parenthesis
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%/ \)} )      # close array parenthesis
    #fusk20221230commentout debug_1 "close array parenthesis"
 
-   ini_1=( ${ini_1[*]/%\\ \)/ \\} ) # the multiline trick
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%\\ \)/ \\} ) # the multiline trick
    #fusk20221230commentout debug_1 "the multiline trick"
 
-   ini_1=( ${ini_1[*]/%\( \)/\(\) \{} ) # convert text2function (2)
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%\( \)/\(\) \{} ) # convert text2function (2)
    #fusk20221230commentout debug_1 "convert text2function (2)"
 
-   ini_1=( ${ini_1[*]/%\} \)/\}} )  # remove extra parenthesis
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%\} \)/\}} )  # remove extra parenthesis
    #fusk20221230commentout debug_1 "remove extra parenthesis"
-   ini_1=( ${ini_1[*]/%\{/\{$'\n''cfg_1_unset ${FUNCNAME/#'${PREFIX_1}'}'$'\n'} )  # clean previous definition of section 
+   g_bash_ini_1=( ${g_bash_ini_1[*]/%\{/\{$'\n''cfg_1_unset ${FUNCNAME/#'${PREFIX_1}'}'$'\n'} )  # clean previous definition of section 
    #fusk20221230commentout debug_1 "clean previous definition of section"
 
-   ini_1[0]=""                    # remove first element
-   [[ ${ini_1[1]} =~ ^} ]] && ini_1[1]="" #fu.sky add@2022-12-30  i.g dos format
+   g_bash_ini_1[0]=""                    # remove first element
+   [[ ${g_bash_ini_1[1]} =~ ^} ]] && g_bash_ini_1[1]="" #fu.sky add@2022-12-30  i.g dos format
    #fusk20221230commentout debug_1 "remove first element"
 
-   ini_1[${#ini_1[*]} + 1]='}'      # add the last brace
+   g_bash_ini_1[${#g_bash_ini_1[*]} + 1]='}'      # add the last brace
    #fusk20221230commentout debug_1 "add the last brace"
 
 
-   eval "$(echo "${ini_1[*]}")"   # eval the result
+   eval "$(echo "${g_bash_ini_1[*]}")"   # eval the result
    EVAL_STATUS=$?
    if [ $CHANGE_EXTGLOB = 1 ]
    then
