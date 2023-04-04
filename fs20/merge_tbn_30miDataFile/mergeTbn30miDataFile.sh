@@ -47,6 +47,8 @@
 #Version change record:
 #     2021-03-17 initial version  v20.01.000
 #     2020-06-17 因河北尚义石井电场需求(输出多个文件)由 v20.01.000 升级到 v20.01.010
+#     2023-02-09 因河北尚义石井电场发现bug(不能删除多个结果文件夹过期文件) 由 v20.01.010 升级到 v20.01.020
+#     2023-03-29 因河北尚义石井电场需求(同一文件输出到多个目标目录)由 v20.01.020 升级到 v20.01.030
 #
 #
 ################################################################################
@@ -83,6 +85,14 @@ v_Hour=$(date +%H) ; v_Minute=$(date +%M); v_Second=$(date +%S);
 
 runYMD=$(date +%Y%m%d)
 
+NOOUT=0 ; levelName[0]="NOOUT";
+ERROR=1 ; levelName[1]="ERROR";
+INFO=2  ; levelName[2]="INFO" ;
+DEBUG=3 ; levelName[3]="DEBUG";
+
+
+OUT_LOG_LEVEL=${DEBUG}
+
 
 
 
@@ -102,7 +112,8 @@ recordMaxLine=50    #记录文件最多保持 recordMaxLine -1 行记录
 diyFuncFile="${runDir}/myDiyShFunction.sh"
 cfgFile="${runDir}/cfg/cfg.cfg"
 
-doSrcDir="${tmpDir}/do"    #程序处理时将把源文件文件拷贝到此目录
+doSrcDir="${tmpDir}/do"          #程序处理时将把源文件文件拷贝到此目录
+multiCpDir="${tmpDir}/do/tmp"    #如果需要将结果文件拷贝到多个目录则先将过程文件cp到此目录最后mv到目标目录
 dosrc_delExpirDays=1       #程序临时处理源文件过期则删除文件的天数
 curDoFiles=""              #当前程序需要处理的所有文件带有通配符
 curDoRltFileName[0]=""     #当前程序需要生成的结果文件名（不带路径)
@@ -131,6 +142,80 @@ need_perEC_items=30  #每个EC（风机)在30分钟里要求的数据条数
 
 
 
+function F_writeLog() #call eg: F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|some message!\n"
+{
+
+    [ $# -lt 2 ] && return 1
+
+    #特殊调试时用
+    local print_to_stdin_flag=0  # 0:可能输出到日志文件; 1: 输出到屏幕; 2可能同时输出到屏幕和日志文件
+
+    #input log level
+    local i="${1-3}"   
+    
+
+    ##debug to open this
+    #[ $(echo "${i}"|sed -n '/^[0-9]*$/p' |wc -l) -eq 0 ] && i=${DEBUG}
+    #[ $(echo "${NOOUT}<=${i} && ${i}<=${DEBUG}"|bc) -eq 0 ] && i=${DEBUG}
+
+
+    [ ${i} -gt ${OUT_LOG_LEVEL:=3} ] && return 0
+
+    local puttxt="$2"
+
+    #echo "fusktest:puttxt=[${puttxt}]"
+
+    # 1.换行符;2.空; 3.多个-;
+    # 以上作一情况 则直接输出而不在输出内容之前添加日期等内容
+    local tflag=$(echo "${puttxt}"|sed -n '/^\s*\(\(\\n\)\+\)*$\|^\s*-\+$/p'|wc -l)
+
+    #没有设置日志文件时默认也是输出到屏幕
+    [ -z "${logFile}" ] && print_to_stdin_flag=1
+
+    local timestring
+    local timeSt
+    if [ ${tflag} -eq 0 ];then
+        timestring="$(date +%F_%T.%N)"
+        timeSt="$(date +%T.%N)"
+    fi
+        
+
+    if [ ${print_to_stdin_flag} -eq 1 ];then
+        if [ ${tflag} -gt 0 ];then
+            echo -e "${puttxt}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}"
+        fi
+        return 0
+    fi
+
+    [ -z "${logDir}" ] &&  logDir="${logFile%/*}"
+    if [ "${logDir}" = "${logFile}" ];then
+        logDir="./"
+    elif [ ! -d "${logDir}" ];then
+        mkdir -p "${logDir}"
+    fi
+
+    if [ ${tflag} -gt 0 ];then
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${puttxt}"|tee -a  "${logFile}"
+        else
+            echo -e "${puttxt}" >> "${logFile}"
+        fi
+    else
+        if [ "${print_to_stdin_flag}x" = "2x" ];then
+            echo -e "${timeSt}|${levelName[$i]}|${puttxt}"
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >>"${logFile}"
+        else
+            echo -e "${timestring}|${levelName[$i]}|${puttxt}" >> "${logFile}"
+        fi
+    fi
+
+    return 0
+}
+
+
+
 
 
 #When manually inputting the time, it will correspond according to the manually 
@@ -144,7 +229,7 @@ function F_chekManualDate()
 
     local tlng=${#manualEnterDate}
     if [[ ${tlng} -ne 14 && ${tlng} -ne 12 ]];then
-        F_outShDebugMsg "${logFile}" 1 1 "${tStr}" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|${tStr}"
         exit 1
     fi
 
@@ -152,7 +237,7 @@ function F_chekManualDate()
     F_isDigital "${manualEnterDate}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "${tStr}" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|${tStr}"
         exit 1
     fi
 
@@ -343,8 +428,8 @@ function F_check()
     #Exit if a script is already running
     F_shHaveRunThenExit "${thisShName}"
 
-    if [ ! -d "${doSrcDir}" ];then
-        mkdir -p "${doSrcDir}"
+    if [ ! -d "${multiCpDir}" ];then
+        mkdir -p "${multiCpDir}"
     fi
 
     if [ ! -d "${logDir}" ];then
@@ -373,7 +458,7 @@ function F_init()
 function F_fillMiss1miItem()
 {
     if [ $# -lt 3 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME} input parameters less than 3!"
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|input parameters less than 3"
         return 1
     fi
     local tDir="$1"
@@ -405,7 +490,7 @@ function F_fillMiss1miItem()
             tstr=$(echo "${preStr}"|sed  "s/^[0-9]\{2\}:[0-9]\{2\}/${tHS}/")
 
             sed -i "/^${tHSPre}\s\+/ a ${tstr}" ${tmpFileBak}
-            F_outShDebugMsg "${logFile}" 1 1 "WARNING:${FUNCNAME}:replace time:EC=${tECNo} ${tHSPre} ---> ${tHS}" 
+            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:replace time:EC=${tECNo} ${tHSPre} ---> ${tHS}"
 
         else #curStr no null
 
@@ -419,7 +504,7 @@ function F_fillMiss1miItem()
                     k=${j}
                     let k++
                     sed -i "/^${curDoFileHS_A[$k]}\s\+/ i ${tstr}" ${tmpFileBak}
-                    F_outShDebugMsg "${logFile}" 1 1 "WARNING:${FUNCNAME}:replace time:EC=${tECNo} ${curDoFileHS_A[$k]} ---> ${curDoFileHS_A[$j]}" 
+                    F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:replace time:EC=${tECNo} ${curDoFileHS_A[$k]} ---> ${curDoFileHS_A[$j]}"
                 done
                 oneLinNullFlag=0
             fi
@@ -436,7 +521,7 @@ function F_fillMiss1miItem()
 function F_doOneTurbByEcNo()  #根据风机的EC编号对某一个风机进行处理
 {
     if [ $# -lt 4 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME} input parameters less than 4!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|input parameters less than 4!"
         return 1
     fi
     local tECNo="$1"
@@ -458,7 +543,7 @@ function F_doOneTurbByEcNo()  #根据风机的EC编号对某一个风机进行�
         egrep -H "^#\s+${tECNo}\s+" "${doDir}/"${doFiles} >"${tmpFile}"
         tnum=$(wc -l "${tmpFile}"|awk '{print $1}')
         if [ ${tnum} -eq 0 ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME}:[${curDoRltFileName[$i]}] ${doFiles} FJ EC=${tECNo} nums=${tnum}" 
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[${curDoRltFileName[$i]}] ${doFiles} FJ EC=${tECNo} nums=${tnum}"
             return 0
         fi
 
@@ -469,7 +554,7 @@ function F_doOneTurbByEcNo()  #根据风机的EC编号对某一个风机进行�
         >"${tmpFile}"
 
         if [ ${tnum} -lt ${need_perEC_items}  ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME}:[${curDoRltFileName[$i]}] ${doFiles} FJ EC=${tECNo} nums=${tnum},need_perEC_items=[${need_perEC_items}],g_supp_miss_item=[${g_supp_miss_item}]" 
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|[${curDoRltFileName[$i]}] ${doFiles} FJ EC=${tECNo} nums=${tnum},need_perEC_items=[${need_perEC_items}],g_supp_miss_item=[${g_supp_miss_item}]"
             if [[ ! -z "${g_supp_miss_item}" && "${g_supp_miss_item}" = "1" ]];then
                 F_fillMiss1miItem  "${tDir}" "${tECNo}" "${tmpFileBak}"
             fi
@@ -499,7 +584,7 @@ function F_doOneTurbByEcNo()  #根据风机的EC编号对某一个风机进行�
             tSpd=$(F_getFloatScaleResult ${g_WS_scale} ${rSpd} ${g_WS_divisor})
             if [ ${rState} -gt ${g_STATE_maxValue} ];then
                 #获取的状态值在配置的状态最大值之外则默认用默认状态并写一条错误日志
-                F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME}:FJ EC=${tECNo} state=${rState} bigger than cfgMaxState=[${g_STATE_maxValue}]" 
+                F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|FJ EC=${tECNo} state=${rState} bigger than cfgMaxState=[${g_STATE_maxValue}]"
                 tState=${g_default_TSTATE}
             else
                 tState=${g_turbn_TSTATE[${rState}]}
@@ -543,7 +628,7 @@ function F_fillMiss1miFile()
                 for((;j>=0;j--))
                 do
                     cp ${tFile} "${doSrcDir}/${curDoFile_A[$j]}"
-                    F_outShDebugMsg "${logFile}" 1 1 "WARNING:${FUNCNAME}:replace file: cp ${tFile} ${doSrcDir}/${curDoFile_A[$j]}" 
+                    F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:replace file: cp ${tFile} ${doSrcDir}/${curDoFile_A[$j]}"
                 done
                 zeroPosNullFlag=0
             fi
@@ -560,7 +645,7 @@ function F_fillMiss1miFile()
             j=$i
             let j--
             cp "${doSrcDir}/${curDoFile_A[$j]}" "${tFile}"
-            F_outShDebugMsg "${logFile}" 1 1 "WARNING:${FUNCNAME}:replace file: cp ${doSrcDir}/${curDoFile_A[$j]} ${tFile}" 
+            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:replace file: cp ${doSrcDir}/${curDoFile_A[$j]} ${tFile}"
         fi
     done
 
@@ -578,14 +663,15 @@ function F_doTurb() #处理所有风机的数据
 
     #g_file_SerialNo=1 #初始化上传文件的开始序号
 
-    F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "${FUNCNAME}:g_1mi_src_dir=[${g_1mi_src_dir}],curDoFiles=[${curDoFiles}]"
-    F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "${FUNCNAME}:g_1mi_basicCondition_num=[${g_1mi_basicCondition_num}],need_perEC_items=[${need_perEC_items}]"
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|g_1mi_src_dir=[${g_1mi_src_dir}],curDoFiles=[${curDoFiles}]"
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|g_1mi_basicCondition_num=[${g_1mi_basicCondition_num}],need_perEC_items=[${need_perEC_items}]"
 
     local k=0
     for((k=0;k<${g_file_nums};k++))
     do
-        F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "${FUNCNAME}:g_dst_result_dir[$k]=[${g_dst_result_dir[$k]}],curDoRltFileName[$k]=[${curDoRltFileName[$k]}],g_file_ec[$k]=[${g_file_ec[$K]}]"
-        tRFileR[$k]="${g_dst_result_dir[$k]}/${curDoRltFileName[$k]}"
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|g_dst_result_dir[$k]=[${g_dst_result_dir[$k]}],curDoRltFileName[$k]=[${curDoRltFileName[$k]}],g_file_ec[$k]=[${g_file_ec[$K]}]"
+
+        #tRFileR[$k]="${g_dst_result_dir[$k]}/${curDoRltFileName[$k]}"
         tRFile[$k]="${doSrcDir}/${curDoRltFileName[$k]}"
 
         echo "${resultHeadStr}">"${tRFile[$k]}"
@@ -604,7 +690,9 @@ function F_doTurb() #处理所有风机的数据
 
     tnum=$(ls -1 "${g_1mi_src_dir}/"${curDoFiles} 2>/dev/null|wc -l)
     if [ ${tnum} -lt ${g_1mi_basicCondition_num} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:${FUNCNAME}:${g_1mi_src_dir}/${curDoFiles} files ${tnum} less than ${g_1mi_basicCondition_num},g_supp_miss_file=[${g_supp_miss_file}]!" 0
+
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|${g_1mi_src_dir}/${curDoFiles} files ${tnum} less than ${g_1mi_basicCondition_num},g_supp_miss_file=[${g_supp_miss_file}]!"
+
         if [[ ! -z "${g_supp_miss_file}" && "${g_supp_miss_file}" = "1" && ${tnum} -gt 0 ]];then
             fillFlag=1
         else
@@ -626,14 +714,14 @@ function F_doTurb() #处理所有风机的数据
     do
         tnum=$(F_judgeEcInStr "${g_turbn_exception_ec}" "${tEcNo}")
         if [ ${tnum} -gt 0 ];then
-            F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "WARNING:${FUNCNAME}:Ec=[${tEcNo}] In the configuration exception,not to do----"
+            F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:Ec=[${tEcNo}] In the configuration exception,not to do----"
             continue
         fi
 
         #if [ ! -z "${g_turbn_exception_ec}" ];then
         #    tnum=$(echo "${g_turbn_exception_ec}"|sed -n "/\b${tEcNo}\b/p"|wc -l)
         #    if [ ${tnum} -gt 0 ];then
-        #        F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "WARNING:${FUNCNAME}:Ec=[${tEcNo}] In the configuration exception,not to do----"
+        #        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|WARNING:Ec=[${tEcNo}] In the configuration exception,not to do----"
         #        continue
         #    fi
         #fi
@@ -647,21 +735,23 @@ function F_doTurb() #处理所有风机的数据
             #echo "fusktest:tnum=[${tnum}],g_file_ec[$k]=[${g_file_ec[$k]}],tEcNo=[${tEcNo}]"
             if [ ${tnum} -gt 0 ];then
                 if [ ${rltFileHaveDoFlag[$k]} -eq 1 ];then
-                    F_outShDebugMsg "${logFile}" ${g_debugL_value} 16 "${FUNCNAME}:doing Ec[${tEcNo}]/${tMaxEc} has been generated in the file [${curDoRltFileName[$k]},and continue----"
+                    F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|doing Ec[${tEcNo}]/${tMaxEc} has been generated in the file [${curDoRltFileName[$k]},and continue----"
                     continue
                 fi
             else
-                F_outShDebugMsg "${logFile}" ${g_debugL_value} 32 "${FUNCNAME}:doing Ec[${tEcNo}]/${tMaxEc} is not included in file [${curDoRltFileName[$k]}]----"
+                F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|doing Ec[${tEcNo}]/${tMaxEc} is not included in file [${curDoRltFileName[$k]}]----"
                 continue
             fi
 
-            F_outShDebugMsg "${logFile}" ${g_debugL_value} 16 "${FUNCNAME}:doing Ec[${tEcNo}]/${tMaxEc} to file[${curDoRltFileName[$k]}]----"
+            F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|doing Ec[${tEcNo}]/${tMaxEc} to file[${curDoRltFileName[$k]}]----"
 
             tmpFile="${tmpDir}/tmp_fj_EC_${tEcNo}_f${k}.txt"
             cat "${tmpFile}" >> "${tRFile[$k]}"
         done
     done
     
+    local tDstDirs it tiNum tcopyFile
+    local logLevel
     for((k=0;k<${g_file_nums};k++))
     do
         if [ ${rltFileHaveDoFlag[$k]} -eq 1 ];then
@@ -669,19 +759,57 @@ function F_doTurb() #处理所有风机的数据
         fi
         echo "${resultTailStr}">>"${tRFile[$k]}"
 
-        if [ -e "${tRFileR[$k]}" ];then
-            rm -rf "${tRFileR[$k]}"
-        fi
+        #多个目标目录用|线分隔
+        tDstDirs=$(F_convertVLineToSpace "${g_dst_result_dir[$k]}") 
+        tnum=$(echo "${tDstDirs}"|awk '{print NF}')
+        tiNum=0
+        for it in ${tDstDirs}
+        do
+            [ ! -d "${it}" ] && mkdir -p "${it}"
+            let tiNum++
 
-        mv "${tRFile[$k]}"  "${g_dst_result_dir[$k]}"
-        retstat=$?
-        if [ ${retstat} -eq 0 ];then
-            F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "${FUNCNAME}:[${g_dst_result_dir[$k]}/${curDoRltFileName[$k]}] do complete!"
+            if [ ${tiNum} -gt ${tnum} ];then
+                F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|logic err: tiNum=[$tiNum],tnum=[${tnum}]!"
+                break
+            fi
 
-            F_writeDoneRecord "${curDoRltFileName[$k]}"
-        else
-            F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "${FUNCNAME}:mv ${tRFile[$k]} ${g_dst_result_dir[$k]} return ERROR[${retstat}!"
-        fi
+            #带路径的目标文件
+            tRFileR="${it}/${curDoRltFileName[$k]}"
+            [ -e "${tRFileR}" ] && rm -rf "${tRFileR}"
+
+            #多个目标目录,当前处于非最后一个目录
+            if [ ${tiNum} -lt ${tnum} ];then
+                [ ! -d "${multiCpDir}" ] && mkdir -p "${multiCpDir}"
+
+                tcopyFile="${multiCpDir}/${curDoRltFileName[$k]}"
+
+                #将临时文件再拷贝一份,以便移动到非最后一个目录
+                \cp -a "${tRFile[$k]}"  "${tcopyFile}"
+                retstat=$?
+                [ $retstat -eq 0 ] && { logLevel=$INFO; } || logLevel=$ERROR
+                F_writeLog "$logLevel" "${LINENO}|${FUNCNAME}|cp -a ${tRFile[$k]} ${tcopyFile} return[${retstat}]"
+                [ ${retstat} -ne 0 ] && continue
+
+                #将拷贝的临时文件移动到目标目录
+                mv "${tcopyFile}" "${it}"
+                retstat=$?
+                [ $retstat -eq 0 ] && { logLevel=$INFO; } || logLevel=$ERROR
+                F_writeLog "$logLevel" "${LINENO}|${FUNCNAME}|mv ${tcopyFile} ${it} return[${retstat}]"
+
+            else #多个目标目录,当前处于非最后一个目录 或 只有一个目标目录
+                mv "${tRFile[$k]}"  "${it}"
+                retstat=$?
+                [ $retstat -eq 0 ] && { logLevel=$INFO; } || logLevel=$ERROR
+                F_writeLog "$logLevel" "${LINENO}|${FUNCNAME}|mv ${tRFile[$k]} ${it}  return[${retstat}]"
+                if [ ${retstat} -eq 0 ];then
+                    F_writeDoneRecord "${curDoRltFileName[$k]}"
+                    F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|The generated file [${curDoRltFileName[$k]}] has been processed!"
+                fi
+
+            fi
+
+        done
+
 
     done
 
@@ -702,7 +830,7 @@ function F_delSomeExpireFile()
     trueFlag=$(echo "${v_Minute} >=15 && ${v_Minute} <=25"|bc)
     [ ${trueFlag} -ne 1 ] && return 0
 
-    F_outShDebugMsg "${logFile}" ${g_debugL_value} 32 "${FUNCNAME}: doing...!"
+    F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}| doing...!"
 
     #1 minute data source file deletion
     F_delExpir1miFile
@@ -719,7 +847,7 @@ function F_delSomeExpireFile()
     #F_rmExpiredFile "${doSrcDir}" "${dosrc_delExpirDays}" "${tmpStr}"
     F_rmExpiredFile "${doSrcDir}" "${dosrc_delExpirDays}" "*${g_1mi_suffix_domian}"
 
-    F_outShDebugMsg "${logFile}" ${g_debugL_value} 32 "${FUNCNAME}: do complete!"
+    F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}| do complete!"
 
     return 0
 }
@@ -798,7 +926,7 @@ main()
     retstat=$?
     if [ ${retstat} -eq 1 ];then #have done;then exit
         
-        F_outShDebugMsg "${logFile}" ${g_debugL_value} 32 "The [${curDoRltFileName}] file has been processed before, so exit directly! "
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|The [${curDoRltFileName}] file has been processed before, so exit directly! "
         exit 0
     fi
 
@@ -812,8 +940,7 @@ main()
 
         local edScds=$(date +%s)
         local diffScds=$(echo "${edScds} - ${bgScds}"|bc)
-        F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "The program runs a total of [ ${diffScds} ] seconds"
-        F_outShDebugMsg "${logFile}" ${g_debugL_value} 1 "" 3
+        F_writeLog "$INFO" "${LINENO}|${FUNCNAME}|The program runs a total of [ ${diffScds} ] seconds"
     fi
 
     return 0

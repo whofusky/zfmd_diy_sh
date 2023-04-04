@@ -11,6 +11,12 @@
 ################################################################################
 #
 
+function F_convertVLineToSpace() #Convert vertical lines to spaces
+{
+    [ $# -lt 1 ] && echo "" && return 0
+    echo $(echo "$1"|tr -d "[\040\t\r\n]"|tr -s "|" "\040") && return 0
+}
+
 function F_isDigital() # return 1: digital; 0: not a digital
 {
     [ $# -ne 1 ] && return 0
@@ -124,12 +130,12 @@ function getPathOnFname() #get the path value in the path string(the path does n
 {
 
     if [ $# -ne 1 ];then
-        echo "  Error: function ${FUNCNAME} input parameters not eq 1!"
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}| input parameters not eq 1!"
         return 1
     fi
 
     if [  -z "$1" ];then
-        echo "  Error: function ${FUNCNAME} input parameters is null!"
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}| input parameters is null!"
         return 2
     fi
     
@@ -146,7 +152,7 @@ function getPathOnFname() #get the path value in the path string(the path does n
 function F_shHaveRunThenExit()  #Exit if a script is already running
 {
     if [ $# -lt 1 ];then
-        echo "$(date +%Y/%m/%d-%H:%M:%S.%N):ERROR:The input parameter of function ${FUNCNAME} is less than 1!"
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|The input parameter is less than 1!"
         exit 1
     fi
     
@@ -157,67 +163,14 @@ function F_shHaveRunThenExit()  #Exit if a script is already running
     tmpShPid=$(pidof -x ${pname})
     tmpShPNum=$(echo ${tmpShPid}|awk 'BEGIN {tNum=0;} { if(NF>0){tNum=NF;}} END{print tNum}')
     if [ ${tmpShPNum} -gt 1 ]; then
-        echo "$(date +%Y/%m/%d-%H:%M:%S.%N):${FUNCNAME}:+++${tmpShPid}+++++${tmpShPNum}+++"
-        echo "$(date +%Y/%m/%d-%H:%M:%S.%N):${FUNCNAME}:${pname} script has been running this startup exit!"
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|+++${tmpShPid}+++++${tmpShPNum}+++"
+        F_writeLog "$DEBUG" "${LINENO}|${FUNCNAME}|${pname} script has been running this startup exit!"
         exit 0
     fi
 
     return 0
 }
 
-function F_outShDebugMsg() #out put $4 to $1; use like: F_outShDebugMsg $logfile $cfgdebug $valdebug $putcontent $clearflag
-{
-    if [ $# -ne 4 -a $# -ne 5 ];then
-        echo "  Error: function ${FUNCNAME} input parameters not eq 4 or 5 !"
-        return 1
-    fi
-
-    local inum=$#
-    local logFile="$1"
-    local cfgDebugFlag="$2"
-    local valDebugFlag="$3"
-    local puttxt="$4"
-    
-    local tcheck=$(echo "${cfgDebugFlag}"|sed -n "/^[1-9][0-9]*$/p"|wc -l)
-    [ ${tcheck} -eq 0 ] && cfgDebugFlag=0
-    tcheck=$(echo "${valDebugFlag}"|sed -n "/^[1-9][0-9]*$/p"|wc -l)
-    [ ${tcheck} -eq 0 ] && valDebugFlag=0
-
-    if [ $((${cfgDebugFlag}&${valDebugFlag})) -ne ${valDebugFlag} ];then
-        return 0
-    fi
-    
-    #output content to standard output device if the log file name is empty
-    if [ -z "${logFile}" ];then
-        echo -e "$(date +%y-%m-%d_%H:%M:%S.%N) ${puttxt}"
-        return 0
-    fi
-
-    local tmpdir=$(getPathOnFname "${logFile}")
-    local ret=$?
-    [ ${ret} -ne 0 ] && echo "${tmpdir}" && return ${ret}
-
-    if [ ! -d "${tmpdir}" ];then
-        echo "  Error: dirname [${tmpdir}] not exist!"
-        return 2
-    fi
-
-    local clearFlag=0
-    [ ${inum} -ge 5 ] && clearFlag=$5
-    tcheck=$(echo "${clearFlag}"|sed -n "/^[0-9]$/p"|wc -l)
-    [ ${tcheck} -eq 0 ] && clearFlag=0
-    [ ${clearFlag} -eq 1 ] && >"${logFile}"
-    
-    if [ ${clearFlag} -eq 2 ];then
-        echo -e "$(date +%y-%m-%d_%H:%M:%S.%N) ${puttxt}"|tee -a "${logFile}"
-    elif [ ${clearFlag} -eq 3 ];then
-        echo "">>"${logFile}"
-    else
-        echo -e "$(date +%y-%m-%d_%H:%M:%S.%N) ${puttxt}">>"${logFile}"
-    fi
-    
-    return 0
-}
 
 
 function F_cfgFileCheck()
@@ -227,7 +180,7 @@ function F_cfgFileCheck()
     [ $# -ge 1 ] && logFile="$1"
 
     if [ ! -e "${cfgFile}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not exist!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not exist!"
         exit 1
     fi
 
@@ -235,61 +188,57 @@ function F_cfgFileCheck()
     . ${cfgFile}
 
     if [ -z "${g_version_no}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_version_no\"!" 2
-        exit 1
-    fi
-    if [ -z "${g_debugL_value}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_debugL_value\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_version_no\"!"
         exit 1
     fi
     if [ -z "${g_1mi_src_dir}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_src_dir\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_src_dir\"!"
         exit 1
     fi
     if [ -z "${g_1mi_filePre_domain}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_filePre_domain\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_filePre_domain\"!"
         exit 1
     fi
     if [ -z "${g_1mi_suffix_domian}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_suffix_domian\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_suffix_domian\"!"
         exit 1
     fi
     if [ -z "${g_1mi_fixCnt_FaultJinChar}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_fixCnt_FaultJinChar\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_fixCnt_FaultJinChar\"!"
         exit 1
     fi
     if [ -z "${g_1mi_joiner_char}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_joiner_char\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_joiner_char\"!"
         exit 1
     fi
     if [ -z "${g_1mi_basicCondition_num}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_1mi_basicCondition_num\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_1mi_basicCondition_num\"!"
         exit 1
     fi
 
     g_file_nums=${#g_dst_result_dir[*]}
     if [ ${g_file_nums} -lt 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_dst_result_dir\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_dst_result_dir\"!"
         exit 1
     fi
     if [ ${g_file_nums} -ne ${#g_upfile_frmName_domain[*]} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}]  g_upfile_frmName_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  g_upfile_frmName_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!"
         exit 1
     fi
     if [ ${g_file_nums} -ne ${#g_upfile_fanCode_domain[*]} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}]  g_upfile_fanCode_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  g_upfile_fanCode_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!"
         exit 1
     fi
     if [ ${g_file_nums} -ne ${#g_upfile_suffix_domain[*]} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}]  g_upfile_suffix_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  g_upfile_suffix_domain's num not eq g_dst_result_dir 's num [${g_file_nums}]!"
         exit 1
     fi
     if [ ${g_file_nums} -ne ${#g_upfile_joiner_char[*]} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}]  g_upfile_joiner_char's num not eq g_dst_result_dir 's num [${g_file_nums}]!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  g_upfile_joiner_char's num not eq g_dst_result_dir 's num [${g_file_nums}]!"
         exit 1
     fi
     if [ ${g_file_nums} -ne ${#g_file_ec[*]} ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}]  g_file_ec's num not eq g_dst_result_dir 's num [${g_file_nums}]!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  g_file_ec's num not eq g_dst_result_dir 's num [${g_file_nums}]!"
         exit 1
     fi
 
@@ -297,151 +246,151 @@ function F_cfgFileCheck()
     for((i=0;i<${g_file_nums};i++))
     do
         if [ -z "${g_dst_result_dir[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_dst_result_dir[$i]\"!" 2
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_dst_result_dir[$i]\"!"
             exit 1
         fi
         if [ -z "${g_upfile_frmName_domain[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_frmName_domain[$i]\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_frmName_domain[$i]\"!"
             exit 1
         fi
         if [ -z "${g_upfile_fanCode_domain[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_fanCode_domain[$i]\"!" 2
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_fanCode_domain[$i]\"!"
             exit 1
         fi
         if [ -z "${g_upfile_suffix_domain[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_suffix_domain[$i]\"!" 2
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_suffix_domain[$i]\"!"
             exit 1
         fi
         if [ -z "${g_upfile_joiner_char[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_joiner_char[$i]\"!" 2
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_joiner_char[$i]\"!"
             exit 1
         fi
         if [ -z "${g_file_ec[$i]}" ];then
-            F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_file_ec[$i]\"!" 2
+            F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_file_ec[$i]\"!"
             exit 1
         fi
     done
 
     if [ -z "${g_upfile_Head_TIM_QMARKS}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_Head_TIM_QMARKS\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_Head_TIM_QMARKS\"!"
         exit 1
     fi
     if [ -z "${g_upfile_fixCnt_frmName}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_fixCnt_frmName\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_fixCnt_frmName\"!"
         exit 1
     fi
     if [ -z "${g_upfile_fixCnt_itemH}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_upfile_fixCnt_itemH\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_upfile_fixCnt_itemH\"!"
         exit 1
     fi
     if [ -z "${g_turbn_num}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_turbn_num\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_turbn_num\"!"
         exit 1
     fi
     if [ -z "${g_turbn_ID_suffix}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_turbn_ID_suffix\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_turbn_ID_suffix\"!"
         exit 1
     fi
     if [ -z "${g_default_TTYPE}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_default_TTYPE\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_default_TTYPE\"!"
         exit 1
     fi
     if [ -z "${g_default_TSTATE}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_default_TSTATE\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_default_TSTATE\"!"
         exit 1
     fi
     if [ -z "${g_STATE_maxValue}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_STATE_maxValue\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_STATE_maxValue\"!"
         exit 1
     fi
     if [ -z "${g_PP_scale}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_PP_scale\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_PP_scale\"!"
         exit 1
     fi
     if [ -z "${g_PQ_scale}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_PQ_scale\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_PQ_scale\"!"
         exit 1
     fi
     if [ -z "${g_WS_scale}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_WS_scale\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_WS_scale\"!"
         exit 1
     fi
     if [ -z "${g_PP_divisor}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_PP_divisor\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_PP_divisor\"!"
         exit 1
     fi
     if [ -z "${g_PQ_divisor}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_PQ_divisor\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_PQ_divisor\"!"
         exit 1
     fi
     if [ -z "${g_WS_divisor}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_WS_divisor\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_WS_divisor\"!"
         exit 1
     fi
     if [ -z "${g_file_SerialNo[0]}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] not set \"g_file_SerialNo[0]\"!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"g_file_SerialNo[0]\"!"
         exit 1
     fi
     if [ ! -d "${g_1mi_src_dir}" ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_1mi_src_dir=\"${g_1mi_src_dir}\" Directory does not exist !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_1mi_src_dir=\"${g_1mi_src_dir}\" Directory does not exist !"
         exit 1
     fi
+    local tDstDirs it
     for((i=0;i<${g_file_nums};i++))
     do
-        if [ ! -d "${g_dst_result_dir[$i]}" ];then
-            mkdir -p "${g_dst_result_dir[$i]}"
-        fi
+        #多个目标目录用|线分隔
+        tDstDirs=$(F_convertVLineToSpace "${g_dst_result_dir[$i]}") 
+        for it in ${tDstDirs}
+        do
+            if [ ! -d "${it}" ];then
+                mkdir -p "${it}"
+            fi
+        done
     done
 
     local retstat=0
 
-    F_isDigital "${g_debugL_value}"
-    retstat=$?
-    if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_debugL_value=${g_debugL_value} is not a number !" 2
-        exit 1
-    fi
 
     F_isDigital "${g_1mi_basicCondition_num}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_1mi_basicCondition_num=${g_1mi_basicCondition_num} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_1mi_basicCondition_num=${g_1mi_basicCondition_num} is not a number !"
         exit 1
     fi
     F_isDigital "${g_turbn_num}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_turbn_num=${g_turbn_num} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_turbn_num=${g_turbn_num} is not a number !"
         exit 1
     fi
     F_isDigital "${g_default_TSTATE}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_default_TSTATE=${g_default_TSTATE} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_default_TSTATE=${g_default_TSTATE} is not a number !"
         exit 1
     fi
     F_isDigital "${g_PP_scale}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_PP_scale=${g_PP_scale} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_PP_scale=${g_PP_scale} is not a number !"
         exit 1
     fi
     F_isDigital "${g_PQ_scale}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_PQ_scale=${g_PQ_scale} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_PQ_scale=${g_PQ_scale} is not a number !"
         exit 1
     fi
     F_isDigital "${g_WS_scale}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_WS_scale=${g_WS_scale} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_WS_scale=${g_WS_scale} is not a number !"
         exit 1
     fi
     F_isDigital "${g_STATE_maxValue}"
     retstat=$?
     if [ ${retstat} -ne 1 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:cfgfile [${cfgFile}] 's set g_STATE_maxValue=${g_STATE_maxValue} is not a number !" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_STATE_maxValue=${g_STATE_maxValue} is not a number !"
         exit 1
     fi
 
@@ -474,14 +423,14 @@ function F_checkSysCmd()
     which bc >/dev/null 2>&1
     retstat=$?
     if [ ${retstat} -ne 0 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:The system command \"bc\" does not exist in the current environment!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|The system command \"bc\" does not exist in the current environment!"
         exit 1
     fi
 
     which cut >/dev/null 2>&1
     retstat=$?
     if [ ${retstat} -ne 0 ];then
-        F_outShDebugMsg "${logFile}" 1 1 "ERROR:The system command \"cut\" does not exist in the current environment!" 2
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|The system command \"cut\" does not exist in the current environment!"
         exit 1
     fi
 
@@ -622,11 +571,17 @@ function F_delExpirdstFile()
 
     local tmpStr
     local i
+    local tDstDirs it
     for((i=0;i<${g_file_nums};i++))
     do
         tmpStr="${g_upfile_frmName_domain[$i]}${g_upfile_joiner_char[$i]}${g_upfile_fanCode_domain[$i]}*${g_upfile_suffix_domain[$i]}"
         #echo "fusktest2023:F_rmExpiredFile \"${g_dst_result_dir[$i]}\" \"${g_dst_delExpirDays}\" \"${tmpStr}\""
-        F_rmExpiredFile "${g_dst_result_dir[$i]}" "${g_dst_delExpirDays}" "${tmpStr}"
+        #多个目标目录用|线分隔
+        tDstDirs=$(F_convertVLineToSpace "${g_dst_result_dir[$i]}") 
+        for it in ${tDstDirs}
+        do
+            F_rmExpiredFile "${it}" "${g_dst_delExpirDays}" "${tmpStr}"
+        done
     done
 
     return 0
@@ -653,6 +608,6 @@ function F_delExpirlogFile()
 
 function F_fuskytest()
 {
-    echo "$(date +%Y/%m/%d-%H:%M:%S.%N):${FUNCNAME}:test 11111"
+    echo "$(date +%Y/%m/%d-%H:%M:%S.%N):${FUNCNAME}:${LINENO}:test 11111"
     return 0
 }
