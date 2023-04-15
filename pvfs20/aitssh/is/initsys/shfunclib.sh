@@ -274,9 +274,9 @@ function F_shHaveRunThenExit()  #Exit if a script is already running
 function F_rmExpiredFile() #call eg: F_rmExpiredFile "path" "days" OR F_rmExpiredFile "path" "days" "files"
 {
     [ $# -ne 2 ] && [ $# -ne 3 ] && return 1
-    [ ! -d "${tpath}" ] && return 2
 
     local tpath="$1" ; local tdays="$2"
+    [ ! -d "${tpath}" ] && return 2
 
     [ $(F_isDigital "${tdays}") = "0" ] && tdays=1
 
