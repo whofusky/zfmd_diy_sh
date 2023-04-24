@@ -18,12 +18,13 @@
 #         ./$0  
 #
 #Version change record:
+#     2022-10-25 initial version  v20.01.000
+#     2023-04-24 version  v20.01.010 添加版本记录文件
 #
 #
 ################################################################################
 #
 
-versionNo="software version number: v20.01.000"
 
 NOOUT=0 ; levelName[0]="NOOUT";
 ERROR=1 ; levelName[1]="ERROR";
@@ -65,6 +66,7 @@ logFile="${logDir}/${onlyShPre}.log"
 
 diyFuncFile="${runDir}/myDiyShFunction.sh"
 cfgFile="${runDir}/cfg/cfg.cfg"
+versionFile="${runDir}/version.txt"
 
 
 ##################################################
@@ -333,6 +335,7 @@ main()
     F_shHaveRunThenExit "${onlyShName}"
 
     F_check
+    F_writeVersion "${versionFile}"
 
     while :
     do

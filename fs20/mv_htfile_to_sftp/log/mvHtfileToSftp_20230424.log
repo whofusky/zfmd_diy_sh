@@ -1,0 +1,374 @@
+
+
+2023-04-24_13:50:54.180770720|INFO|303|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_13:50:57.247886251|INFO|193|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_14:21:38.902990315|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_14:21:40.805892325|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_14:22:14.272551835|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_14:23:49.831407050|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_14:23:49.841755383|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:49.851735661|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:49.860966136|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:50.881623214|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:50.891475890|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:50.900667527|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:51.917821192|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:51.930129868|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:51.939261641|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:52.956210718|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:52.971452890|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:52.980651303|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:54.000692862|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:54.017490388|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:54.026860450|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:55.045203521|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:55.062228658|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:55.093592890|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:56.112243036|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:56.122188127|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:56.131346582|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:57.152276103|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:57.165092323|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:57.174306187|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:58.194973173|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:58.209837823|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:58.219185070|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:23:59.238530340|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:23:59.256185549|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:23:59.265697455|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:00.283675857|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:00.298167913|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:00.309253435|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:01.329637331|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:01.365721578|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:01.378108991|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:02.397491905|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:02.411228843|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:02.420537744|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:03.442403321|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:03.457874032|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:03.467117695|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:04.484799262|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:04.499667943|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:04.509781643|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:05.525897387|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:05.541654448|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:05.552873174|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:06.571773942|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:06.586638083|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:06.598567812|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:07.616224980|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:07.632534731|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:07.643703452|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:08.663963600|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:08.680497060|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:08.690027492|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:09.710316483|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:09.724541868|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:09.735629427|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:10.755087655|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:10.771996068|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:10.781515361|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:11.801989452|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:11.818388446|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:11.827873121|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:24:12.845724251|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:24:12.862333554|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:24:12.871738074|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+
+
+2023-04-24_14:24:13.892711284|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_14:39:00.133997819|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_14:39:00.153492313|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:00.173311033|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:00.190716377|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:01.209481980|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:01.228069294|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:01.245582826|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:02.263691695|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:02.277190116|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:02.286847764|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:03.303504850|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:03.322077172|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:03.339540268|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:04.359435791|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:04.378031078|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:04.396459682|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:05.415186777|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:05.434879927|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:05.452468896|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:06.471290487|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:06.489723947|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:06.507105582|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:07.525949473|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:07.544687297|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:07.562105056|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:08.581236575|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:08.599673193|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:08.616985581|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:09.636779286|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:09.656001414|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:09.674532775|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:10.693093480|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:10.711230321|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:10.720949215|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:11.738834223|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:11.759321923|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:11.780471176|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:12.797690397|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:12.822190662|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:12.839883544|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:13.856610658|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:13.872824591|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:13.887787103|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:14.906764202|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:14.923566618|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:14.935015519|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+2023-04-24_14:39:15.953756199|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:39:15.970148890|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:39:15.981657506|DEBUG|424|F_doOneDir| dir[ *.csv ] files [ *.csv ] tnum eq 0
+
+
+2023-04-24_14:39:16.057252103|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_14:42:22.913000005|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_14:42:22.946358820|INFO|441|F_doOneDir| idx[0] mv /zfmd/data_file/CFT_DST/cft_001_010_20230307-20230307.csv /zfmd/data_file/CFT_UP return[0]
+2023-04-24_14:45:37.331082197|INFO|441|F_doOneDir| idx[0] mv /zfmd/data_file/CFT_DST/cft_001_010_20230423-20230423.csv /zfmd/data_file/CFT_UP return[0]
+
+
+2023-04-24_14:46:47.589979281|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_14:46:47.608922010|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:47.627016468|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:48.658779612|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:48.676872737|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:49.708632305|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:49.727936364|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:50.759735290|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:50.778298271|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:51.809994859|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:51.829373783|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:52.862319586|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:52.880570047|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:53.905471112|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:53.923648977|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:54.955500534|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:54.974728786|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:56.007201888|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:56.026381727|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:57.059305090|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:57.077474888|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:58.109414356|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:58.127513260|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:46:59.159297293|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:46:59.177431210|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:00.209393935|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:00.228276137|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:01.259977207|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:01.278070046|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:02.309490413|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:02.327597498|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:03.359402515|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:03.377703581|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:04.402765270|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:04.420969936|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:05.452712595|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:05.470747322|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:06.502383150|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:06.520520387|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:07.552230114|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:07.570304414|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:08.601968268|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:08.620916228|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:09.644879840|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:09.662967337|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:10.695174337|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:10.714396375|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:11.747223227|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:11.766396428|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:12.799363955|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:12.818215452|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:13.849821143|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:13.870130383|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:14.901863726|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:14.920632696|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:15.952495242|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:15.970518530|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:17.002257888|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:17.020364957|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:18.053472851|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:18.071590821|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:19.103404340|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:19.122231410|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:20.153993136|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:20.174253940|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:21.205942640|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:21.225216590|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:22.256943858|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:22.275011655|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:23.306862614|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:23.326411362|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:24.359431096|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:24.377685217|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:25.402728703|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:25.420801352|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:26.452673102|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:26.470726141|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:27.502548479|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:27.521771322|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:28.553543638|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:28.572805126|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:29.604576660|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:29.621815704|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:30.645666264|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:30.663718429|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:31.695524036|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:31.713630936|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:32.745448901|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:32.763522408|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:33.795245041|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:33.813420063|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:34.846272253|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:34.862714127|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:35.886483886|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:35.905229588|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:36.938206182|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:36.956374450|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:37.988466668|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:38.007977115|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:39.040215216|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:39.058413129|DEBUG|352|F_delSomeExpireFile| do complete!
+2023-04-24_14:47:40.084742501|DEBUG|347|F_delSomeExpireFile| doing...!
+2023-04-24_14:47:40.094820228|DEBUG|352|F_delSomeExpireFile| do complete!
+
+
+2023-04-24_14:47:41.118850308|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_14:47:55.043388647|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_14:48:01.267177142|INFO|314|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_14:48:23.547955613|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_15:02:44.511741142|INFO|319|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_15:03:02.060676133|INFO|319|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_15:03:02.099509897|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:03.136365524|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:04.175198064|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:05.212539964|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:06.249622632|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:07.288532644|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:08.328510062|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:09.366714722|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:10.408453333|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:11.448516195|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:12.486854799|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:13.524916137|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:14.566890101|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:15.605543098|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:16.644960578|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:17.684583646|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:18.723852438|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:19.766117246|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:20.805047146|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:21.844913993|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:22.886477206|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:23.927473346|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:24.963958466|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:26.004403148|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:27.043683827|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:28.084163857|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:29.114018890|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:30.151226462|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:31.194507683|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:32.234034518|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:33.274051171|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:34.316092304|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:35.357035646|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:36.396091270|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:37.433996205|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:38.475443162|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+2023-04-24_15:03:39.513329150|DEBUG|441|F_doOneDir|the time of the file[ /zfmd/data_file/CFT_DST/cft_001_010_20230424-20230424.csv ] is [ 20230424 ] equal to the current date [ 20230424 ],so it will not be proccessed!
+
+
+2023-04-24_15:03:40.530051724|INFO|319|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_15:05:37.844460856|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_15:05:49.396063162|INFO|319|F_loadLogLevel|load ./loglevel
+
+
+
+
+2023-04-24_15:07:34.154198494|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+
+
+
+2023-04-24_15:22:43.952446509|INFO|319|F_loadLogLevel|load ./loglevel
+
+
+2023-04-24_15:22:43.979700023|INFO|264|F_rmExpiredFile|delete [1] [*.log] files in the [./log] directory that have been modified for more than [10] days,  return[0]
+
+
+2023-04-24_15:27:02.014961604|INFO|204|F_myExit|[mvHtfileToSftp.sh] Exit normally after receiving the signal!
+
+

@@ -1,0 +1,11 @@
+
+#日志输入控制文件
+
+NOOUT=0 ; levelName[0]="NOOUT";
+ERROR=1 ; levelName[1]="ERROR";
+INFO=2  ; levelName[2]="INFO" ;
+DEBUG=3 ; levelName[3]="DEBUG";
+
+
+#OUT_LOG_LEVEL=${DEBUG}
+OUT_LOG_LEVEL=${INFO}

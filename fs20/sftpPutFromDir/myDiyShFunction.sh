@@ -204,6 +204,40 @@ function F_shHaveRunThenExit()  #Exit if a script is already running
 }
 
 
+#此函数只建议在F_cfgFileCheck中使用
+function F_notSetCfgKeyToExit()
+{
+    if [ -z "${!1}" ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set \"${1}\"!"
+        exit 1
+    fi
+}
+
+
+#此函数只建议在F_cfgFileCheck中使用
+function F_noEqDofNumToExit()
+{
+    local tname="$1"
+    local k
+    eval "k=\${#${tname}[*]}"
+    if [ ${g_do_nums} -ne ${k} ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  ${tname}'s num not eq g_src_dir 's num [${g_do_nums}]!"
+        exit 1
+    fi
+}
+
+#此函数只建议在F_cfgFileCheck中使用
+function F_noEqSerNumToExit()
+{
+    local tname="$1"
+    local k
+    eval "k=\${#${tname}[*]}"
+    if [ ${g_do_ser_nums} -ne ${k} ];then
+        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}]  ${tname}'s num not eq g_ser_ip 's num [${g_do_ser_nums}]!"
+        exit 1
+    fi
+}
+
 function F_cfgFileCheck()
 {
 
@@ -226,41 +260,21 @@ function F_cfgFileCheck()
     #    return 0
     #fi
 
-    if [ -z "${g_do_nums}" ];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set g_do_nums\n"
-        exit 1
-    fi
-    if [ -z "${g_do_ser_nums}" ];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] not set g_do_ser_nums\n"
-        exit 1
-    fi
+    F_notSetCfgKeyToExit "g_version_no"
+    F_notSetCfgKeyToExit "OUT_LOG_LEVEL"
+    F_notSetCfgKeyToExit "g_do_nums"
+    F_notSetCfgKeyToExit "g_do_ser_nums"
 
-    local tsrcNum=${#g_src_dir[*]}
-    local tfilNum=${#g_file_name[*]}
-    local tbscNum=${#g_basicCondition_sec[*]}
 
-    if [[ ${tsrcNum} -ne ${tfilNum} || ${tsrcNum} -ne ${tbscNum} ]];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_src_dir[x],g_file_name[x],g_basicCondition_sec[x] 's number not eq !\n"
+    g_do_nums=${#g_src_dir[*]}
+    F_noEqDofNumToExit "g_file_name"
+    F_noEqDofNumToExit "g_basicCondition_sec"
 
-        exit 1
-    fi
-    g_do_nums=${tsrcNum}
-
-    local tipNum=${#g_ser_ip[*]}
-    local tusrNum=${#g_ser_username[*]}
-    local tpwdNum=${#g_ser_password[*]}
-    local tporNum=${#g_ser_port[*]}
-    local tdirNum=${#g_ser_dir[*]}
-
-    if [[ ${tipNum} -ne ${tusrNum} || ${tipNum} -ne ${tpwdNum} ]];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_ser_ip[x],g_ser_username[x],g_ser_password[x] 's number not eq !\n"
-        exit 1
-    fi
-    if [[ ${tipNum} -ne ${tporNum} || ${tipNum} -ne ${tdirNum} ]];then
-        F_writeLog "$ERROR" "${LINENO}|${FUNCNAME}|cfgfile [${cfgFile}] 's set g_ser_ip[x],g_ser_port[x],g_ser_dir[x] 's number not eq !\n"
-        exit 1
-    fi
-    g_do_ser_nums=${tipNum}
+    g_do_ser_nums=${#g_ser_ip[*]}
+    F_noEqSerNumToExit "g_ser_username"
+    F_noEqSerNumToExit "g_ser_password"
+    F_noEqSerNumToExit "g_ser_port"
+    F_noEqSerNumToExit "g_ser_dir"
 
     return 0
 }
@@ -617,6 +631,20 @@ function F_getOrPutSftpFile() #download or upload files from sftp server
 
 
     echo "${sftpRet}"
+    return 0
+}
+
+function F_writeVersion()
+{
+    [ $# -ne 1 ] && return 1
+
+    local tverfile="$1"
+    local dirName="$(dirname ${tverfile})"
+
+    [ ! -d "${dirName}" ] && mkdir -p "${dirName}"
+
+    echo -e "\n runtime:[$(date +%y-%m-%d_%H:%M:%S.%N)]\n version:[ ${g_version_no} ] \n">"${tverfile}"
+
     return 0
 }
 
