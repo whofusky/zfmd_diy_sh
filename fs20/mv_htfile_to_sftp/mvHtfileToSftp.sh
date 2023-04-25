@@ -327,7 +327,7 @@ function F_loadLogLevel()
 #
 function F_check()
 {
-
+    logFile="${logDir}/${onlyShPre}_$(date +%Y%m%d).log"
     F_loadLogLevel
     F_mkpDir "${logDir}"
     g_dir_num=${#g_src_dir[*]}

@@ -235,6 +235,7 @@ function F_loadDiyFun()
 #
 function F_check()
 {
+    logFile="${logDir}/${onlyShPre}_$(date +%Y%m%d).log"
     F_loadDiyFun
 
     F_mkpDir "${logDir}"
