@@ -1234,8 +1234,9 @@ function F_addChnPhyCfg()
 
     >"${tmpFile1}"
     >"${tmpFile2}"
-    ${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,x_val_1mi from ${addrTbl} where trim(x_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
-    ${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,rtv_val_1mi from ${addrTbl} where trim(rtv_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
+    #${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,x_val_1mi from ${addrTbl} where trim(x_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
+    #${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,rtv_val_1mi from ${addrTbl} where trim(rtv_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
+    ${mysqlite3} ${sqliteDbFile} "select * from (select addr_val,append_add_num,x_val_1mi from ${addrTbl} where trim(x_val_1mi)<>'' and is_it_used='1' union all select addr_val,append_add_num,rtv_val_1mi from ${addrTbl} where trim(rtv_val_1mi)<>'' and is_it_used='1') order by (addr_val+0) asc ;" >>"${tmpFile2}"
     ${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,avg_val_1mi from ${addrTbl} where trim(avg_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
     ${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,sdv_val_1mi from ${addrTbl} where trim(sdv_val_1mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
     ${mysqlite3} ${sqliteDbFile} "select addr_val,append_add_num,x_val_5mi from ${addrTbl} where trim(x_val_5mi)<>'' and is_it_used='1';" >>"${tmpFile2}"
