@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#############################################################################
+#author       :    fushikai
+#date         :    20200901
+#linux_version:    Ubuntu 20.04.1 LTS 
+#dsc          :
+#   删除当前目录下及子目录下的*~ vim编辑文件的备份文件 
+#    
+#revision history:
+#
+#############################################################################
+
+#软件版本号
+versionNo="software version number: v0.0.0.1"
+
+allExName="$0"
+exeName="${allExName##*/}"
+
+#echo "allExName=[${allExName}],exeName=[${exeName}]"
+function F_Tips()
+{
+    echo -e "\n 两种用法"
+    echo -e "\t1. ${exeName}   #没有参数则表示查询将要删除的文件有哪些"
+    echo -e "\t2. ${exeName} 1 #删除vim编辑文件时留下的类似\"*~\"的文件\n"
+    return 0
+}
+
+findFlag=0
+rmFlag=0
+
+if [ $# -ge 1 ];then
+    opFlag="$1"
+    if [ "x${opFlag}" = "x-h" ];then
+        F_Tips
+    elif [ "x${opFlag}" = "x1" ];then
+        rmFlag=1;
+        findFlag=1;
+    else
+        F_Tips
+    fi
+
+else
+    findFlag=1;
+fi
+
+if [ ${findFlag} -eq 1 ];then
+    tmpStr="$(find . -type f -name "*~" -print 2>/dev/null)"
+    if [ -z "${tmpStr}" ];then
+        echo -e "\n\tTIPS: There is no \"*~\" file in the current directory and subdirectories\n"
+        exit 0
+    fi
+    if [ ${rmFlag} -eq 1 ];then
+        find . -type f -name "*~" -print0 2>/dev/null|xargs -0 rm
+        echo -e "\n已经删除如下文件\n${tmpStr}\n"
+    else
+        echo -e "${tmpStr}"
+    fi
+fi
+
+
+exit 0
+

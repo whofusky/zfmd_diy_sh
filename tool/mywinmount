@@ -1,0 +1,159 @@
+#!/bin/bash
+#
+############################################################################
+#
+# @file    mywinmount
+#
+# @brief   自动挂载同网段windows机器上共享文件夹
+#
+# @details 因工作中配置了2台笔记本电话，另一台电话我装的是win操作系统
+#          此脚本是为了将win笔记电脑上共享的fushikai文件夹自动挂载到ubuntu
+#          笔记本电脑中(的/home/fusky/tmp/w目录)
+#
+# @author  fu.sky
+#
+# @date    2021-12-08
+#
+# @version V10.01.000
+#
+# @prerequisites:
+#          install cifs-utils (eg:sudo apt-get install cifs-utils)
+#          install nc
+#
+# @usage like: 
+#             mywinmount <ip> [to_dir] [user_name] [password]     #mount ip/fushikai dir
+#             mywinmount <umount> <to_dir> #umount /home/fusky/tmp/w
+# @history:
+#
+#
+############################################################################
+#
+
+inShName="$0"; inNums="$#"; inPar1="$1"; inPar2="$2";inPar3="$3";inPar4="$4";
+
+function F_assignment()
+{
+    deviceDir=fushikai
+    devicePort=445
+    if [ -z "${inPar2}" ];then
+        toMouDir=/home/fusky/tmp/w
+    else
+        toMouDir="${inPar2}"
+    fi
+    if [ -z "${inPar3}" ];then
+        deviceUserName="administrator"
+    else
+        deviceUserName="${inPar3}"
+    fi
+    if [ -z "${inPar4}" ];then
+        devicePassword="Ab123"
+    else
+        devicePassword="${inPar4}"
+    fi
+    toUid=fusky
+    toGid=fusky
+
+    ipFlag=0; umountFloag=0;
+
+    return 0
+}
+
+function F_tips()
+{
+    echo -e "\n\t usage like:"
+    echo -e "\t\t ${inShName} <ip> [to_dir] [user_name] [password] #mount ip/fushikai dir"
+    echo -e "\t\t ${inShName} <umount> [to_dir] #umount /home/fusky/tmp/w"
+    echo -e "\n"
+    return 0
+}
+
+
+function F_check()
+{
+    if [[ ${inNums} -lt 1 ]];then
+        F_tips
+        exit 1
+    fi
+
+    which nc >/dev/null 2>&1
+    local ret=$?
+    if [ ${ret} -ne 0 ];then
+        echo -e "\n\tERROR:There is no \"nc\" command in the system\n"
+        exit 3
+    fi
+    which mount.cifs >/dev/null 2>&1
+    ret=$?
+    if [ ${ret} -ne 0 ];then
+        echo -e "\n\tERROR:There is no \"mount.cifs\" command in the system\n"
+        exit 3
+    fi
+
+    if [[ -z "${toMouDir}" || ! -d "${toMouDir}" ]];then
+        echo -e "\n\tERROR:dir [ ${toMouDir} ] not exist!\n"
+        exit 3
+    fi
+
+    local haveMouFlag=$(mount -l -t cifs|grep " ${toMouDir} "|wc -l)
+
+    local tnum=$(echo "${inPar1}"|sed -n '/[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+/p'|wc -l)
+    if [ ${tnum} -eq 1 ];then
+        ipFlag=1
+        nc -vz -w 2 ${inPar1} ${devicePort} >/dev/null 2>&1
+        ret=$?
+        if [ ${ret} -ne 0 ];then
+            echo -e "\n\tnc -vz -w 2 ${inPar1} ${devicePort} >/dev/null 2>&1"
+            echo -e "\n\tERROR:[${inPar1}:${devicePort}] is unreachable!\n"
+            exit 4
+        fi
+        
+        if [ ${haveMouFlag} -eq 1 ];then
+            echo -e "\n"
+            mount -l -t cifs|grep " ${toMouDir} "
+            echo -e "\n Already mounted, please umount first\n"
+            exit 4
+        fi
+
+    elif [ "${inPar1}x" = "umountx" ];then
+        if [ ${haveMouFlag} -eq 0 ];then
+            echo -e "\n\tTips:No ${toMouDir} mount\n"
+            exit 0
+        fi
+        umountFloag=1
+    else
+        F_tips
+        exit 2
+    fi
+
+    return 0
+}
+
+
+function F_doit()
+{
+    if [[ ! -z "${ipFlag}" && ${ipFlag} -eq 1 ]];then
+        echo ""
+        echo "sudo mount.cifs //${inPar1}/${deviceDir} ${toMouDir} -o user=${deviceUserName},password=${devicePassword},uid=${toUid},gid=${toGid}"
+        echo ""
+        sudo mount.cifs //${inPar1}/${deviceDir} ${toMouDir} -o user=${deviceUserName},password=${devicePassword},uid=${toUid},gid=${toGid}
+    else
+        echo ""
+        echo "sudo umount ${toMouDir}"
+        echo ""
+        sudo umount ${toMouDir}
+    fi
+
+    return 0
+}
+
+main()
+{
+    F_assignment
+    F_check
+    F_doit
+    return 0
+}
+
+main
+exit 0
+
+

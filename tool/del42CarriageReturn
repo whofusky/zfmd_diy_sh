@@ -1,0 +1,104 @@
+#!/bin/bash
+#
+##############################################################################
+#author: fu_sky
+#date  : 2022-05-17
+#dsc   : 从sftp://42.121.65.50:22平台上对应的目录下载业务清单到本地
+#            然后将业务清单里的回车銉去掉，然后再把文件上传到原来下载的目录
+#
+#use   : $0 remote_dir   YYYYMMDD  no
+#           其中 YYYYMMDD为业务清单busilist_20220517_0.xml中的 20220517
+#           其中 no 为业务清单busilist_20220517_0.xml中的 0
+#
+##############################################################################
+
+shName="$0"; inNums="$#"; tfdir="$1"; tfdate="$2"; tfsuffixno="$3"
+shName="${shName##*/}"
+
+#tfdir="/fuyu/tdir1"
+#tfdate=20220517
+#tfsuffixno=0
+
+tfile=busilist_${tfdate}_${tfsuffixno}.xml
+ttfile=busilist_${tfdate}_${tfsuffixno}.tmp
+
+function F_tips()
+{
+    echo -e "\n\tERROR:input like:"
+    echo -e "\n\t\t ${shName} remote_dir   YYYYMMDD  no"
+    echo -e "\t\t\t 其中 YYYYMMDD为业务清单busilist_20220517_0.xml中的20220517" 
+    echo -e "\t\t\t 其中 no为业务清单busilist_20220517_0.xml中的0" 
+    echo -e "\n"
+    return 0
+}
+
+function F_check()
+{
+    if [ ${inNums} -ne 3 ];then
+        F_tips
+        exit 1
+    fi
+    return 0
+}
+
+
+function F_getFile()
+{
+    if [ -f "${tfile}" ];then
+        echo -e "\nrm -rf ${tfile}\n"
+        rm -rf "${tfile}"
+    fi
+    lftp -u yc1,1qaz2wsx sftp://42.121.65.50:22 <<EOF
+    cd ${tfdir} || exit 1
+    get ${tfile} || exit 2
+    rm ${tfile}
+    bye
+EOF
+    
+    return 0
+}
+
+function F_rename()
+{
+    if [ ! -f "${tfile}" ];then
+        echo -e "\nERROR:${FUNCNAME}:file [ ${tfile} ]not exist!\n"
+        exit 1
+    fi
+
+    delCarriageReturn "${tfile}"
+
+    if [ -f "${ttfile}" ];then
+        echo -e "\nrm -rf ${ttfile}\n"
+        rm -rf "${ttfile}"
+    fi
+
+    echo "mv ${tfile} ${ttfile}"
+    mv "${tfile}" "${ttfile}"
+    return 0
+
+}
+
+function F_putfile()
+{
+    lftp -u yc1,1qaz2wsx sftp://42.121.65.50:22 <<EOF
+    cd ${tfdir} || exit 1
+    put ${ttfile} || exit 2
+    mv ${ttfile} ${tfile} ||exit 3
+    bye
+    cd 
+EOF
+    return 0
+}
+
+
+main()
+{
+    F_check
+    F_getFile
+    F_rename
+    F_putfile
+
+    return 0
+}
+
+main

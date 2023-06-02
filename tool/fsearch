@@ -1,0 +1,327 @@
+#!/bin/bash
+
+#############################################################################
+#author       :    fushikai
+#date         :    20200905
+#linux_version:    Ubuntu 20.04.1 LTS 
+#dsc          :
+#    查找某个时间的文件
+#    
+#revision history:
+#
+#############################################################################
+
+#软件版本号
+versionNo="software version number: v0.0.0.1"
+
+tShName="$0"
+inExename="${tShName##*/}"
+
+function F_help()
+{
+    echo -e "\n input \e[1;31mERROR:\e[0m please input like:"
+    echo -e "\t1. ${inExename} <YYYY-mm-dd HH24:MM:SS> #find the file at the time of xxx"
+    echo -e "\t2. ${inExename} <YYYYmmddHH24MMSS> #find the file at the time of xxx"
+    echo -e "\t3. ${inExename} -rm <YYYY-mm-dd HH24:MM:SS> #delete the file at the time of xxx"
+    echo -e "\t4. ${inExename} -rm <YYYYmmddHH24MMSS> #delete the file at the time of xxx\n"
+    return 0
+}
+
+if [ $# -lt 1 ];then
+    F_help
+    exit 1
+fi
+
+rmFlag=0
+case $1 in
+    -rm)
+        rmFlag=1
+        shift
+        ;;
+    *)
+        rmFlag=0
+        ;;
+esac
+
+inTm="$1"
+
+#echo "inTm=[${inTm}],rmFlag=[${rmFlag}]"
+#exit 0
+
+tYYYY=""; tmm="" ; tdd=""  : tHH=""   : tMM=""; tSS="":
+aYm=""  ; aYmd=""; aYmdH=""; aYmdHM=""; aYmdHMS=""
+bYmdHMS=""
+
+curYFlag=0;  curmFlag=0; curdFlag=0;
+curHFlag=0;  curMFlag=0; curSFlag=0;
+
+function F_chkYmdHMS1()
+{
+    local num1=$(echo "${inTm}"|awk -F'-' '{print NF}')
+    local tnum
+
+    #only format <YYYY-mm-dd HH24:MM:SS> in this function doing
+    [ ${num1} -lt 2 ] && return 0
+
+    num1=$(echo "${inTm}"|awk '{print NF}')
+    #echo "num1=[${num1}]"
+    if [ ${num1} -gt 2 ];then
+        echo -e "\n\t time format <YYYY-mm-dd HH24:MM:SS> ERROR\n"
+        exit 1
+    elif [ ${num1} -eq 2 ];then #format like:2020-09-09 14:29:32
+        aYmd=$(echo "${inTm}"|awk '{print $1}')
+        tnum=$(echo "${aYmd}"|awk -F'-' '{print NF}')
+        if [ ${tnum} -ne 3 ];then
+            echo -e "\nERROR:not <YYYY-mm-dd> time format\n"
+            exit 1
+        fi
+        #check YYYY-mm-dd
+        tYYYY=$(echo "${aYmd}"|awk -F'-' '{print $1}')
+        tmm=$(echo "${aYmd}"|awk -F'-' '{print $2}')
+        tdd=$(echo "${aYmd}"|awk -F'-' '{print $3}')
+        if [ ${tmm} -gt 12 ];then
+            echo -e "\nERROR:<YYYY-mm-dd> 's mm>12\n"
+            exit 1
+        elif [ ${tdd} -gt 31 ];then
+            echo -e "\nERROR:<YYYY-mm-dd> 's dd>31\n"
+            exit 1
+        fi
+
+        tHMS=$(echo "${inTm}"|awk '{print $2}')
+        tnum=$(echo "${tHMS}"|awk -F':' '{print NF}')
+        if [ ${tnum} -gt 3 ];then
+            echo -e "\nERROR:not <HH24:MM:SS> time format\n"
+            exit 1
+        elif [ ${tnum} -eq 3 ];then
+            curSFlag=1
+            tHH=$(echo "${tHMS}"|awk -F':' '{print $1}')
+            tMM=$(echo "${tHMS}"|awk -F':' '{print $2}')
+            tSS=$(echo "${tHMS}"|awk -F':' '{print $3}')
+        elif [ ${tnum} -eq 2 ];then
+            curMFlag=1
+            #tHMS="${tHMS}:00"
+            tHH=$(echo "${tHMS}"|awk -F':' '{print $1}')
+            tMM=$(echo "${tHMS}"|awk -F':' '{print $2}')
+            tSS="00"
+        elif [ ${tnum} -eq 1 ];then
+            curHFlag=1
+            #tHMS="${tHMS}:00:00"
+            tHH=$(echo "${tHMS}"|awk -F':' '{print $1}')
+            tMM="00"
+            tSS="00"
+        else
+            echo -e "\n\t time format <HH24:MM:SS> LOGIC ERROR\n"
+            exit 1
+        fi
+        if [ ${tHH} -gt 24 ];then
+            echo -e "\n\t time format <HH24:MM:SS> HH>24 ERROR\n"
+            exit 1
+        fi
+        if [ ${tMM} -gt 59 ];then
+            echo -e "\n\t time format <HH24:MM:SS> MM>59 ERROR\n"
+            exit 1
+        fi
+        if [ ${tSS} -gt 59 ];then
+            echo -e "\n\t time format <HH24:MM:SS> SS>59 ERROR\n"
+            exit 1
+        fi
+        aYmdHMS="${aYmd} ${tHH}:${tMM}:${tSS}"
+        
+    elif [ ${num1} -eq 1 ];then #format like:2020-09-09
+        tHMS="00:00:00"
+
+        aYmd="${inTm}"
+        tnum=$(echo "${aYmd}"|awk -F'-' '{print NF}')
+        if [ ${tnum} -gt 3 ];then
+            echo -e "\ndate format <YYYY-mm-dd> ERROR\n"
+            exit 1
+        fi
+        if [ ${tnum} -eq 3 ];then
+            curdFlag=1
+            tYYYY=$(echo "${aYmd}"|awk -F'-' '{print $1}')
+            tmm=$(echo "${aYmd}"|awk -F'-' '{print $2}')
+            tdd=$(echo "${aYmd}"|awk -F'-' '{print $3}')
+        elif [ ${tnum} -eq 2 ];then
+            curmFlag=1
+            tYYYY=$(echo "${aYmd}"|awk -F'-' '{print $1}')
+            tmm=$(echo "${aYmd}"|awk -F'-' '{print $2}')
+            tdd="01"
+            #aYmd="${aYmd}-00"
+        elif [ ${tnum} -eq 1 ];then
+            curYFlag=1
+            tYYYY=$(echo "${aYmd}"|awk -F'-' '{print $1}')
+            tmm="01"
+            tdd="01"
+            #aYmd="${aYmd}-00-00"
+        else
+            echo -e "\n1 LOGIC ERROR\n"
+            exit 1
+        fi
+        if [ ${tmm} -gt 12 ];then
+            echo -e "\nERROR:<YYYY-mm-dd> 's mm>12\n"
+            exit 1
+        elif [ ${tdd} -gt 31 ];then
+            echo -e "\nERROR:<YYYY-mm-dd> 's dd>31\n"
+            exit 1
+        fi
+        aYmdHMS="${tYYYY}-${tmm}-${tdd} ${tHMS}"
+        
+    else
+        echo -e "\n\t time format <YYYY-mm-dd HH24:MM:SS> LOGIC ERROR\n"
+        exit 1
+    fi
+
+    return 0
+}
+
+function F_chkYmdHMS2()
+{
+    local num1=$(echo "${inTm}"|awk -F'-' '{print NF}')
+    local tnum
+
+    #only format <YYYYmmddHH24MMSS> in this function doing
+    [ ${num1} -gt 1 ] && return 0
+
+    local inLgth=${#inTm}
+    if [[ ${inLgth} -ne 4 && ${inLgth} -ne 6 && ${inLgth} -ne 8 && ${inLgth} -ne 10 && ${inLgth} -ne 12 && ${inLgth} -ne 14 ]];then
+        echo -e "\n\t ERROR:input time format should like <YYYYmmddHH24MMSS>\n"
+        exit 1
+    fi
+
+    tYYYY=${inTm:0:4}
+    curYFlag=1
+    tmm="01"
+    tdd="01"
+    tHH="00"
+    tMM="00"
+    tSS="00"
+    if [ ${inLgth} -ge 6 ];then
+        curYFlag=0
+        curmFlag=1
+        tmm=${inTm:4:2}
+    fi
+    if [ ${inLgth} -ge 8 ];then
+        curYFlag=0
+        curmFlag=0
+        curdFlag=1
+        tdd=${inTm:6:2}
+    fi
+    if [ ${inLgth} -ge 10 ];then
+        curYFlag=0
+        curmFlag=0
+        curdFlag=0
+        curHFlag=1
+        tHH=${inTm:8:2}
+    fi
+    if [ ${inLgth} -ge 12 ];then
+        curYFlag=0
+        curmFlag=0
+        curdFlag=0
+        curHFlag=0
+        curMFlag=1
+        tMM=${inTm:10:2}
+    fi
+    if [ ${inLgth} -eq 14 ];then
+        curYFlag=0
+        curmFlag=0
+        curdFlag=0
+        curHFlag=0
+        curMFlag=0
+        curSFlag=1
+        tSS=${inTm:12:2}
+    fi
+
+    if [ ${tmm} -gt 12 ];then
+        echo -e "\nERROR:<YYYY-mm-dd> 's mm>12\n"
+        exit 1
+    elif [ ${tdd} -gt 31 ];then
+        echo -e "\nERROR:<YYYY-mm-dd> 's dd>31\n"
+        exit 1
+    fi
+
+    if [ ${tHH} -gt 24 ];then
+        echo -e "\n\t time format <HH24:MM:SS> HH>24 ERROR\n"
+        exit 1
+    fi
+    if [ ${tMM} -gt 59 ];then
+        echo -e "\n\t time format <HH24:MM:SS> MM>59 ERROR\n"
+        exit 1
+    fi
+    if [ ${tSS} -gt 59 ];then
+        echo -e "\n\t time format <HH24:MM:SS> SS>59 ERROR\n"
+        exit 1
+    fi
+
+    tHMS="${tHH}:${tMM}:${tSS}"
+    aYmdHMS="${tYYYY}-${tmm}-${tdd} ${tHH}:${tMM}:${tSS}"
+    #echo "aYmdHMS=[${aYmdHMS}]"
+
+    return 0
+}
+
+function F_genbYmdHMS()
+{
+    if [ "${aYmdHMS}x" = "x" ];then
+        echo -e "\n\tERROR:call shell func ${FUNCNAME} before variable \"aYmdHMS\" must set\n"
+        exit 1
+    fi
+    local fixAddSnds=$(echo "8*60*60"|bc)
+    local varAddSnds=0
+    if [ ${curSFlag} -eq 1 ];then
+        varAddSnds=1 
+    elif [ ${curMFlag} -eq 1 ];then
+        varAddSnds=60 
+    elif [ ${curHFlag} -eq 1 ];then
+        varAddSnds=$(echo "60*60"|bc) 
+    elif [ ${curdFlag} -eq 1 ];then
+        varAddSnds=$(echo "60*60*24"|bc) 
+    elif [ ${curmFlag} -eq 1 ];then
+        #varAddSnds=$(echo "60*60*24*30"|bc) 
+        local btmm=$(echo "${tmm}+1"|bc)
+        local btYY=${tYYYY}
+        if [ ${btmm} -gt 12 ];then
+            btYY=$(echo "${btYY}+1"|bc)
+            btmm="01"
+        fi
+        [ ${#btmm} -eq 1 ] && btmm="0${btmm}"
+        bYmdHMS="${btYY}-${btmm}-${tdd} ${tHMS}"
+        return 0
+    elif [ ${curYFlag} -eq 1 ];then
+        #varAddSnds=$(echo "60*60*24*365"|bc) 
+        local btYY=${tYYYY}
+        local btmm="${tmm}"
+        btYY=$(echo "${btYY}+1"|bc)
+        bYmdHMS="${btYY}-${btmm}-${tdd} ${tHMS}"
+        return 0
+    else
+       varAddSnds=0
+    fi
+    local aYmdSnds=$(date -d "${aYmdHMS}" +"%s")
+    local allSnds=$(echo "${aYmdSnds} + ${fixAddSnds} + ${varAddSnds}"|bc)
+
+    bYmdHMS=$(date -d "1970-01-01 ${allSnds} seconds" +"%Y-%m-%d %H:%M:%S")
+
+}
+
+F_chkYmdHMS1
+F_chkYmdHMS2
+F_genbYmdHMS
+
+echo -e "\n\tfind time bewwten [${aYmdHMS}] and [${bYmdHMS}]\n"
+tnum=$(find . -type f -newermt "${aYmdHMS}" -a ! -newermt "${bYmdHMS}" |wc -l)
+if [ ${tnum} -eq 0 ];then
+    echo -e "\n\tTIPS: No eligible documents\n"
+    exit 0
+fi
+
+
+find . -type f -newermt "${aYmdHMS}" -a ! -newermt "${bYmdHMS}" -print0|xargs -0 ls -lrt
+
+if [ ${rmFlag} -eq 1 ];then
+    echo -e "\n\tThe file shown above will be deleted.."
+    find . -type f -newermt "${aYmdHMS}" -a ! -newermt "${bYmdHMS}" -print0|xargs -0 rm 
+    echo -e "\tDelete the files shown above to complete\n"
+fi
+
+exit 0
+

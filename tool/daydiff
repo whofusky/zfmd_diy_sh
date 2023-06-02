@@ -1,0 +1,93 @@
+#!/bin/bash
+
+################################################################################
+#
+# author    :   fushikai
+# date      :   2021-05-24
+# dsc       :   计算输入两个时间之间相差的天数,并将结束返回
+#
+################################################################################
+#
+
+inSh="$0"
+exName="${inSh##*/}"
+inNum=$#
+
+dateA="$1"; dateB="$2";
+
+function F_tips()
+{
+    echo -e "\n"
+    echo -e "  Use:"
+    echo -e "    ${exName} <date1> <date2>"
+    echo -e "        #date1 or date2 format like: 20210521"
+    echo -e "\n"
+    return 0
+}
+
+function F_check()
+{
+    if [ ${inNum} -ne 2 ];then
+        F_tips
+        exit 1
+    fi
+
+    local num=0; local ret=0;
+
+    num=$(echo "${dateA}"|sed -n '/^[0-9]\+$/p'|wc -l)
+    if [ ${num} -eq 0 ];then
+        F_tips
+        exit 2
+    fi
+    num=$(echo "${dateB}"|sed -n '/^[0-9]\+$/p'|wc -l)
+    if [ ${num} -eq 0 ];then
+        F_tips
+        exit 3
+    fi
+
+    which bc >/dev/null 2>&1
+    ret=$?
+    if [ ${ret} -ne 0 ];then
+        echo -e "\tERROR: There is no bc command in the system!\n"
+        exit 4
+    fi
+    which date >/dev/null 2>&1
+    ret=$?
+    if [ ${ret} -ne 0 ];then
+        echo -e "\tERROR: There is no date command in the system!\n"
+        exit 4
+    fi
+
+    return 0
+}
+
+function F_calDiff()
+{
+    local dt1=${dateA}
+    local dt2=${dateB}
+
+    local flag=0; local diffNum=0;
+
+    flag=$(echo "${dt1} > ${dt2}"|bc)
+    if [ ${flag} -eq 1 ];then
+        dt1=${dateB}
+        dt2=${dateA}
+    fi
+
+    diffNum=$(echo "($(date -d ${dt2} +%s) - $(date -d ${dt1} +%s))/86400"|bc)
+
+    echo -e "\n\t相差 [ ${diffNum} ] 天\n"
+
+    return 0
+}
+
+main()
+{
+    F_check
+    F_calDiff
+    return 0
+}
+
+main
+exit 0
+

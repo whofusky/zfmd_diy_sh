@@ -1,0 +1,87 @@
+#!/bin/bash
+#
+################################################################################
+#
+# author : fu.sky
+# date   : 2021-08-03
+# dsc    : 此脚本是用来删除文件里的“回车”符号
+#          (背景: 
+#                dos下文件内容格式的换行为：回车 + 换行
+#                linux下文件内容格式的换行为: 换行
+#          )
+# use    :
+#        $0  <需要格式处理文件名> 
+#
+#revision history:
+#       fushikai@20210803_09:23@created@v0.0.0.1
+#
+################################################################################
+#
+
+
+inNum="$#"; exSh="$0"; edSrcFile="$1";
+
+noPex="${exSh##*/}"
+
+
+
+function F_Tips()
+{
+    local cmd="${noPex}"
+    echo -e "\nInput \e[1;31mERROR\e[0m please input like:"
+    echo -e "\t${cmd}  <file_name>  "
+    echo -e "\n\t#此工具用途:"
+    echo -e "\t    此脚本是用来删除file_name文件里的\"回车\"符号\n"
+    echo -e "\t      (背景: "
+    echo -e "\t            dos下文件内容格式的换行为：回车 + 换行"
+    echo -e "\t            linux下文件内容格式的换行为: 换行"
+    echo -e "\t      )"
+    echo -e "\n"
+    return 0
+}
+
+
+function F_checkin()
+{
+    if [ ${inNum} -lt 1 ];then
+        F_Tips "${exSh}"
+        exit 1
+    fi
+
+    local tnum=0
+
+    if [ ! -e "${edSrcFile}" ];then
+        echo -e "\n\t\e[1;31mERROR:\e[0m input file [ ${edSrcFile} ] not exist!\n"
+        exit 1
+    fi
+
+    tnum=$(sed -n '//{p;q}' "${edSrcFile}"|wc -l)
+    if [ ${tnum} -eq 0 ];then
+        echo -e "\n\t\e[1;31mTIPS:\e[0m Input file [ ${edSrcFile} ] format does not need to be processed!\n"
+        exit 0
+    fi
+
+    return 0
+}
+
+
+function F_delCRChar()
+{
+
+    sed -i 's///g' "${edSrcFile}"
+    echo -e "\n\tThe input file [ ${edSrcFile} ] format is processed!\n"
+    return 0
+}
+
+
+main()
+{
+    F_checkin
+    F_delCRChar
+    return 0
+}
+
+main
+
+exit 0
+

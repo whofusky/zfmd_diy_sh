@@ -1,0 +1,260 @@
+#!/bin/bash
+#
+############################################################################
+#
+# @file    mvFnameToDate
+#
+# @brief   重名命名文件名:在文件名中加入YYYYMMDD_HHMISS格式的时间
+#
+# @details 重名命名文件名:在文件名中加入YYYYMMDD_HHMISS格式的时间
+#          (1)其中YYYYMMDD_HHMISS是文件自己的修改时间
+#          (2)如果文件名有重复的则文件名原来的时间后再加_毫秒
+#          例如有一个文件名为 aa.txt 修改时间是2021-09-23 16:10:57.045289481
+#              那么修改后的文件名可能为:(没有加文件名前缀的情况下)
+#                                       20210923_161057.txt
+#                     或(当上面的文件名重名的时间)
+#                                       20210923_161057_045289481.txt
+#         
+#
+# @author  fu.sky
+#
+# @date    2021-12-08
+#
+# @version V10.01.000
+#
+# @prerequisites:
+#
+# @usage like: 
+#     mvFnameToDate [f_name]          #rename file (in $PWD/[f_name or *]) name to YYYYMMDD_HHMISS
+#     mvFnameToDate [f_name] --pre=aa #rename file (in $PWD/[f_name or *]) name to aaYYYYMMDD_HHMISS
+#
+# @history:
+#
+#
+############################################################################
+#
+
+
+inShName="$0"; inNums="$#"; inPar1="$1"; inPar2="$2";
+
+function F_assignment()
+{
+    toBaseDir="$PWD"
+    debugFlag=0
+    addFixFlag=0
+    preViewNum=3
+    
+    return 0
+}
+
+function F_toDebug()
+{
+    debugFlag=1
+    return 0
+}
+
+function F_cancelDebug()
+{
+    debugFlag=0
+    return 0
+}
+
+function F_tips()
+{
+    echo -e "\nt usage like:"
+    echo -e "\t${inShName}  [f_name]          #rename file (in $PWD/[f_name or *]) name to YYYYMMDD_HHMISS"
+    echo -e "\t${inShName}  [f_name] --pre=aa #rename file (in $PWD/[f_name or *]) name to aaYYYYMMDD_HHMISS"
+    echo -e "\n"
+    return 0
+}
+
+
+function F_check()
+{
+    if [ ${inNums} -gt 2 ];then
+        F_tips
+        exit 1
+    fi
+
+    inPath="${toBaseDir}/*"
+    fixPre=""
+
+    local tmp
+
+    if [ ${inNums} -eq 2 ];then
+        addFixFlag=1
+        tmp=$(echo "${inPar2}"|sed -n '/--pre\s*=/p'|wc -l)
+        if [ ${tmp} -eq 0 ];then
+            F_tips
+            exit 1
+        fi
+        fixPre=$(echo "${inPar2}"|awk -F'=' '{print $2}')
+        inPath="${toBaseDir}/${inPar1}"
+    elif [ ${inNums} -eq 1 ];then
+        tmp=$(echo "${inPar1}"|sed -n '/--pre\s*=/p'|wc -l)
+        if [ ${tmp} -eq 1 ];then
+            addFixFlag=1
+            fixPre=$(echo "${inPar1}"|awk -F'=' '{print $2}')
+        else
+            addFixFlag=0
+            inPath="${toBaseDir}/${inPar1}"
+        fi
+    else
+
+        addFixFlag=0
+    fi
+
+    return 0
+}
+
+
+function F_getNewFileName()
+{
+    if [ $# -ne 1 ];then
+        echo -e "\n\tERROR:${FUNCNAME}:input param number not eq 1\n"
+        exit 1
+    fi
+
+    local tfname="$1"
+    if [ ! -f "${tfname}" ];then
+        echo -e "\n\tERROR:${FUNCNAME}:file[${tfname}] not exist!\n"
+        return 1
+    fi
+
+    local tPath="${tfname%/*}"
+    if [ "${tfname}x" = "${tPath}x" ];then
+        tPath="."
+    fi
+
+    local suffixF="${tfname##*.}"
+    if [ "${tfname}x" = "${suffixF}x" ];then
+        suffixF=""
+    fi
+
+    #from:2021-12-08 15:23:27.634122779 +0800 -> 20211208_152327.634122779_
+    #local tmpStr=$(stat -c %y ${tfname} |awk -F'+' '{print $1}'|sed 's/-//g;s/\s\+/_/g;s/://g')
+    local tmpStr=$(stat -c %y ${tfname} |awk -F'+' '{print $1}'|sed 's/-//g;s/\s\+$//g;s/\s\+/_/g;s/://g')
+    local nameP1=$(echo "${tmpStr}"|awk -F'.' '{print $1}')
+    local nameP2=$(echo "${tmpStr}"|awk -F'.' '{print $2}')
+
+    if [ ! -z "${suffixF}" ];then
+        newFileName="${tPath}/${fixPre}${nameP1}.${suffixF}"
+    else
+        newFileName="${tPath}/${fixPre}${nameP1}"
+    fi
+
+    local tnum=$(ls -1 ${newFileName} 2>/dev/null|wc -l) 
+    local t=0
+    local tForMax=100
+    if [ ${tnum} -gt 0 ];then
+        if [ ! -z "${suffixF}" ];then
+            newFileName="${tPath}/${fixPre}${nameP1}_${nameP2}.${suffixF}"
+            for((t=0;t<${tForMax};t++))
+            do
+                tnum=$(ls -1 ${newFileName} 2>/dev/null|wc -l) 
+                if [ ${tnum} -eq 0 ];then
+                    break;
+                fi
+                newFileName="${tPath}/${fixPre}${nameP1}_${nameP2}_${t}.${suffixF}"
+            done
+        else
+            newFileName="${tPath}/${fixPre}${nameP1}_${nameP2}"
+            for((t=0;t<${tForMax};t++))
+            do
+                tnum=$(ls -1 ${newFileName} 2>/dev/null|wc -l) 
+                if [ ${tnum} -eq 0 ];then
+                    break;
+                fi
+                newFileName="${tPath}/${fixPre}${nameP1}_${nameP2}_${t}"
+            done
+        fi
+    fi
+
+    return 0
+}
+
+function F_rename()
+{
+    local tnaa
+    local i=1
+    ls -1 ${inPath}|while read tnaa
+    do
+        F_getNewFileName "${tnaa}"
+        echo "mv [${tnaa}] to [${newFileName}]"
+
+        if [ ${debugFlag} -eq 1 ];then
+            let i++
+            [ $i -gt ${preViewNum} ] && return 0
+            continue
+        fi
+
+        #echo "${FUNCNAME}:doing"
+		mv "${tnaa}" "${newFileName}"
+
+    done
+    return 0
+}
+
+function F_getConfirm()
+{
+    prompct2="
+    请确认是否按之前预览的结果进行修改吗:
+
+        [Y/y].确认
+
+        [N/n].取消,不进行修改
+
+    请确认: "
+
+	local opYes
+	while ((1))
+	do
+
+		read -n 1 -p "${prompct2}" opYes
+		if [[ ${opYes} != "Y" && ${opYes} != "y" && ${opYes} != "N" && ${opYes} != "n" ]];then
+			echo -e "\n -----------\e[1;31mERROR\e[0m---------------------:\e[1;31m输入错误，请按提示要求重新输入!\e[0m" 
+			continue
+		fi
+
+		break
+	done
+    if [[ ${opYes} == "N" || ${opYes} == "n" ]];then
+		echo ""
+        exit 0
+    fi 
+
+	F_cancelDebug
+    F_rename
+
+    return 0
+}
+
+function F_toPreView()
+{
+	F_toDebug
+	echo -e "\n\t先预览[${preViewNum}]条数据然后决定是否修改\n"
+    F_rename
+
+	return 0
+}
+
+function F_doit()
+{
+	F_toPreView
+    F_getConfirm
+
+    return 0
+}
+
+main()
+{
+    F_assignment
+    F_check
+    F_doit
+    return 0
+}
+
+main
+exit 0
+
+

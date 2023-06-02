@@ -1,0 +1,105 @@
+#!/bin/bash
+
+#############################################################################
+#author       :    fushikai
+#date         :    20201001
+#linux_version:    Ubuntu 20.04.1 LTS 
+#dsc          :
+#    According to the file extension, open the corresponding file with the 
+#    corresponding software
+#    
+#revision history:
+#   v0.0.0.1   2020-10-01
+#
+#############################################################################
+
+
+tShName="$0"
+inExename="${tShName##*/}"
+
+F_help(){
+    echo ""
+    echo "${inExename} [-h] [--softName xxxxFile] [xxxFile]"
+    echo "  -h, --help            Show help"
+    echo "  --softName  xx        Open the file xx with softName software"
+    echo "  xxxFile               Automatically open xxxFile"
+    echo ""
+    return 0
+}
+
+
+if [ $# -lt 1 -o "$1" = "-h" -o "$1" = "--help" ];then
+    F_help
+    exit 1
+fi
+
+errFlag=$(echo "$1"|sed -n '/^-[^-]\+/p'|wc -l)
+[ ${errFlag} -eq 1 ] && F_help && exit 1
+
+useSFFlag=$(echo "$1"|sed -n '/^--[^-]\+/p'|wc -l)
+#echo "useSFFlag=[${useSFFlag}],errFlag=[${errFlag}]"
+
+inFile="$1"
+useSfName=""
+
+F_findSfNameByFile(){
+    if [ $# -ne 1 ];then
+        echo -e "\n\t\e[1;31mERROR\e[0m:${FUNCNAME}:input parameters not eq 1\n"
+        exit 1
+    fi
+    local fileName="$1"
+    case "${fileName}" in
+        *.pdf) 
+            useSfName="evince"
+            ;;
+        *.png|*.jpg|*.gif|*.jpeg) 
+            useSfName="viewnior"
+            ;;
+        *.xlsx|*.xls|*.csv) 
+            useSfName="gnumeric"
+            ;;
+        *.docx|*.doc) 
+            useSfName="wps"
+            ;;
+        *.txt|*.log|*.xml) 
+            useSfName="gvim"
+            ;;
+        *)
+            echo -e "\n\t file [ ${fileName} ] It is not recognized, please use "--" to specifynot recognized!"
+            F_help
+            exit 1
+    esac
+
+
+}
+
+if [ ${useSFFlag} -eq 1 ];then
+    [ $# -lt 2 ] && F_help && exit 1
+    useSfName=$(echo "${inFile}"|sed 's/\(^--\)\([^-]\+\)/\2/g')
+    inFile="$2"
+else
+    #find UseSfName by inFile
+    F_findSfNameByFile "${inFile}"
+fi
+
+#echo "useSfName=[${useSfName}]"
+
+which ${useSfName} >/dev/null 2>&1
+sfExisFlag=$?
+if [ ${sfExisFlag} -ne 0 ];then
+    echo -e "\n\t software [ ${useSfName} ] not exist!\n"
+    exit 1
+fi
+
+logPreName="${useSfName##*/}"
+logFile="/home/fusky/log/mualTerStar/${logPreName}_$(date +%Y%m%d)"
+
+
+
+nohup ${useSfName} "${inFile}" >>${logFile} 2>&1 &
+
+echo -e "\n\t${useSfName} ${inFile}"
+echo -e "\tlogFile=[${logFile}]\n"
+
+
+exit 0

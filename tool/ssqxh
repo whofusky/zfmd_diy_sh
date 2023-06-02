@@ -1,0 +1,72 @@
+#!/bin/bash
+########################################################################
+#
+# @brief    简单的随机模拟双色球先号
+#
+# @author   fu.sky
+#
+# @date     2021-08-17
+#
+# @use      ssqxh 
+#         或ssqxh <seconds>  #每间隔seconds秒出一组随机号码
+# @note 
+#          1.要保留当前显示的号码直接按回车
+#          2.要退出当前程序按ctr + c组合键
+#
+#
+########################################################################
+
+inParNum="$#" ; inScds="$1"
+
+intervalSeconds="0.05"
+
+function F_checkInput()
+{
+    if [ ${inParNum} -ge 1 ];then
+        local tnumber=$(echo "${inScds} * 1"|bc)
+        local numFlag=$(echo "${tnumber} > 0"|bc)
+        if [ ${numFlag} -eq 1 ];then
+            intervalSeconds=${inScds}
+        fi
+    fi
+    return 0
+}
+
+function F_onece()
+{
+    local hq=$(shuf -i 1-33 -n 6|sort -n|xargs)
+    local lq=$(shuf -i 1-16 -n 1)
+    ssq="${hq} | ${lq}"
+    local t1; local t2; local t3; local t4; local t5;
+    local t6; local t7; local t8;
+    echo "${ssq}"|while read t1 t2 t3 t4 t5 t6 t7 t8
+    do
+        printf "\033[1A" 
+        printf "\033[K" 
+        printf "%3s %3s %3s %3s %3s %3s %3s %3s\n" "${t1}" "${t2}" "${t3}" "${t4}" "${t5}" "${t6}" "${t7}" "${t8}"
+    done
+    return 0
+}
+
+trap "exit" 0 1 2 3 9 11 13 15
+
+main()
+{
+    F_checkInput
+
+    echo -e "\n\t模拟双色球选号"
+    echo -e "-------------------------------\n"
+
+    #for((i=0;i<10000;i++))
+    while :
+    do
+        F_onece
+        #echo "${ssq}"
+        #printf "\r%s" "${ssq}"
+        sleep ${intervalSeconds}
+    done
+    return 0
+}
+
+main
+exit 0
